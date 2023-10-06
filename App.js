@@ -7,6 +7,7 @@ const App = () => {
   return (
     <View style={styles.body}>
       <HeaderBrand />
+      <View style={{height: '80%'}}></View>
       <StatusBar style="auto" />
     </View>
   );
