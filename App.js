@@ -12,10 +12,9 @@ const App = () => {
 
 const styles = StyleSheet.create({
   body: {
-    flex: 1,
-    backgroundColor: '#191919',
-    alignItems: 'center',
-    justifyContent: 'center',
+    height: '100%',
+    width: '100%',
+    backgroundColor: '#191919'
   },
   brand: {
     color: '#e4e4e4'
