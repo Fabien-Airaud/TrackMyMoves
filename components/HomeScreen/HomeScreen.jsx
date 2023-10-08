@@ -1,31 +1,33 @@
 import { StyleSheet, View, Image, Text } from 'react-native';
 
+import DefaultTheme from '../../DefaultTheme';
+
 const PlaceholderImageSource = require('../../assets/transparent-logo.png');
 
 const HomeScreen = () => {
     return (
-        <View style={styles.body}>
+        <View style={styles.page}>
             <Text style={styles.brand}>TrackMyMoves</Text>
             <Image source={PlaceholderImageSource} style={styles.logo} resizeMethod='scale' />
             <View style={{ flexDirection: 'row' }}>
-                <text style={styles.text}>Register</text>
-                <text style={styles.text}>Log in</text>
+                <Text style={styles.text}>Register</Text>
+                <Text style={styles.text}>Log in</Text>
             </View>
         </View>
     );
 };
 
 const styles = StyleSheet.create({
-    body: {
+    page: {
         height: '100%',
         width: '100%',
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#191919'
+        backgroundColor: DefaultTheme.darkColors.background
     },
     brand: {
-        color: '#e4e4e4',
-        fontSize: 40
+        color: DefaultTheme.darkColors.black,
+        fontSize: DefaultTheme.spacing.xl
     },
     logo: {
         width: '100%',
@@ -33,7 +35,7 @@ const styles = StyleSheet.create({
         resizeMode: 'center'
     },
     text: {
-        color: '#e4e4e4'
+        color: DefaultTheme.darkColors.black,
     }
 });
 
