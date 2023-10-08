@@ -13,7 +13,7 @@ const RegLogButton = ({ title }) => {
             }}
         />
     );
-}
+};
 
 const RegLogButtons = () => {
     return (
