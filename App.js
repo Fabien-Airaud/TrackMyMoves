@@ -1,16 +1,34 @@
-import { ThemeProvider } from '@rneui/themed';
 import { NavigationContainer } from '@react-navigation/native';
 
-import DefaultTheme from './DefaultTheme';
 import HomeStack from './components/navigation/HomeStack';
+
+const myDarkTheme = {
+  dark: false,
+  colors: {
+    primary: '#253BFF',
+    background: '#191919',
+    card: '#090909',
+    text: '#E4E4E4',
+    border: '#bbb',
+    notification: '#01FD84',
+    success: '#439946',
+    warning: '#bf2c24',
+    error: '#cfbe27'
+  },
+  fontSizes: {
+    xs: 10,
+    sm: 14,
+    md: 20,
+    lg: 28,
+    xl: 40
+  }
+};
 
 const App = () => {
   return (
-    <ThemeProvider theme={DefaultTheme}>
-      <NavigationContainer>
-        <HomeStack />
-      </NavigationContainer>
-    </ThemeProvider>
+    <NavigationContainer theme={myDarkTheme}>
+      <HomeStack />
+    </NavigationContainer>
   );
 };
 
