@@ -9,11 +9,13 @@ const myDarkTheme = {
     background: '#191919',
     card: '#090909',
     text: '#E4E4E4',
-    border: '#bbb',
+    border: '#BBB',
+    inputFill: '#393939',
+    placeholder: '#999898',
     notification: '#01FD84',
     success: '#439946',
-    warning: '#bf2c24',
-    error: '#cfbe27'
+    warning: '#BF2C24',
+    error: '#CFBE27'
   },
   fontSizes: {
     xs: 10,
