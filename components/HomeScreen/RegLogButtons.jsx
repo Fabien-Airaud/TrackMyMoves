@@ -20,7 +20,7 @@ const RegLogButtons = ({ navigation }) => {
     return (
         <View style={styles.buttons}>
             <RegLogButton title='Register' navigation={navigation} route={'Register'} />
-            <RegLogButton title='Log in' />
+            <RegLogButton title='Log in' navigation={navigation} route={'LogIn'} />
         </View>
     );
 };
