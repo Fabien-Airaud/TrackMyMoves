@@ -5,12 +5,12 @@ import RegLogButtons from './RegLogButtons';
 
 const PlaceholderImageSource = require('../../assets/transparent-logo.png');
 
-const HomeScreen = () => {
+const HomeScreen = ({ navigation }) => {
     return (
         <View style={styles.page}>
             <Text style={styles.brand}>TrackMyMoves</Text>
             <Image source={PlaceholderImageSource} style={styles.logo} resizeMethod='scale' />
-            <RegLogButtons />
+            <RegLogButtons navigation={navigation} />
         </View>
     );
 };

@@ -1,7 +1,7 @@
 import { Button } from '@rneui/themed';
 import { StyleSheet, View } from 'react-native';
 
-const RegLogButton = ({ title }) => {
+const RegLogButton = ({ title, navigation, route }) => {
     return (
         <Button
             title={title}
@@ -11,14 +11,15 @@ const RegLogButton = ({ title }) => {
             containerStyle={{
                 marginHorizontal: '5%'
             }}
+            onPress={() => navigation.push(route)}
         />
     );
 };
 
-const RegLogButtons = () => {
+const RegLogButtons = ({ navigation }) => {
     return (
         <View style={styles.buttons}>
-            <RegLogButton title='Register' />
+            <RegLogButton title='Register' navigation={navigation} route={'Register'} />
             <RegLogButton title='Log in' />
         </View>
     );
