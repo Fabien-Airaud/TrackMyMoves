@@ -1,14 +1,16 @@
+import { useTheme } from '@react-navigation/native';
 import { Image, StyleSheet, Text, View } from 'react-native';
 
-import DefaultTheme from '../../DefaultTheme';
 import RegLogButtons from './RegLogButtons';
 
 const PlaceholderImageSource = require('../../assets/transparent-logo.png');
 
 const HomeScreen = ({ navigation }) => {
+    const { colors, fontSizes } = useTheme();
+
     return (
         <View style={styles.page}>
-            <Text style={styles.brand}>TrackMyMoves</Text>
+            <Text style={[styles.brand, { color: colors.text, fontSize: fontSizes.xl }]}>TrackMyMoves</Text>
             <Image source={PlaceholderImageSource} style={styles.logo} resizeMethod='scale' />
             <RegLogButtons navigation={navigation} />
         </View>
@@ -21,11 +23,8 @@ const styles = StyleSheet.create({
         width: '100%',
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: DefaultTheme.darkColors.background
     },
     brand: {
-        color: DefaultTheme.darkColors.black,
-        fontSize: DefaultTheme.spacing.xl,
         fontWeight: 'bold'
     },
     logo: {
