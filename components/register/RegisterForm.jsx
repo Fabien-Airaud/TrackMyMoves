@@ -23,11 +23,9 @@ const RegisterForm = ({ navigation }) => {
     // Style variables
     const { colors } = useTheme();
     const styles = StyleSheet.create({
-        form: {
-            width: '80%'
-        },
-        input: {
+        datePickerInput: {
             backgroundColor: colors.inputFill,
+            width: '56px',
             marginVertical: '2%'
         }
     });
@@ -38,12 +36,12 @@ const RegisterForm = ({ navigation }) => {
     };
 
     return (
-        <View style={styles.form}>
+        <View style={{width: '80%'}}>
             <Input label='First name' placeholder='Enter your first name' onChangeText={text => setFirstName(text)} inputMode='text' />
             <Input label='Last name' placeholder='Enter your last name' onChangeText={text => setLastName(text)} inputMode='text' />
             <Input label='Email address' placeholder='Enter your email address' onChangeText={text => setEmailAddress(text)} inputMode='email' />
             <Input label='Password' placeholder='Enter your password' secureTextEntry={securedPassword} onChangeText={text => setPassword(text)} inputMode='text' right={<TextInput.Icon icon={securedPassword ? 'eye' : 'eye-off'} onPress={() => setSecuredPassword(!securedPassword)} color={colors.placeholder} />} />
-            <DatePickerInput locale='en' label='Birthdate' value={birthdate} onChange={(date) => setBirthdate(date)} validRange={{ endDate: Date.now() }} inputMode='start' textColor={colors.text} theme={{ colors: { primary: colors.primary, onSurfaceVariant: colors.placeholder } }} iconColor={colors.placeholder} style={[styles.input, { width: '56px' }]} />
+            <DatePickerInput locale='en' label='Birthdate' value={birthdate} onChange={(date) => setBirthdate(date)} validRange={{ endDate: Date.now() }} inputMode='start' textColor={colors.text} theme={{ colors: { primary: colors.primary, onSurfaceVariant: colors.placeholder } }} iconColor={colors.placeholder} style={styles.datePickerInput} />
             <Input label='Current height' placeholder='Enter your current height' onChangeText={number => { (/^\b\d{1,3}\b$/.test(number)) ? setHeight(number) : setHeight(undefined) }} inputMode='numeric' />
             <Input label='Current weigh' placeholder='Enter your current weight' onChangeText={number => { (/^\b\d+[.,]?\d*\b$/.test(number)) ? setWeight(number) : setWeight(undefined) }} inputMode='decimal' />
             <Input label='Country' placeholder='Enter your country' onChangeText={text => setCountry(text)} inputMode='text' />
@@ -53,7 +51,7 @@ const RegisterForm = ({ navigation }) => {
                 <Text style={{ color: colors.text }}>Remember me</Text>
             </View>
 
-            <Button title='Register' disabled={disableRegister()} onPress={() => navigation.goBack()} size='md' radius='sm' titleStyle={{ fontWeight: 'bold' }} disabledTitleStyle={{ color: colors.placeholder }} disabledStyle={{ backgroundColor: colors.inputFill }} containerStyle={{ marginHorizontal: '5%', marginTop: '5%' }} />
+            <Button title='Register' disabled={disableRegister()} onPress={() => navigation.popToTop()} size='md' radius='sm' titleStyle={{ fontWeight: 'bold' }} disabledTitleStyle={{ color: colors.placeholder }} disabledStyle={{ backgroundColor: colors.inputFill }} containerStyle={{ marginHorizontal: '5%', marginTop: '5%' }} />
             <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}><HelperText type="error" visible={disableRegister()} padding='none'> All the inputs should be correctly filled. </HelperText></View>
         </View>
     );
