@@ -23,7 +23,7 @@ const Register = ({ navigation }) => {
 
     return (
         <ScrollView contentContainerStyle={{alignItems: 'center'}} style={styles.page} >
-            <RegisterForm />
+            <RegisterForm navigation={navigation} />
             <Text style={styles.text}>
                 Already registered ?
                 <Button title='Log in' type='clear' onPress={() => navigation.navigate('LogIn')} titleStyle={{ fontSize: fontSizes.sm }} />
