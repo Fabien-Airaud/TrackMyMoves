@@ -2,7 +2,7 @@ import { useTheme } from '@react-navigation/native';
 import { Button } from '@rneui/themed';
 import { useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import { Checkbox, TextInput } from 'react-native-paper';
+import { Checkbox, HelperText, TextInput } from 'react-native-paper';
 import { DatePickerInput } from 'react-native-paper-dates';
 
 const Input = ({ label, placeholder, secureTextEntry, onChangeText, inputMode, right }) => {
@@ -54,6 +54,11 @@ const RegisterForm = ({ navigation }) => {
         }
     });
 
+    // Disable function for the register button
+    const disableRegister = () => {
+        return (firstName == '') || (lastName == '') || (emailAddress == '') || (password == '') || (birthdate == undefined) || (height == undefined) || (weight == undefined) || (country == '');
+    };
+
     return (
         <View style={styles.form}>
             <Input label='First name' placeholder='Enter your first name' onChangeText={text => setFirstName(text)} inputMode='text' />
@@ -70,7 +75,8 @@ const RegisterForm = ({ navigation }) => {
                 <Text style={{ color: colors.text }}>Remember me</Text>
             </View>
 
-            <Button title='Register' onPress={() => navigation.goBack()} size='md' radius='sm' titleStyle={{ fontWeight: 'bold' }} containerStyle={{ margin: '5%' }} />
+            <Button title='Register' disabled={disableRegister()} onPress={() => navigation.goBack()} size='md' radius='sm' titleStyle={{ fontWeight: 'bold' }} disabledTitleStyle={{ color: colors.placeholder }} disabledStyle={{ backgroundColor: colors.inputFill }} containerStyle={{ marginHorizontal: '5%', marginTop: '5%' }} />
+            <HelperText type="error" visible={disableRegister()} padding='none' style={{marginHorizontal: 'auto'}}> All the inputs should be correctly filled. </HelperText>
         </View>
     );
 };
