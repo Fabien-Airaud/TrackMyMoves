@@ -18,7 +18,7 @@ const Input = ({ label, placeholder, secureTextEntry, onChangeText, inputMode, r
     return (
         <TextInput label={label}
             placeholder={placeholder}
-            secureTextEntry={false | secureTextEntry}
+            secureTextEntry={false || secureTextEntry}
             onChangeText={onChangeText}
             inputMode={inputMode}
             right={right}
