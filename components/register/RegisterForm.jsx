@@ -76,7 +76,7 @@ const RegisterForm = ({ navigation }) => {
             </View>
 
             <Button title='Register' disabled={disableRegister()} onPress={() => navigation.goBack()} size='md' radius='sm' titleStyle={{ fontWeight: 'bold' }} disabledTitleStyle={{ color: colors.placeholder }} disabledStyle={{ backgroundColor: colors.inputFill }} containerStyle={{ marginHorizontal: '5%', marginTop: '5%' }} />
-            <HelperText type="error" visible={disableRegister()} padding='none' style={{marginHorizontal: 'auto'}}> All the inputs should be correctly filled. </HelperText>
+            <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}><HelperText type="error" visible={disableRegister()} padding='none'> All the inputs should be correctly filled. </HelperText></View>
         </View>
     );
 };
