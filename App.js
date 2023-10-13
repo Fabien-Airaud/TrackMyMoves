@@ -1,6 +1,8 @@
 import { NavigationContainer } from '@react-navigation/native';
+import { Provider } from 'react-redux';
 
 import HomeStack from './components/navigation/HomeStack';
+import store from './redux/store';
 
 const myDarkTheme = {
   dark: false,
@@ -28,9 +30,11 @@ const myDarkTheme = {
 
 const App = () => {
   return (
-    <NavigationContainer theme={myDarkTheme}>
-      <HomeStack />
-    </NavigationContainer>
+    <Provider store={store}>
+      <NavigationContainer theme={myDarkTheme}>
+          <HomeStack />
+      </NavigationContainer>
+    </Provider>
   );
 };
 
