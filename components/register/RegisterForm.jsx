@@ -4,7 +4,9 @@ import { useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { Checkbox, HelperText, TextInput } from 'react-native-paper';
 import { DatePickerInput } from 'react-native-paper-dates';
+import { useDispatch } from 'react-redux';
 
+import { createAccount } from '../../redux/accountSlice';
 import Input from './Input';
 
 const RegisterForm = ({ navigation }) => {
@@ -19,6 +21,7 @@ const RegisterForm = ({ navigation }) => {
     const [weight, setWeight] = useState(undefined);
     const [country, setCountry] = useState('');
     const [rememberMe, setRememberMe] = useState(false);
+
 
     // Style variables
     const { colors } = useTheme();
@@ -35,8 +38,27 @@ const RegisterForm = ({ navigation }) => {
         return (firstName == '') || (lastName == '') || (emailAddress == '') || (password == '') || (birthdate == undefined) || (height == undefined) || (weight == undefined) || (country == '');
     };
 
+    // Dispatch account
+    const dispatch = useDispatch();
+
+    const dispatchAccount = () => {
+        dispatch(
+            createAccount({
+                firstName: firstName,
+                lastName: lastName,
+                emailAddress: emailAddress,
+                password: password,
+                birthdate: birthdate,
+                height: height,
+                weight: weight,
+                country: country
+            })
+        );
+        navigation.popToTop();
+    };
+
     return (
-        <View style={{width: '80%'}}>
+        <View style={{ width: '80%' }}>
             <Input label='First name' placeholder='Enter your first name' onChangeText={text => setFirstName(text)} inputMode='text' />
             <Input label='Last name' placeholder='Enter your last name' onChangeText={text => setLastName(text)} inputMode='text' />
             <Input label='Email address' placeholder='Enter your email address' onChangeText={text => setEmailAddress(text)} inputMode='email' />
@@ -51,7 +73,7 @@ const RegisterForm = ({ navigation }) => {
                 <Text style={{ color: colors.text }}>Remember me</Text>
             </View>
 
-            <Button title='Register' disabled={disableRegister()} onPress={() => navigation.popToTop()} size='md' radius='sm' titleStyle={{ fontWeight: 'bold' }} disabledTitleStyle={{ color: colors.placeholder }} disabledStyle={{ backgroundColor: colors.inputFill }} containerStyle={{ marginHorizontal: '5%', marginTop: '5%' }} />
+            <Button title='Register' disabled={disableRegister()} onPress={() => dispatchAccount()} size='md' radius='sm' titleStyle={{ fontWeight: 'bold' }} disabledTitleStyle={{ color: colors.placeholder }} disabledStyle={{ backgroundColor: colors.inputFill }} containerStyle={{ marginHorizontal: '5%', marginTop: '5%' }} />
             <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}><HelperText type="error" visible={disableRegister()} padding='none'> All the inputs should be correctly filled. </HelperText></View>
         </View>
     );
