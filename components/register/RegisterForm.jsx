@@ -8,6 +8,7 @@ import { useDispatch } from 'react-redux';
 
 import { createAccount } from '../../redux/accountSlice';
 import Input from './Input';
+import HelperRegister from './HelperRegister';
 
 const RegisterForm = ({ navigation }) => {
     // Input variables
@@ -74,7 +75,7 @@ const RegisterForm = ({ navigation }) => {
             </View>
 
             <Button title='Register' disabled={disableRegister()} onPress={() => dispatchAccount()} size='md' radius='sm' titleStyle={{ fontWeight: 'bold' }} disabledTitleStyle={{ color: colors.placeholder }} disabledStyle={{ backgroundColor: colors.inputFill }} containerStyle={{ marginHorizontal: '5%', marginTop: '5%' }} />
-            <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}><HelperText type="error" visible={disableRegister()} padding='none'> All the inputs should be correctly filled. </HelperText></View>
+            <HelperRegister helperType='error' visible={disableRegister()} message='All the inputs should be correctly filled.' />
         </View>
     );
 };
