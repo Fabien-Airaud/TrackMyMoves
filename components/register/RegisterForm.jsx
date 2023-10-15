@@ -75,7 +75,7 @@ const RegisterForm = ({ navigation }) => {
             </View>
 
             <Button title='Register' disabled={disableRegister()} onPress={() => dispatchAccount()} size='md' radius='sm' titleStyle={{ fontWeight: 'bold' }} disabledTitleStyle={{ color: colors.placeholder }} disabledStyle={{ backgroundColor: colors.inputFill }} containerStyle={{ marginHorizontal: '5%', marginTop: '5%' }} />
-            <HelperRegister helperType='error' visible={disableRegister()} message='All the inputs should be correctly filled.' />
+            <HelperRegister helperType='error' visible={disableRegister()} message='All the inputs should be correctly filled.' justifyContent='center' />
         </View>
     );
 };
