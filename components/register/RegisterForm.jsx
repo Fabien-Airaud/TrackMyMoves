@@ -2,13 +2,13 @@ import { useTheme } from '@react-navigation/native';
 import { Button } from '@rneui/themed';
 import { useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import { Checkbox, HelperText, TextInput } from 'react-native-paper';
+import { Checkbox, TextInput } from 'react-native-paper';
 import { DatePickerInput } from 'react-native-paper-dates';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { createAccount } from '../../redux/accountSlice';
-import Input from './Input';
 import HelperRegister from './HelperRegister';
+import Input from './Input';
 
 const RegisterForm = ({ navigation }) => {
     // Input variables
@@ -34,9 +34,18 @@ const RegisterForm = ({ navigation }) => {
         }
     });
 
-    // Disable function for the register button
+    // Check function to show the helper of the register button if email already in use
+    const accounts = useSelector((state) => state.accounts);
+    const usedEmail = () => {
+        if (accounts.length === 0) return false;
+        console.log([].length);
+
+        let sameEmail = accounts.filter(account => account.emailAddress === emailAddress);
+        return sameEmail.length > 0;
+    }
+    // Check function to disable the register button
     const disableRegister = () => {
-        return (firstName == '') || (lastName == '') || (emailAddress == '') || (password == '') || (birthdate == undefined) || (height == undefined) || (weight == undefined) || (country == '');
+        return usedEmail() || (firstName == '') || (lastName == '') || (emailAddress == '') || (password == '') || (birthdate == undefined) || (height == undefined) || (weight == undefined) || (country == '');
     };
 
     // Dispatch account
@@ -65,8 +74,8 @@ const RegisterForm = ({ navigation }) => {
             <Input label='Email address' placeholder='Enter your email address' onChangeText={text => setEmailAddress(text)} inputMode='email' />
             <Input label='Password' placeholder='Enter your password' secureTextEntry={securedPassword} onChangeText={text => setPassword(text)} inputMode='text' right={<TextInput.Icon icon={securedPassword ? 'eye' : 'eye-off'} onPress={() => setSecuredPassword(!securedPassword)} color={colors.placeholder} />} />
             <DatePickerInput locale='en' label='Birthdate' value={birthdate} onChange={(date) => setBirthdate(date)} validRange={{ endDate: Date.now() }} inputMode='start' textColor={colors.text} theme={{ colors: { primary: colors.primary, onSurfaceVariant: colors.placeholder } }} iconColor={colors.placeholder} style={styles.datePickerInput} />
-            <Input label='Current height' placeholder='Enter your current height' onChangeText={number => { (/^\b\d{1,3}\b$/.test(number)) ? setHeight(number) : setHeight(undefined) }} inputMode='numeric' />
-            <Input label='Current weigh' placeholder='Enter your current weight' onChangeText={number => { (/^\b\d+[.,]?\d*\b$/.test(number)) ? setWeight(number) : setWeight(undefined) }} inputMode='decimal' />
+            <Input label='Current height (cm)' placeholder='Enter your current height' onChangeText={number => { (/^\b\d{1,3}\b$/.test(number)) ? setHeight(number) : setHeight(undefined) }} inputMode='numeric' />
+            <Input label='Current weigh (kg)' placeholder='Enter your current weight' onChangeText={number => { (/^\b\d+[.,]?\d*\b$/.test(number)) ? setWeight(number) : setWeight(undefined) }} inputMode='decimal' />
             <Input label='Country' placeholder='Enter your country' onChangeText={text => setCountry(text)} inputMode='text' />
 
             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
@@ -75,7 +84,7 @@ const RegisterForm = ({ navigation }) => {
             </View>
 
             <Button title='Register' disabled={disableRegister()} onPress={() => dispatchAccount()} size='md' radius='sm' titleStyle={{ fontWeight: 'bold' }} disabledTitleStyle={{ color: colors.placeholder }} disabledStyle={{ backgroundColor: colors.inputFill }} containerStyle={{ marginHorizontal: '5%', marginTop: '5%' }} />
-            <HelperRegister helperType='error' visible={disableRegister()} message='All the inputs should be correctly filled.' justifyContent='center' />
+            <HelperRegister helperType='error' visible={disableRegister()} message={usedEmail() ? 'Email already in use, please use another or log in' : 'All the inputs should be correctly filled.'} justifyContent='center' />
         </View>
     );
 };
