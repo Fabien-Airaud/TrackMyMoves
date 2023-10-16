@@ -2,8 +2,9 @@ import { useTheme } from '@react-navigation/native';
 import { Button } from '@rneui/themed';
 import { useState } from 'react';
 import { Text, View } from 'react-native';
-import { Checkbox, HelperText, TextInput } from 'react-native-paper';
+import { Checkbox, TextInput } from 'react-native-paper';
 
+import Helper from '../Helper';
 import Input from '../Input';
 
 const LogInForm = ({ navigation }) => {
@@ -32,7 +33,7 @@ const LogInForm = ({ navigation }) => {
             </View>
 
             <Button title='Log in' disabled={disableLogIn()} onPress={() => navigation.popToTop()} size='md' radius='sm' titleStyle={{ fontWeight: 'bold' }} disabledTitleStyle={{ color: colors.placeholder }} disabledStyle={{ backgroundColor: colors.inputFill }} containerStyle={{ marginHorizontal: '5%', marginTop: '5%' }} />
-            <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}><HelperText type="error" visible={disableLogIn()} padding='none'> All the inputs should be correctly filled. </HelperText></View>
+            <Helper visible={disableLogIn()} message='All the inputs should be correctly filled.' justifyContent='center' />
         </View>
     );
 };
