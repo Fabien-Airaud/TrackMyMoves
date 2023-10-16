@@ -3,9 +3,11 @@ import { Button } from '@rneui/themed';
 import { useState } from 'react';
 import { Text, View } from 'react-native';
 import { Checkbox, TextInput } from 'react-native-paper';
+import { useSelector } from 'react-redux';
 
 import Helper from '../Helper';
 import Input from '../Input';
+import { logInAccount } from './CheckFonctions';
 
 const LogInForm = ({ navigation }) => {
     // Input variables
@@ -16,6 +18,9 @@ const LogInForm = ({ navigation }) => {
 
     // Style variables
     const { colors } = useTheme();
+
+    // Accounts stored in redux
+    const accounts = useSelector((state) => state.accounts);
 
     // Disable function for the log in button
     const disableLogIn = () => {
@@ -32,7 +37,7 @@ const LogInForm = ({ navigation }) => {
                 <Text style={{ color: colors.text }}>Remember me</Text>
             </View>
 
-            <Button title='Log in' disabled={disableLogIn()} onPress={() => navigation.popToTop()} size='md' radius='sm' titleStyle={{ fontWeight: 'bold' }} disabledTitleStyle={{ color: colors.placeholder }} disabledStyle={{ backgroundColor: colors.inputFill }} containerStyle={{ marginHorizontal: '5%', marginTop: '5%' }} />
+            <Button title='Log in' disabled={disableLogIn()} onPress={() => { if (logInAccount(accounts, emailAddress, password)) navigation.popToTop() }} size='md' radius='sm' titleStyle={{ fontWeight: 'bold' }} disabledTitleStyle={{ color: colors.placeholder }} disabledStyle={{ backgroundColor: colors.inputFill }} containerStyle={{ marginHorizontal: '5%', marginTop: '5%' }} />
             <Helper visible={disableLogIn()} message='All the inputs should be correctly filled.' justifyContent='center' />
         </View>
     );
