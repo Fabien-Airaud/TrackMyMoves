@@ -7,6 +7,7 @@ import { DatePickerInput } from 'react-native-paper-dates';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { createAccount } from '../../redux/accountSlice';
+import { usedEmail } from './CheckFonction';
 import HelperRegister from './HelperRegister';
 import Input from './Input';
 
@@ -34,18 +35,12 @@ const RegisterForm = ({ navigation }) => {
         }
     });
 
-    // Check function to show the helper of the register button if email already in use
+    // Accounts stored in redux
     const accounts = useSelector((state) => state.accounts);
-    const usedEmail = () => {
-        if (accounts.length === 0) return false;
-        console.log([].length);
 
-        let sameEmail = accounts.filter(account => account.emailAddress === emailAddress);
-        return sameEmail.length > 0;
-    }
     // Check function to disable the register button
     const disableRegister = () => {
-        return usedEmail() || (firstName == '') || (lastName == '') || (emailAddress == '') || (password == '') || (birthdate == undefined) || (height == undefined) || (weight == undefined) || (country == '');
+        return usedEmail(accounts, emailAddress) || (firstName == '') || (lastName == '') || (emailAddress == '') || (password == '') || (birthdate == undefined) || (height == undefined) || (weight == undefined) || (country == '');
     };
 
     // Dispatch account
@@ -84,7 +79,7 @@ const RegisterForm = ({ navigation }) => {
             </View>
 
             <Button title='Register' disabled={disableRegister()} onPress={() => dispatchAccount()} size='md' radius='sm' titleStyle={{ fontWeight: 'bold' }} disabledTitleStyle={{ color: colors.placeholder }} disabledStyle={{ backgroundColor: colors.inputFill }} containerStyle={{ marginHorizontal: '5%', marginTop: '5%' }} />
-            <HelperRegister helperType='error' visible={disableRegister()} message={usedEmail() ? 'Email already in use, please use another or log in' : 'All the inputs should be correctly filled.'} justifyContent='center' />
+            <HelperRegister helperType='error' visible={disableRegister()} message={usedEmail(accounts, emailAddress) ? 'Email already in use, please use another or log in' : 'All the inputs should be correctly filled.'} justifyContent='center' />
         </View>
     );
 };
