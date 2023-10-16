@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { Text, View } from 'react-native';
 import { Checkbox, HelperText, TextInput } from 'react-native-paper';
 
-import Input from '../register/Input';
+import Input from '../Input';
 
 const LogInForm = ({ navigation }) => {
     // Input variables

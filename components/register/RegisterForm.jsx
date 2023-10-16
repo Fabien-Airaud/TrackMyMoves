@@ -9,7 +9,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { createAccount } from '../../redux/accountSlice';
 import { usedEmail } from './CheckFonctions';
 import Helper from '../Helper';
-import Input from './Input';
+import Input from '../Input';
 
 const RegisterForm = ({ navigation }) => {
     // Input variables
