@@ -7,7 +7,7 @@ import { DatePickerInput } from 'react-native-paper-dates';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { createAccount } from '../../redux/accountSlice';
-import { usedEmail } from './CheckFonction';
+import { usedEmail } from './CheckFonctions';
 import HelperRegister from './HelperRegister';
 import Input from './Input';
 
