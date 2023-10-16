@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { createAccount } from '../../redux/accountSlice';
 import { usedEmail } from './CheckFonctions';
-import HelperRegister from './HelperRegister';
+import Helper from '../Helper';
 import Input from './Input';
 
 const RegisterForm = ({ navigation }) => {
@@ -79,7 +79,7 @@ const RegisterForm = ({ navigation }) => {
             </View>
 
             <Button title='Register' disabled={disableRegister()} onPress={() => dispatchAccount()} size='md' radius='sm' titleStyle={{ fontWeight: 'bold' }} disabledTitleStyle={{ color: colors.placeholder }} disabledStyle={{ backgroundColor: colors.inputFill }} containerStyle={{ marginHorizontal: '5%', marginTop: '5%' }} />
-            <HelperRegister helperType='error' visible={disableRegister()} message={usedEmail(accounts, emailAddress) ? 'Email already in use, please use another or log in' : 'All the inputs should be correctly filled.'} justifyContent='center' />
+            <Helper visible={disableRegister()} message={usedEmail(accounts, emailAddress) ? 'Email already in use, please use another or log in' : 'All the inputs should be correctly filled.'} justifyContent='center' />
         </View>
     );
 };

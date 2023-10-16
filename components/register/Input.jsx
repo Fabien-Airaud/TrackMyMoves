@@ -2,7 +2,7 @@ import { useTheme } from '@react-navigation/native';
 import { StyleSheet, View } from 'react-native';
 import { TextInput } from 'react-native-paper';
 
-import HelperRegister from './HelperRegister';
+import Helper from '../Helper';
 
 const Input = ({ label, placeholder, secureTextEntry, onChangeText, inputMode, right, helperType, visible, message }) => {
     // Style variables
@@ -26,7 +26,7 @@ const Input = ({ label, placeholder, secureTextEntry, onChangeText, inputMode, r
                 theme={{ colors: { primary: colors.primary, onSurfaceVariant: colors.placeholder } }}
                 style={styles.input}
             />
-            <HelperRegister helperType={helperType} visible={visible} message={message} />
+            <Helper helperType={helperType} visible={visible} message={message} />
         </View>
     );
 };
