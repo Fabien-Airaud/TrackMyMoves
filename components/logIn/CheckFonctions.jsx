@@ -1,5 +1,3 @@
-import { useDispatch } from 'react-redux';
-
 /**
  * An account
  * @typedef {Object} Account
@@ -30,14 +28,11 @@ export const checkAccount = (accounts, email, password) => {
 
     // No account found for the email
     if (account == undefined) {
-        console.log("Email not found.");
         return undefined;
     }
 
     if (account.emailAddress === email && account.password === password) {
-        console.log("Email and password are correct.");
         return account;
     }
-    console.log("Invalid password");
     return undefined;
 }
