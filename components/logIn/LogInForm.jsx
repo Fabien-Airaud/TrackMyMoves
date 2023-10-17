@@ -10,7 +10,7 @@ import Helper from '../Helper';
 import Input from '../Input';
 import { checkAccount } from './CheckFonctions';
 
-const LogInForm = ({ navigation }) => {
+const LogInForm = () => {
     // Input variables
     const [emailAddress, setEmailAddress] = useState('');
     const [password, setPassword] = useState('');
@@ -54,7 +54,7 @@ const LogInForm = ({ navigation }) => {
                 <Text style={{ color: colors.text }}>Remember me</Text>
             </View>
 
-            <Button title='Log in' disabled={disableLogIn()} onPress={() => { if (dispatchLogIn(checkAccount(accounts, emailAddress, password), rememberMe)) navigation.popToTop(); }} size='md' radius='sm' titleStyle={{ fontWeight: 'bold' }} disabledTitleStyle={{ color: colors.placeholder }} disabledStyle={{ backgroundColor: colors.inputFill }} containerStyle={{ marginHorizontal: '5%', marginTop: '5%' }} />
+            <Button title='Log in' disabled={disableLogIn()} onPress={() => dispatchLogIn(checkAccount(accounts, emailAddress, password), rememberMe)} size='md' radius='sm' titleStyle={{ fontWeight: 'bold' }} disabledTitleStyle={{ color: colors.placeholder }} disabledStyle={{ backgroundColor: colors.inputFill }} containerStyle={{ marginHorizontal: '5%', marginTop: '5%' }} />
             <Helper visible={disableLogIn()} message='All the inputs should be correctly filled.' justifyContent='center' />
         </View>
     );
