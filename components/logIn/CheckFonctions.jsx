@@ -1,3 +1,5 @@
+import { useDispatch } from 'react-redux';
+
 /**
  * An account
  * @typedef {Object} Account
@@ -14,14 +16,14 @@
 
 
 /**
- * Log in if the `email` and `password` correspond to an account
+ * Check if the `email` and `password` correspond to an account
  * @param {Account[]} accounts - The list of accounts in the redux state
  * @param {string} email - The email to check
  * @param {string} password - The password to check
- * @returns {boolean} `true` if the account is logged in
+ * @returns {Account} the account to log in, or `undefined`
  */
-export const logInAccount = (accounts, email, password) => {
-    if (accounts.length === 0) return false;
+export const checkAccount = (accounts, email, password) => {
+    if (accounts.length === 0) return undefined;
 
     // Try to find the relative account for the email given
     const account = accounts.find(account => account.emailAddress === email);
@@ -29,13 +31,13 @@ export const logInAccount = (accounts, email, password) => {
     // No account found for the email
     if (account == undefined) {
         console.log("Email not found.");
-        return false;
+        return undefined;
     }
 
     if (account.emailAddress === email && account.password === password) {
         console.log("Email and password are correct.");
-        return true;
+        return account;
     }
     console.log("Invalid password");
-    return false;
+    return undefined;
 }
