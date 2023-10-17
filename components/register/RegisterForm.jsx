@@ -7,7 +7,6 @@ import { DatePickerInput } from 'react-native-paper-dates';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { createAccount } from '../../redux/accountSlice';
-import { logInAccount } from '../../redux/logInSlice';
 import Helper from '../Helper';
 import Input from '../Input';
 import { usedEmail } from './CheckFonctions';
@@ -48,33 +47,19 @@ const RegisterForm = ({ navigation }) => {
     const dispatch = useDispatch();
 
     const dispatchAccount = () => {
-        const account = {
-            firstName: firstName,
-            lastName: lastName,
-            emailAddress: emailAddress,
-            password: password,
-            birthdate: birthdate,
-            height: height,
-            weight: weight,
-            country: country
-        }
-
-        dispatch(createAccount(account));
-        return account; // Attention, à modifier car pas valide (pas d'id lors du log in)
-    };
-
-    // Dispatch the account to log in
-    const dispatchLogIn = (account, rememberMe) => {
-        if (account === undefined) return false;
-
         dispatch(
-            logInAccount({
-                account: account,
-                rememberMe: rememberMe
+            createAccount({
+                firstName: firstName,
+                lastName: lastName,
+                emailAddress: emailAddress,
+                password: password,
+                birthdate: birthdate,
+                height: height,
+                weight: weight,
+                country: country
             })
         );
-        console.log("User " + account.firstName + " " + account.lastName + " is logged in");
-        return true;
+        navigation.navigate('LogIn');
     };
 
     return (
@@ -93,7 +78,7 @@ const RegisterForm = ({ navigation }) => {
                 <Text style={{ color: colors.text }}>Remember me</Text>
             </View>
 
-            <Button title='Register' disabled={disableRegister()} onPress={() => { dispatchLogIn(dispatchAccount(), rememberMe) }} size='md' radius='sm' titleStyle={{ fontWeight: 'bold' }} disabledTitleStyle={{ color: colors.placeholder }} disabledStyle={{ backgroundColor: colors.inputFill }} containerStyle={{ marginHorizontal: '5%', marginTop: '5%' }} />
+            <Button title='Register' disabled={disableRegister()} onPress={() => dispatchAccount()} size='md' radius='sm' titleStyle={{ fontWeight: 'bold' }} disabledTitleStyle={{ color: colors.placeholder }} disabledStyle={{ backgroundColor: colors.inputFill }} containerStyle={{ marginHorizontal: '5%', marginTop: '5%' }} />
             <Helper visible={disableRegister()} message={usedEmail(accounts, emailAddress) ? 'Email already in use, please use another or log in' : 'All the inputs should be correctly filled.'} justifyContent='center' />
         </View>
     );
