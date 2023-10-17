@@ -3,7 +3,17 @@ import { v4 } from 'uuid';
 
 export const accountSlice = createSlice({
 	name: 'accounts',
-	initialState: [],
+	initialState: [{
+        id: '4fbbfd11-4e35-482f-b69d-8fbb3d4f175d',
+        emailAddress: 'airaudfabien@gmail.com',
+        password: 'Fabien2002',
+        firstName: 'Fabien',
+        lastName: 'Airaud',
+        birthdate: '2002-11-26T05:00:00.000Z',
+        height: '192',
+        weight: '63',
+        country: 'Canada'
+    }],
 	reducers: {
 		createAccount: (state, action) => {
             const account = {
