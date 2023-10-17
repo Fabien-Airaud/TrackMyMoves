@@ -3,11 +3,12 @@ import { Button } from '@rneui/themed';
 import { useState } from 'react';
 import { Text, View } from 'react-native';
 import { Checkbox, TextInput } from 'react-native-paper';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
+import { logInAccount } from '../../redux/logInSlice';
 import Helper from '../Helper';
 import Input from '../Input';
-import { logInAccount } from './CheckFonctions';
+import { checkAccount } from './CheckFonctions';
 
 const LogInForm = ({ navigation }) => {
     // Input variables
@@ -27,6 +28,22 @@ const LogInForm = ({ navigation }) => {
         return (emailAddress == '') || (password == '');
     };
 
+    const dispatch = useDispatch();
+
+    // Dispatch the account to log in
+    const dispatchLogIn = (account, rememberMe) => {
+        if (account === undefined) return false;
+
+        dispatch(
+            logInAccount({
+                account: account,
+                rememberMe: rememberMe
+            })
+        );
+        console.log("User " + account.firstName + " " + account.lastName + " is logged in");
+        return true;
+    };
+
     return (
         <View style={{ width: '80%' }}>
             <Input label='Email address' placeholder='Enter your email address' onChangeText={text => setEmailAddress(text)} inputMode='email' />
@@ -37,7 +54,7 @@ const LogInForm = ({ navigation }) => {
                 <Text style={{ color: colors.text }}>Remember me</Text>
             </View>
 
-            <Button title='Log in' disabled={disableLogIn()} onPress={() => { if (logInAccount(accounts, emailAddress, password)) navigation.popToTop() }} size='md' radius='sm' titleStyle={{ fontWeight: 'bold' }} disabledTitleStyle={{ color: colors.placeholder }} disabledStyle={{ backgroundColor: colors.inputFill }} containerStyle={{ marginHorizontal: '5%', marginTop: '5%' }} />
+            <Button title='Log in' disabled={disableLogIn()} onPress={() => { if (dispatchLogIn(checkAccount(accounts, emailAddress, password), rememberMe)) navigation.popToTop(); }} size='md' radius='sm' titleStyle={{ fontWeight: 'bold' }} disabledTitleStyle={{ color: colors.placeholder }} disabledStyle={{ backgroundColor: colors.inputFill }} containerStyle={{ marginHorizontal: '5%', marginTop: '5%' }} />
             <Helper visible={disableLogIn()} message='All the inputs should be correctly filled.' justifyContent='center' />
         </View>
     );
