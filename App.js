@@ -16,8 +16,8 @@ const myDarkTheme = {
     placeholder: '#999898',
     notification: '#01FD84',
     success: '#439946',
-    warning: '#BF2C24',
-    error: '#CFBE27'
+    error: '#BF2C24',
+    warning: '#CFBE27'
   },
   fontSizes: {
     xs: 10,
