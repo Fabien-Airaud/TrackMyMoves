@@ -13,9 +13,8 @@ const DataProfile = ({ label, data, secureTextEntry, inputMode }) => {
     const styles = StyleSheet.create({
         view: {
             flexDirection: 'row',
-            justifyContent: 'space-between',
+            justifyContent: 'start',
             alignItems: 'center',
-            flexWrap: 'wrap',
             width: '100%',
         },
         text: {
@@ -23,8 +22,10 @@ const DataProfile = ({ label, data, secureTextEntry, inputMode }) => {
             fontSize: fontSizes.sm
         },
         input: {
+            width: '75%',
             backgroundColor: colors.inputFill,
-            marginVertical: '2%'
+            marginVertical: '2%',
+            paddingHorizontal: 10
         }
     });
 
@@ -41,17 +42,15 @@ const DataProfile = ({ label, data, secureTextEntry, inputMode }) => {
                     theme={{ colors: { primary: colors.primary, onSurfaceVariant: colors.placeholder } }}
                     style={styles.input}
                 />
-                <List.Section>
-                    <View style={[styles.view, {paddingHorizontal: 5, minWidth: 3*fontSizes.sm}]}>
-                        {edit ?
-                            <>
-                                <IconButton icon='check-bold' onPress={() => setEdit(false)} iconColor={colors.text} containerColor={colors.success} size={fontSizes.sm} />
-                                <IconButton icon='close-thick' onPress={() => setEdit(false)} iconColor={colors.text} containerColor={colors.error} size={fontSizes.sm} />
-                            </>
-                        :   <IconButton icon='pencil' onPress={() => setEdit(true)} iconColor={colors.text} containerColor={colors.primary} size={fontSizes.sm} />
-                        }
-                    </View>
-                </List.Section>
+                <View style={[styles.view, {paddingHorizontal: 5, width: 3*fontSizes.sm}]}>
+                    {edit ?
+                        <>
+                            <IconButton icon='check-bold' onPress={() => setEdit(false)} iconColor={colors.text} containerColor={colors.success} size={fontSizes.sm} />
+                            <IconButton icon='close-thick' onPress={() => setEdit(false)} iconColor={colors.text} containerColor={colors.error} size={fontSizes.sm} />
+                        </>
+                    :   <IconButton icon='pencil' onPress={() => setEdit(true)} iconColor={colors.text} containerColor={colors.primary} size={fontSizes.sm} />
+                    }
+                </View>
             </View>
     );
 };
