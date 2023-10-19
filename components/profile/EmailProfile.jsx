@@ -37,20 +37,22 @@ const EmailProfile = ({ id, data }) => {
     const dispatch = useDispatch();
 
     const dispatchEmail = () => {
-        dispatch(
-            updateEmailAddress({
-                id: id,
-                emailAddress: value
-            })
-        );
-        dispatch(
-            updateLogEmailAddress({
-                id: id,
-                emailAddress: value
-            })
-        );
+        if (data !== value) {
+            dispatch(
+                updateEmailAddress({
+                    id: id,
+                    emailAddress: value
+                })
+            );
+            dispatch(
+                updateLogEmailAddress({
+                    id: id,
+                    emailAddress: value
+                })
+            );
+            console.log(data + ' -> ' + value);
+        }
         setEdit(false);
-        console.log(data + ' -> ' + value);
     };
 
     return (
