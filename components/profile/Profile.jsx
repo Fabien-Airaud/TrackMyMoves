@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 
 import DataProfile from './DataProfile';
 import FirstNameProfile from './FirstNameProfile';
+import LastNameProfile from './LastNameProfile';
 import EmailProfile from './EmailProfile';
 import PasswordProfile from './PasswordProfile';
 
@@ -25,7 +26,7 @@ const Profile = () => {
     return (
         <ScrollView contentContainerStyle={{ alignItems: 'center' }} style={styles.page}>
             <FirstNameProfile id={logAcc.id} data={logAcc.firstName} />
-            <DataProfile label='Last name' data={logAcc.lastName} secureTextEntry={false} inputMode='text' />
+            <LastNameProfile id={logAcc.id} data={logAcc.lastName} />
             <EmailProfile id={logAcc.id} data={logAcc.emailAddress} />
             <PasswordProfile id={logAcc.id} data={logAcc.password} />
             <DataProfile label='Birthdate' data={logAcc.birthdate} secureTextEntry={false} inputMode='text' />
