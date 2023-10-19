@@ -70,7 +70,7 @@ const RegisterForm = ({ navigation }) => {
             <Input label='Password' placeholder='Enter your password' secureTextEntry={securedPassword} onChangeText={text => setPassword(text)} inputMode='text' right={<TextInput.Icon icon={securedPassword ? 'eye' : 'eye-off'} onPress={() => setSecuredPassword(!securedPassword)} color={colors.placeholder} />} />
             <DatePickerInput locale='en' label='Birthdate' value={birthdate} onChange={(date) => setBirthdate(date)} validRange={{ endDate: Date.now() }} inputMode='start' textColor={colors.text} theme={{ colors: { primary: colors.primary, onSurfaceVariant: colors.placeholder } }} iconColor={colors.placeholder} style={styles.datePickerInput} />
             <Input label='Current height (cm)' placeholder='Enter your current height' onChangeText={number => { (/^\b\d{1,3}\b$/.test(number)) ? setHeight(number) : setHeight(undefined) }} inputMode='numeric' />
-            <Input label='Current weigh (kg)' placeholder='Enter your current weight' onChangeText={number => { (/^\b\d+[.,]?\d*\b$/.test(number)) ? setWeight(number) : setWeight(undefined) }} inputMode='decimal' />
+            <Input label='Current weigh (kg)' placeholder='Enter your current weight' onChangeText={number => { (/^\b\d+[.,]?\d*\b$/.test(number) && number < 1000) ? setWeight(number) : setWeight(undefined) }} inputMode='decimal' />
             <Input label='Country' placeholder='Enter your country' onChangeText={text => setCountry(text)} inputMode='text' />
 
             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
