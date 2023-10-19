@@ -2,8 +2,8 @@ import { createSlice } from '@reduxjs/toolkit';
 import { v4 } from 'uuid';
 
 export const accountSlice = createSlice({
-	name: 'accounts',
-	initialState: [{
+    name: 'accounts',
+    initialState: [{
         id: '4fbbfd11-4e35-482f-b69d-8fbb3d4f175d',
         emailAddress: 'airaudfabien@gmail.com',
         password: 'Fabien2002',
@@ -14,10 +14,10 @@ export const accountSlice = createSlice({
         weight: '63',
         country: 'Canada'
     }],
-	reducers: {
-		createAccount: (state, action) => {
+    reducers: {
+        createAccount: (state, action) => {
             const account = {
-				id: v4(),
+                id: v4(),
                 emailAddress: action.payload.emailAddress,
                 password: action.payload.password,
                 firstName: action.payload.firstName,
@@ -26,14 +26,17 @@ export const accountSlice = createSlice({
                 height: action.payload.height,
                 weight: action.payload.weight,
                 country: action.payload.country
-			};
-			state.push(account);
-		},
-
-	},
+            };
+            state.push(account);
+        },
+        updateEmailAddress: (state, action) => {
+            const index = state.findIndex((account) => account.id === action.payload.id);
+            state[index].emailAddress = action.payload.emailAddress;
+        }
+    }
 });
 
 
-export const { createAccount } = accountSlice.actions;
+export const { createAccount, updateEmailAddress } = accountSlice.actions;
 
 export default accountSlice.reducer;

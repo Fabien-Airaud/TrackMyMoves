@@ -20,10 +20,13 @@ export const logInSlice = createSlice({
         logInAccount: (state, action) => {
             state.account = action.payload.account;
             state.rememberMe = action.payload.rememberMe;
+        },
+        updateLogEmailAddress: (state, action) => {
+            state.account.emailAddress = action.payload.emailAddress;
         }
     }
 });
 
-export const { logInAccount } = logInSlice.actions;
+export const { logInAccount, updateLogEmailAddress } = logInSlice.actions;
 
 export default logInSlice.reducer;
