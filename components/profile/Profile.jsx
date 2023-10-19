@@ -7,6 +7,7 @@ import FirstNameProfile from './FirstNameProfile';
 import LastNameProfile from './LastNameProfile';
 import EmailProfile from './EmailProfile';
 import PasswordProfile from './PasswordProfile';
+import HeightProfile from './HeightProfile';
 import CountryProfile from './CountryProfile';
 
 const Profile = () => {
@@ -31,7 +32,7 @@ const Profile = () => {
             <EmailProfile id={logAcc.id} data={logAcc.emailAddress} />
             <PasswordProfile id={logAcc.id} data={logAcc.password} />
             <DataProfile label='Birthdate' data={logAcc.birthdate} secureTextEntry={false} inputMode='text' />
-            <DataProfile label='Height (cm)' data={logAcc.height} secureTextEntry={false} inputMode='numeric' />
+            <HeightProfile id={logAcc.id} data={logAcc.height} />
             <DataProfile label='Weight (kg)' data={logAcc.weight} secureTextEntry={false} inputMode='decimal' />
             <CountryProfile id={logAcc.id} data={logAcc.country} />
             <Text style={{color: colors.text}}> {logAcc.emailAddress} </Text>
