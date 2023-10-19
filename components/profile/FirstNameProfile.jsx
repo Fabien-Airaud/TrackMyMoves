@@ -58,7 +58,7 @@ const FirstNameProfile = ({ id, data }) => {
     return (
         <View style={styles.view}>
             <TextInput
-                label={edit ? 'First Name' : ''}
+                label={edit ? 'First name' : ''}
                 value={value}
                 disabled={!edit}
                 onChangeText={text => setValue(text)}
