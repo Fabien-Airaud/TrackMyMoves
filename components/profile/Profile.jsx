@@ -31,6 +31,13 @@ const Profile = () => {
             <DataProfile label='Weight (kg)' data={logAcc.weight} secureTextEntry={false} inputMode='decimal' />
             <DataProfile label='Country' data={logAcc.country} secureTextEntry={false} inputMode='text' />
             <Text style={{color: colors.text}}> {logAcc.emailAddress} </Text>
+            <Text style={{color: colors.text}}> {logAcc.password} </Text>
+            <Text style={{color: colors.text}}> {logAcc.firstName} </Text>
+            <Text style={{color: colors.text}}> {logAcc.lastName} </Text>
+            <Text style={{color: colors.text}}> {logAcc.birthdate} </Text>
+            <Text style={{color: colors.text}}> {logAcc.height} </Text>
+            <Text style={{color: colors.text}}> {logAcc.weight} </Text>
+            <Text style={{color: colors.text}}> {logAcc.country} </Text>
         </ScrollView>
     );
 };
