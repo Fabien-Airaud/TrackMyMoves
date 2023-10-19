@@ -32,11 +32,49 @@ export const accountSlice = createSlice({
         updateEmailAddress: (state, action) => {
             const index = state.findIndex((account) => account.id === action.payload.id);
             state[index].emailAddress = action.payload.emailAddress;
+        },
+        updatePassword: (state, action) => {
+            const index = state.findIndex((account) => account.id === action.payload.id);
+            state[index].password = action.payload.password;
+        },
+        updateFirstName: (state, action) => {
+            const index = state.findIndex((account) => account.id === action.payload.id);
+            state[index].firstName = action.payload.firstName;
+        },
+        updateLastName: (state, action) => {
+            const index = state.findIndex((account) => account.id === action.payload.id);
+            state[index].lastName = action.payload.lastName;
+        },
+        updateBirthdate: (state, action) => {
+            const index = state.findIndex((account) => account.id === action.payload.id);
+            state[index].birthdate = action.payload.birthdate;
+        },
+        updateHeight: (state, action) => {
+            const index = state.findIndex((account) => account.id === action.payload.id);
+            state[index].height = action.payload.height;
+        },
+        updateWeight: (state, action) => {
+            const index = state.findIndex((account) => account.id === action.payload.id);
+            state[index].weight = action.payload.weight;
+        },
+        updateCountry: (state, action) => {
+            const index = state.findIndex((account) => account.id === action.payload.id);
+            state[index].country = action.payload.country;
         }
     }
 });
 
 
-export const { createAccount, updateEmailAddress } = accountSlice.actions;
+export const {
+    createAccount,
+    updateEmailAddress,
+    updatePassword,
+    updateFirstName,
+    updateLastName,
+    updateBirthdate,
+    updateHeight,
+    updateWeight,
+    updateCountry
+} = accountSlice.actions;
 
 export default accountSlice.reducer;
