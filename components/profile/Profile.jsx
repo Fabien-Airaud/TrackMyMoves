@@ -7,6 +7,7 @@ import FirstNameProfile from './FirstNameProfile';
 import LastNameProfile from './LastNameProfile';
 import EmailProfile from './EmailProfile';
 import PasswordProfile from './PasswordProfile';
+import CountryProfile from './CountryProfile';
 
 const Profile = () => {
     // Logged account stored in redux
@@ -32,7 +33,7 @@ const Profile = () => {
             <DataProfile label='Birthdate' data={logAcc.birthdate} secureTextEntry={false} inputMode='text' />
             <DataProfile label='Height (cm)' data={logAcc.height} secureTextEntry={false} inputMode='numeric' />
             <DataProfile label='Weight (kg)' data={logAcc.weight} secureTextEntry={false} inputMode='decimal' />
-            <DataProfile label='Country' data={logAcc.country} secureTextEntry={false} inputMode='text' />
+            <CountryProfile id={logAcc.id} data={logAcc.country} />
             <Text style={{color: colors.text}}> {logAcc.emailAddress} </Text>
             <Text style={{color: colors.text}}> {logAcc.password} </Text>
             <Text style={{color: colors.text}}> {logAcc.firstName} </Text>
