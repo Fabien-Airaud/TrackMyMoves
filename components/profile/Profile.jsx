@@ -3,6 +3,7 @@ import { ScrollView, StyleSheet, Text } from 'react-native';
 import { useSelector } from 'react-redux';
 
 import DataProfile from './DataProfile';
+import FirstNameProfile from './FirstNameProfile';
 import EmailProfile from './EmailProfile';
 import PasswordProfile from './PasswordProfile';
 
@@ -23,7 +24,7 @@ const Profile = () => {
 
     return (
         <ScrollView contentContainerStyle={{ alignItems: 'center' }} style={styles.page}>
-            <DataProfile label='First name' data={logAcc.firstName} secureTextEntry={false} inputMode='text' />
+            <FirstNameProfile id={logAcc.id} data={logAcc.firstName} />
             <DataProfile label='Last name' data={logAcc.lastName} secureTextEntry={false} inputMode='text' />
             <EmailProfile id={logAcc.id} data={logAcc.emailAddress} />
             <PasswordProfile id={logAcc.id} data={logAcc.password} />
