@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 
 import DataProfile from './DataProfile';
 import EmailProfile from './EmailProfile';
+import PasswordProfile from './PasswordProfile';
 
 const Profile = () => {
     // Logged account stored in redux
@@ -25,7 +26,7 @@ const Profile = () => {
             <DataProfile label='First name' data={logAcc.firstName} secureTextEntry={false} inputMode='text' />
             <DataProfile label='Last name' data={logAcc.lastName} secureTextEntry={false} inputMode='text' />
             <EmailProfile id={logAcc.id} data={logAcc.emailAddress} />
-            <DataProfile label='Password' data={logAcc.password} secureTextEntry={true} inputMode='text' />
+            <PasswordProfile id={logAcc.id} data={logAcc.password} />
             <DataProfile label='Birthdate' data={logAcc.birthdate} secureTextEntry={false} inputMode='text' />
             <DataProfile label='Height (cm)' data={logAcc.height} secureTextEntry={false} inputMode='numeric' />
             <DataProfile label='Weight (kg)' data={logAcc.weight} secureTextEntry={false} inputMode='decimal' />
