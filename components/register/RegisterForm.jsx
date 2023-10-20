@@ -53,7 +53,7 @@ const RegisterForm = ({ navigation }) => {
                 lastName: lastName,
                 emailAddress: emailAddress,
                 password: password,
-                birthdate: birthdate,
+                birthdate: birthdate.toISOString(),
                 height: height,
                 weight: weight,
                 country: country
