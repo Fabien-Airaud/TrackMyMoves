@@ -1,16 +1,15 @@
 import { useTheme } from '@react-navigation/native';
-import { ScrollView, StyleSheet, Text } from 'react-native';
+import { ScrollView, StyleSheet } from 'react-native';
 import { useSelector } from 'react-redux';
 
-import DataProfile from './DataProfile';
-import FirstNameProfile from './FirstNameProfile';
-import LastNameProfile from './LastNameProfile';
-import EmailProfile from './EmailProfile';
-import PasswordProfile from './PasswordProfile';
 import BirthdateProfile from './BirthdateProfile';
-import HeightProfile from './HeightProfile';
-import WeightProfile from './WeightProfile';
 import CountryProfile from './CountryProfile';
+import EmailProfile from './EmailProfile';
+import FirstNameProfile from './FirstNameProfile';
+import HeightProfile from './HeightProfile';
+import LastNameProfile from './LastNameProfile';
+import PasswordProfile from './PasswordProfile';
+import WeightProfile from './WeightProfile';
 
 const Profile = () => {
     // Logged account stored in redux
