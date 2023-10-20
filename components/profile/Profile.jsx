@@ -1,8 +1,9 @@
 import { useTheme } from '@react-navigation/native';
-import { ScrollView, StyleSheet } from 'react-native';
-import { useSelector } from 'react-redux';
 import { Button } from '@rneui/themed';
+import { ScrollView, StyleSheet } from 'react-native';
+import { useDispatch, useSelector } from 'react-redux';
 
+import { logOutAccount } from '../../redux/logInSlice';
 import BirthdateProfile from './BirthdateProfile';
 import CountryProfile from './CountryProfile';
 import EmailProfile from './EmailProfile';
@@ -32,6 +33,15 @@ const Profile = () => {
         }
     });
 
+    // Dispatch account
+    const dispatch = useDispatch();
+
+    const dispatchLogOut = () => {
+        dispatch(
+            logOutAccount()
+        );
+    };
+
     return (
         <ScrollView contentContainerStyle={{ alignItems: 'center' }} style={styles.page}>
             <FirstNameProfile id={logAcc.id} data={logAcc.firstName} />
@@ -42,7 +52,7 @@ const Profile = () => {
             <HeightProfile id={logAcc.id} data={logAcc.height} />
             <WeightProfile id={logAcc.id} data={logAcc.weight} />
             <CountryProfile id={logAcc.id} data={logAcc.country} />
-            <Button title='Log out' size='md' radius='sm' color={colors.error} titleStyle={{ fontWeight: 'bold' }} containerStyle={styles.outButton} />
+            <Button title='Log out' onPress={() => dispatchLogOut()} size='md' radius='sm' color={colors.error} titleStyle={{ fontWeight: 'bold' }} containerStyle={styles.outButton} />
             <Button title='Delete account' size='md' radius='sm' color={colors.error} titleStyle={{ fontWeight: 'bold' }} containerStyle={styles.outButton} />
         </ScrollView>
     );
