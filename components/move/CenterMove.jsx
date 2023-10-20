@@ -1,5 +1,6 @@
 import { useTheme } from '@react-navigation/native';
 import { StyleSheet, Text, View } from "react-native";
+import { IconButton } from 'react-native-paper';
 
 const CenterMove = () => {
     // Style variables
@@ -19,6 +20,7 @@ const CenterMove = () => {
 
     return (
         <View style={styles.section}>
+            <IconButton icon='play-circle-outline' iconColor={colors.primary} size={fontSizes.bigButton} />
             <Text style={styles.textButton}> Start </Text>
         </View>
     );
