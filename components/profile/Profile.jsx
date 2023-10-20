@@ -1,6 +1,7 @@
 import { useTheme } from '@react-navigation/native';
 import { ScrollView, StyleSheet } from 'react-native';
 import { useSelector } from 'react-redux';
+import { Button } from '@rneui/themed';
 
 import BirthdateProfile from './BirthdateProfile';
 import CountryProfile from './CountryProfile';
@@ -23,6 +24,11 @@ const Profile = () => {
             width: '100%',
             padding: '5%',
             backgroundColor: colors.background
+        },
+        outButton: {
+            width: '60%',
+            marginHorizontal: '5%',
+            marginTop: '5%'
         }
     });
 
@@ -36,6 +42,8 @@ const Profile = () => {
             <HeightProfile id={logAcc.id} data={logAcc.height} />
             <WeightProfile id={logAcc.id} data={logAcc.weight} />
             <CountryProfile id={logAcc.id} data={logAcc.country} />
+            <Button title='Log out' size='md' radius='sm' color={colors.error} titleStyle={{ fontWeight: 'bold' }} containerStyle={styles.outButton} />
+            <Button title='Delete account' size='md' radius='sm' color={colors.error} titleStyle={{ fontWeight: 'bold' }} containerStyle={styles.outButton} />
         </ScrollView>
     );
 };
