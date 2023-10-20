@@ -29,6 +29,9 @@ export const accountSlice = createSlice({
             };
             state.push(account);
         },
+        deleteAccount: (state, action) => {
+            return state.filter((account) => account.id !== action.payload.id);
+        },
         updateEmailAddress: (state, action) => {
             const index = state.findIndex((account) => account.id === action.payload.id);
             state[index].emailAddress = action.payload.emailAddress;
@@ -67,6 +70,7 @@ export const accountSlice = createSlice({
 
 export const {
     createAccount,
+    deleteAccount,
     updateEmailAddress,
     updatePassword,
     updateFirstName,
