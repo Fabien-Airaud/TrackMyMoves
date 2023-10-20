@@ -7,6 +7,7 @@ import FirstNameProfile from './FirstNameProfile';
 import LastNameProfile from './LastNameProfile';
 import EmailProfile from './EmailProfile';
 import PasswordProfile from './PasswordProfile';
+import BirthdateProfile from './BirthdateProfile';
 import HeightProfile from './HeightProfile';
 import WeightProfile from './WeightProfile';
 import CountryProfile from './CountryProfile';
@@ -32,18 +33,10 @@ const Profile = () => {
             <LastNameProfile id={logAcc.id} data={logAcc.lastName} />
             <EmailProfile id={logAcc.id} data={logAcc.emailAddress} />
             <PasswordProfile id={logAcc.id} data={logAcc.password} />
-            <DataProfile label='Birthdate' data={logAcc.birthdate} secureTextEntry={false} inputMode='text' />
+            <BirthdateProfile id={logAcc.id} data={logAcc.birthdate} />
             <HeightProfile id={logAcc.id} data={logAcc.height} />
             <WeightProfile id={logAcc.id} data={logAcc.weight} />
             <CountryProfile id={logAcc.id} data={logAcc.country} />
-            <Text style={{color: colors.text}}> {logAcc.emailAddress} </Text>
-            <Text style={{color: colors.text}}> {logAcc.password} </Text>
-            <Text style={{color: colors.text}}> {logAcc.firstName} </Text>
-            <Text style={{color: colors.text}}> {logAcc.lastName} </Text>
-            <Text style={{color: colors.text}}> {logAcc.birthdate} </Text>
-            <Text style={{color: colors.text}}> {logAcc.height} </Text>
-            <Text style={{color: colors.text}}> {logAcc.weight} </Text>
-            <Text style={{color: colors.text}}> {logAcc.country} </Text>
         </ScrollView>
     );
 };
