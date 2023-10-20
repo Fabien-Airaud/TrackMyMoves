@@ -21,6 +21,10 @@ export const logInSlice = createSlice({
             state.account = action.payload.account;
             state.rememberMe = action.payload.rememberMe;
         },
+        logOutAccount: (state) => {
+            state.account = undefined;
+            state.rememberMe = false;
+        },
         updateLogEmailAddress: (state, action) => {
             state.account.emailAddress = action.payload.emailAddress;
         },
@@ -50,6 +54,7 @@ export const logInSlice = createSlice({
 
 export const {
     logInAccount,
+    logOutAccount,
     updateLogEmailAddress,
     updateLogPassword,
     updateLogFirstName,
