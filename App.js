@@ -1,5 +1,6 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { Provider } from 'react-redux';
+import { PaperProvider } from 'react-native-paper';
 
 import AppNav from './components/navigation/AppNav';
 import store from './redux/store';
@@ -33,7 +34,9 @@ const App = () => {
   return (
     <Provider store={store}>
       <NavigationContainer theme={myDarkTheme}>
-        <AppNav />
+        <PaperProvider>
+          <AppNav />
+        </PaperProvider>
       </NavigationContainer>
     </Provider>
   );
