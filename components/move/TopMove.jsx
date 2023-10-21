@@ -10,12 +10,15 @@ const TopMove = () => {
             height: '30%',
             alignItems: 'center',
             justifyContent: 'center'
+        },
+        warningText: {
+            color: colors.error
         }
     });
 
     return (
         <View style={styles.section}>
-            <Text> Top </Text>
+            <Text style={styles.warningText}> Please note, the type of activity can no longer be modified after the activity has started </Text>
         </View>
     );
 };
