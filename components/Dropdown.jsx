@@ -12,10 +12,13 @@ const Dropdown = ({ containerStyle, width, items }) => {
     const { colors } = useTheme();
     const styles = StyleSheet.create({
         input: {
-            flex: 1,
             backgroundColor: colors.inputFill,
             marginVertical: '2%',
             paddingHorizontal: 10
+        },
+        touchableRipple: {
+            width: width ? 215 * width / 100 : 215,
+            height: 'auto'
         }
     });
 
@@ -39,7 +42,7 @@ const Dropdown = ({ containerStyle, width, items }) => {
             visible={visible}
             onDismiss={pressSelect}
             anchor={
-                <TouchableRipple onPress={pressSelect} style={[containerStyle, { width: width ? 215 * width / 100 : 215 }]}>
+                <TouchableRipple onPress={pressSelect} style={[containerStyle, styles.touchableRipple]}>
                     <View pointerEvents='none'>
                         <TextInput
                             label='Activity type'
