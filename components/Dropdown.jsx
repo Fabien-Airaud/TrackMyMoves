@@ -61,11 +61,11 @@ const Dropdown = ({ containerStyle, width, items }) => {
             {items.map((value, index) => {
                 if (index == items.length - 1) return (
                     <View key={index}>
-                        <Menu.Item onPress={() => pressItem(value.value)} title={value.label} />
+                        <Menu.Item leadingIcon={value.leadingIcon ? value.leadingIcon : 'timer'} onPress={() => pressItem(value.value)} title={value.label} />
                     </View>);
                 else return (
                     <View key={index}>
-                        <Menu.Item onPress={() => pressItem(value.value)} title={value.label} />
+                        <Menu.Item leadingIcon={value.leadingIcon ? value.leadingIcon : 'timer'} onPress={() => pressItem(value.value)} title={value.label} />
                         <Divider />
                     </View>);
             })}
