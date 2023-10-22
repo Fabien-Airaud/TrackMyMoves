@@ -1,9 +1,9 @@
 import { useTheme } from '@react-navigation/native';
 import { useState } from 'react';
-import { ScrollView, StyleSheet, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { Divider, Menu, TextInput, TouchableRipple } from 'react-native-paper';
 
-const Dropdown = ({ containerStyle, width }) => {
+const Dropdown = ({ containerStyle, width, items }) => {
     // Variables
     const [visible, setVisible] = useState(false);
     const [value, setValue] = useState('');
@@ -42,7 +42,7 @@ const Dropdown = ({ containerStyle, width }) => {
             visible={visible}
             onDismiss={pressSelect}
             anchor={
-                <TouchableRipple onPress={pressSelect} style={[containerStyle, {width: width ? 215 * width / 100 : 215}]}>
+                <TouchableRipple onPress={pressSelect} style={[containerStyle, { width: width ? 215 * width / 100 : 215 }]}>
                     <View pointerEvents='none'>
                         <TextInput
                             label='Activity type'
@@ -57,12 +57,18 @@ const Dropdown = ({ containerStyle, width }) => {
                 </TouchableRipple>
             }
             anchorPosition='bottom'
-            style={{width: width ? 215 * width / 100 : 215}}>
-                <Menu.Item onPress={() => pressItem('Item1')} title="Item 1" />
-                <Divider />
-                <Menu.Item onPress={() => pressItem('Item2')} title="Item 2" />
-                <Divider />
-                <Menu.Item onPress={() => pressItem('Item3')} title="Item 3" />
+            style={{ width: width ? 215 * width / 100 : 215 }}>
+            {items.map((value, index) => {
+                if (index == items.length - 1) return (
+                    <View key={index}>
+                        <Menu.Item onPress={() => pressItem(value.value)} title={value.label} />
+                    </View>);
+                else return (
+                    <View key={index}>
+                        <Menu.Item onPress={() => pressItem(value.value)} title={value.label} />
+                        <Divider />
+                    </View>);
+            })}
         </Menu>
     );
 };
