@@ -6,26 +6,26 @@ import DropDown from 'react-native-paper-dropdown';
 import Dropdown from '../Dropdown';
 
 const TopMove = () => {
-    // Variables
-    const [showDropdown, setShowDropdown] = useState(false);
-
     // Activity dropdown list
     const items = [
         {
-            label: 'Item 1',
-            value: 'Item1'
+            label: 'Walking',
+            value: 'Walking',
+            leadingIcon: 'walk'
         },
         {
-            label: 'Item 2',
-            value: 'Item2'
+            label: 'Running',
+            value: 'Running',
+            leadingIcon: 'run'
         },
         {
-            label: 'Item 3',
-            value: 'Item3'
+            label: 'Cycling',
+            value: 'Cycling',
+            leadingIcon: 'bike'
         },
         {
-            label: 'Item 4',
-            value: 'Item4'
+            label: 'Cardio',
+            value: 'Cardio'
         }
     ]
 
