@@ -19,6 +19,10 @@ const Dropdown = ({ containerStyle, width, items }) => {
         touchableRipple: {
             width: width ? 215 * width / 100 : 215,
             height: 'auto'
+        },
+        item: {
+            backgroundColor: colors.inputFill,
+            color: colors.text
         }
     });
 
@@ -58,15 +62,15 @@ const Dropdown = ({ containerStyle, width, items }) => {
             }
             anchorPosition='bottom'
             style={{ width: width ? 215 * width / 100 : 215 }}
-            contentStyle={{backgroundColor: colors.inputFill}}>
+            contentStyle={{ backgroundColor: colors.inputFill }}>
             {items.map((value, index) => {
                 if (index == items.length - 1) return (
                     <View key={index}>
-                        <Menu.Item leadingIcon={value.leadingIcon ? value.leadingIcon : 'timer'} onPress={() => pressItem(value.value)} title={value.label} />
+                        <Menu.Item leadingIcon={value.leadingIcon ? value.leadingIcon : 'timer'} onPress={() => pressItem(value.value)} title={value.label} theme={{ colors: { onSurface: colors.text, onSurfaceVariant: colors.text } }} />
                     </View>);
                 else return (
                     <View key={index}>
-                        <Menu.Item leadingIcon={value.leadingIcon ? value.leadingIcon : 'timer'} onPress={() => pressItem(value.value)} title={value.label} />
+                        <Menu.Item leadingIcon={value.leadingIcon ? value.leadingIcon : 'timer'} onPress={() => pressItem(value.value)} title={value.label} theme={{ colors: { onSurface: colors.text, onSurfaceVariant: colors.text } }} />
                         <Divider />
                     </View>);
             })}
