@@ -1,7 +1,5 @@
 import { useTheme } from '@react-navigation/native';
-import { useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import DropDown from 'react-native-paper-dropdown';
 
 import Dropdown from '../Dropdown';
 
@@ -30,7 +28,7 @@ const TopMove = () => {
     ]
 
     // Style variables
-    const { colors, fontSizes } = useTheme();
+    const { colors } = useTheme();
     const styles = StyleSheet.create({
         section: {
             width: '80%',
@@ -44,9 +42,6 @@ const TopMove = () => {
         },
         container: {
             marginTop: 10
-        },
-        dropdown: {
-            margin: 10
         }
     });
 
