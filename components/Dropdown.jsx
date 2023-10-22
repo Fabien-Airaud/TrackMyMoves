@@ -16,9 +16,6 @@ const Dropdown = ({ containerStyle, width, items }) => {
             backgroundColor: colors.inputFill,
             marginVertical: '2%',
             paddingHorizontal: 10
-        },
-        menu: {
-            width: '100%'
         }
     });
 
@@ -57,7 +54,8 @@ const Dropdown = ({ containerStyle, width, items }) => {
                 </TouchableRipple>
             }
             anchorPosition='bottom'
-            style={{ width: width ? 215 * width / 100 : 215 }}>
+            style={{ width: width ? 215 * width / 100 : 215 }}
+            contentStyle={{backgroundColor: colors.inputFill}}>
             {items.map((value, index) => {
                 if (index == items.length - 1) return (
                     <View key={index}>
