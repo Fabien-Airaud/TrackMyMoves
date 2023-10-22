@@ -1,9 +1,9 @@
 import { useTheme } from '@react-navigation/native';
 import { useState } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { ScrollView, StyleSheet, View } from 'react-native';
 import { Divider, Menu, TextInput, TouchableRipple } from 'react-native-paper';
 
-const Dropdown = ({ containerStyle }) => {
+const Dropdown = ({ containerStyle, width }) => {
     // Variables
     const [visible, setVisible] = useState(false);
     const [value, setValue] = useState('');
@@ -16,6 +16,9 @@ const Dropdown = ({ containerStyle }) => {
             backgroundColor: colors.inputFill,
             marginVertical: '2%',
             paddingHorizontal: 10
+        },
+        menu: {
+            width: '100%'
         }
     });
 
@@ -39,7 +42,7 @@ const Dropdown = ({ containerStyle }) => {
             visible={visible}
             onDismiss={pressSelect}
             anchor={
-                <TouchableRipple onPress={pressSelect} style={containerStyle}>
+                <TouchableRipple onPress={pressSelect} style={[containerStyle, {width: width ? 215 * width / 100 : 215}]}>
                     <View pointerEvents='none'>
                         <TextInput
                             label='Activity type'
@@ -52,14 +55,15 @@ const Dropdown = ({ containerStyle }) => {
                         />
                     </View>
                 </TouchableRipple>
-            }>
-            <Menu.Item onPress={() => pressItem('Item1')} title="Item 1" />
-            <Divider />
-            <Menu.Item onPress={() => pressItem('Item2')} title="Item 2" />
-            <Divider />
-            <Menu.Item onPress={() => pressItem('Item3')} title="Item 3" />
+            }
+            anchorPosition='bottom'
+            style={{width: width ? 215 * width / 100 : 215}}>
+                <Menu.Item onPress={() => pressItem('Item1')} title="Item 1" />
+                <Divider />
+                <Menu.Item onPress={() => pressItem('Item2')} title="Item 2" />
+                <Divider />
+                <Menu.Item onPress={() => pressItem('Item3')} title="Item 3" />
         </Menu>
-
     );
 };
 
