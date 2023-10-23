@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Divider, Menu, TextInput, TouchableRipple } from 'react-native-paper';
 
-const Dropdown = ({ containerStyle, width, items }) => {
+const Dropdown = ({ containerStyle, width, items, leadingIcon=false }) => {
     // Variables
     const [visible, setVisible] = useState(false);
     const [value, setValue] = useState('');
@@ -66,11 +66,11 @@ const Dropdown = ({ containerStyle, width, items }) => {
             {items.map((value, index) => {
                 if (index == items.length - 1) return (
                     <View key={index}>
-                        <Menu.Item leadingIcon={value.leadingIcon ? value.leadingIcon : 'timer'} onPress={() => pressItem(value.value)} title={value.label} theme={{ colors: { onSurface: colors.text, onSurfaceVariant: colors.text } }} />
+                        <Menu.Item leadingIcon={leadingIcon ? (value.leadingIcon ? value.leadingIcon : 'timer') : ''} onPress={() => pressItem(value.value)} title={value.label} theme={{ colors: { onSurface: colors.text, onSurfaceVariant: colors.text } }} />
                     </View>);
                 else return (
                     <View key={index}>
-                        <Menu.Item leadingIcon={value.leadingIcon ? value.leadingIcon : 'timer'} onPress={() => pressItem(value.value)} title={value.label} theme={{ colors: { onSurface: colors.text, onSurfaceVariant: colors.text } }} />
+                        <Menu.Item leadingIcon={leadingIcon ? (value.leadingIcon ? value.leadingIcon : 'timer') : ''} onPress={() => pressItem(value.value)} title={value.label} theme={{ colors: { onSurface: colors.text, onSurfaceVariant: colors.text } }} />
                         <Divider />
                     </View>);
             })}
