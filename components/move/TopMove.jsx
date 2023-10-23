@@ -1,11 +1,15 @@
 import { useTheme } from '@react-navigation/native';
+import { useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
 import Dropdown from '../Dropdown';
 
 const TopMove = () => {
+    // State variables
+    const [activityType, setActivityType] = useState('');
+
     // Activity dropdown list
-    const items = [
+    const activityTypes = [
         {
             label: 'Walking',
             value: 'Walking',
@@ -48,7 +52,7 @@ const TopMove = () => {
     return (
         <View style={styles.section}>
             <Text style={styles.warningText}> Please note, the type of activity can no longer be modified after the activity has started </Text>
-            <Dropdown width={120} containerStyle={styles.container} items={items} leadingIcon={true} />
+            <Dropdown items={activityTypes} value={activityType} setValue={setActivityType} leadingIcon={true} width={120} containerStyle={styles.container} />
         </View>
     );
 };
