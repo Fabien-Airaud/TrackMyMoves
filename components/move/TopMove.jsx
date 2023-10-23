@@ -48,7 +48,7 @@ const TopMove = () => {
     return (
         <View style={styles.section}>
             <Text style={styles.warningText}> Please note, the type of activity can no longer be modified after the activity has started </Text>
-            <Dropdown width={120} containerStyle={styles.container} items={items} />
+            <Dropdown width={120} containerStyle={styles.container} items={items} leadingIcon={true} />
         </View>
     );
 };
