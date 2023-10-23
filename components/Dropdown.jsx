@@ -3,10 +3,9 @@ import { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Divider, Menu, TextInput, TouchableRipple } from 'react-native-paper';
 
-const Dropdown = ({ containerStyle, width, items, leadingIcon=false }) => {
+const Dropdown = ({ items, value, setValue, leadingIcon = false, width, containerStyle }) => {
     // Variables
     const [visible, setVisible] = useState(false);
-    const [value, setValue] = useState('');
 
     // Style variables
     const { colors } = useTheme();
