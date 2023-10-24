@@ -28,7 +28,7 @@ const CenterMove = ({ activityType, pageType, setPageType }) => {
 
     const dispatch = useDispatch();
 
-    // Dispatch the account to log in
+    // Create a new activity when start button pressed and change to stop move page
     const dispatchNewActivity = () => {
         const startDate = new Date();
 
@@ -56,6 +56,7 @@ const CenterMove = ({ activityType, pageType, setPageType }) => {
         case MovePageType.stop:
             return (
                 <View style={styles.section}>
+                    <IconButton icon='stop-circle-outline' iconColor={colors.primary} size={fontSizes.bigButton} />
                     <Text style={styles.textButton}> Stop </Text>
                 </View>
             );
