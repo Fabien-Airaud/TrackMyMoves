@@ -12,30 +12,21 @@ const BottomMove = ({ pageType }) => {
             height: '30%',
             alignItems: 'center',
             justifyContent: 'center'
-        },
-        warningText: {
-            color: colors.error,
-            textAlign: 'center'
         }
     });
 
-    switch (pageType) {
-        case MovePageType.start:
-            return (
-                <View style={styles.section}>
-                    <Text> Start bottom </Text>
-                </View>
-            );
-
-        case MovePageType.stop:
-            return (
-                <View style={styles.section}>
-                    <Text style={styles.warningText}> Please note, if you stop the activity you will not be able to continue it </Text>
-                </View>
-            );
-
-        default:
-            break;
+    if (pageType === MovePageType.start) {
+        return (
+            <View style={styles.section}>
+                <Text> Start bottom </Text>
+            </View>
+        );
+    } else {
+        return (
+            <View style={styles.section}>
+                <Text> Bottom </Text>
+            </View>
+        );
     };
 };
 
