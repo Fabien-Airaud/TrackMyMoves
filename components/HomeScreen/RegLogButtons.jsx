@@ -1,15 +1,21 @@
+import { useTheme } from '@react-navigation/native';
 import { Button } from '@rneui/themed';
 import { StyleSheet, View } from 'react-native';
 
 const RegLogButton = ({ title, navigation, route }) => {
+    // Style variables
+    const { colors } = useTheme();
+
     return (
         <Button
             title={title}
             size='md'
             radius='sm'
             titleStyle={{ fontWeight: 'bold' }}
+            color={colors.primary}
             containerStyle={{
-                marginHorizontal: '5%'
+                marginHorizontal: '5%',
+                width: '30%'
             }}
             onPress={() => navigation.push(route)}
         />
