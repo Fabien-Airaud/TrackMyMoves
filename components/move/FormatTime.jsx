@@ -3,7 +3,7 @@
  * @param {number} time - The time to format, in seconds
  * @returns {string} a string representing the time in hours, minutes and seconds
  */
-export const FormatTime = (time) => {
+export const formatTime = (time) => {
     // Time in seperated variables
     const hours = Math.floor(time / 60 / 60);
     const mins = Math.floor((time / 60) % 60);
