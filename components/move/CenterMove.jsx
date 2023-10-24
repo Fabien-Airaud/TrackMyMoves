@@ -1,8 +1,12 @@
 import { useTheme } from '@react-navigation/native';
 import { StyleSheet, Text, View } from "react-native";
 import { IconButton } from 'react-native-paper';
+import { useDispatch } from 'react-redux';
+import { v4 } from 'uuid';
 
-const CenterMove = ({activityType}) => {
+import { createActivity } from '../../redux/activitySlice';
+
+const CenterMove = ({ activityType }) => {
     // Style variables
     const { colors, fontSizes } = useTheme();
     const styles = StyleSheet.create({
@@ -18,9 +22,23 @@ const CenterMove = ({activityType}) => {
         }
     });
 
+    const dispatch = useDispatch();
+
+    // Dispatch the account to log in
+    const dispatchNewActivity = () => {
+        const startDate = new Date();
+        dispatch(
+            createActivity({
+                id: v4(),
+                activityType: activityType,
+                startDate: startDate.toISOString()
+            })
+        );
+    };
+
     return (
         <View style={styles.section}>
-            <IconButton disabled={activityType == ''} icon='play-circle-outline' iconColor={colors.primary} size={fontSizes.bigButton} />
+            <IconButton disabled={activityType == ''} onPress={dispatchNewActivity} icon='play-circle-outline' iconColor={colors.primary} size={fontSizes.bigButton} />
             <Text style={styles.textButton}> Start </Text>
         </View>
     );
