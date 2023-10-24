@@ -25,7 +25,7 @@ const LogIn = ({ navigation }) => {
             <LogInForm navigation={navigation} />
             <View style={{ margin: '5%', flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
                 <Text style={styles.text}> Haven't registered yet ? </Text>
-                <Button title='Register' type='clear' onPress={() => navigation.navigate('Register')} titleStyle={{ fontSize: fontSizes.sm }} />
+                <Button title='Register' type='clear' onPress={() => navigation.navigate('Register')} titleStyle={{ fontSize: fontSizes.sm, color: colors.primary }} />
             </View>
         </ScrollView>
     );
