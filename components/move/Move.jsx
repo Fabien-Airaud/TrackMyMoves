@@ -22,7 +22,7 @@ const Move = () => {
     return (
         <View style={styles.page}>
             <TopMove activityType={activityType} setActivityType={setActivityType} />
-            <CenterMove activityType={activityType ? true : false} />
+            <CenterMove activityType={activityType} />
             <BottomMove />
         </View>
     );
