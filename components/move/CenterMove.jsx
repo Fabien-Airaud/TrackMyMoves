@@ -1,6 +1,6 @@
-import 'react-native-get-random-values';
 import { useTheme } from '@react-navigation/native';
 import { StyleSheet, Text, View } from "react-native";
+import 'react-native-get-random-values';
 import { IconButton } from 'react-native-paper';
 import { useDispatch, useSelector } from 'react-redux';
 import { v4 } from 'uuid';
@@ -9,6 +9,9 @@ import { createActivity } from '../../redux/activitySlice';
 import { MovePageType } from './Move';
 
 const CenterMove = ({ activityType, pageType, setPageType }) => {
+    // Current activity
+    let activity = undefined;
+
     // Style variables
     const { colors, fontSizes } = useTheme();
     const styles = StyleSheet.create({
@@ -27,20 +30,17 @@ const CenterMove = ({ activityType, pageType, setPageType }) => {
     // Logged account stored in redux
     const logAcc = useSelector((state) => state.logIn.account);
 
-    const dispatch = useDispatch();
+    // const dispatch = useDispatch();
 
     // Create a new activity when start button pressed and change to stop move page
-    const dispatchNewActivity = () => {
-        const startDate = new Date();
-
-        dispatch(
-            createActivity({
-                id: v4(),
-                accountId: logAcc.id,
-                activityType: activityType,
-                startDate: startDate.toISOString()
-            })
-        );
+    const startActivity = () => {
+        activity = {
+            id: v4(),
+            accountId: logAcc.id,
+            type: activityType,
+            startDate: new Date(),
+            endDate: undefined 
+        }
 
         setPageType(MovePageType.stop);
     };
@@ -49,7 +49,7 @@ const CenterMove = ({ activityType, pageType, setPageType }) => {
         case MovePageType.start:
             return (
                 <View style={styles.section}>
-                    <IconButton disabled={activityType == undefined} onPress={dispatchNewActivity} icon='play-circle-outline' iconColor={colors.primary} size={fontSizes.bigButton} />
+                    <IconButton disabled={activityType == undefined} onPress={startActivity} icon='play-circle-outline' iconColor={colors.primary} size={fontSizes.bigButton} />
                     <Text style={styles.textButton}> Start </Text>
                 </View>
             );
