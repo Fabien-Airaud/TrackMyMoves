@@ -5,8 +5,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { v4 } from 'uuid';
 
 import { createActivity } from '../../redux/activitySlice';
+import { MovePageType } from './Move';
 
-const CenterMove = ({ activityType }) => {
+const CenterMove = ({ activityType, pageType, setPageType }) => {
     // Style variables
     const { colors, fontSizes } = useTheme();
     const styles = StyleSheet.create({
@@ -30,6 +31,7 @@ const CenterMove = ({ activityType }) => {
     // Dispatch the account to log in
     const dispatchNewActivity = () => {
         const startDate = new Date();
+
         dispatch(
             createActivity({
                 id: v4(),
@@ -38,14 +40,29 @@ const CenterMove = ({ activityType }) => {
                 startDate: startDate.toISOString()
             })
         );
+
+        setPageType(MovePageType.stop);
     };
 
-    return (
-        <View style={styles.section}>
-            <IconButton disabled={activityType == undefined} onPress={dispatchNewActivity} icon='play-circle-outline' iconColor={colors.primary} size={fontSizes.bigButton} />
-            <Text style={styles.textButton}> Start </Text>
-        </View>
-    );
+    switch (pageType) {
+        case MovePageType.start:
+            return (
+                <View style={styles.section}>
+                    <IconButton disabled={activityType == undefined} onPress={dispatchNewActivity} icon='play-circle-outline' iconColor={colors.primary} size={fontSizes.bigButton} />
+                    <Text style={styles.textButton}> Start </Text>
+                </View>
+            );
+
+        case MovePageType.stop:
+            return (
+                <View style={styles.section}>
+                    <Text style={styles.textButton}> Stop </Text>
+                </View>
+            );
+
+        default:
+            break;
+    };
 };
 
 export default CenterMove;
