@@ -27,10 +27,15 @@ const Move = () => {
         }
     });
 
+    const resetActivity= () => {
+        setActivityType(undefined);
+        setPageType(MovePageType.start);
+    }
+
     return (
         <View style={styles.page}>
             <TopMove activityType={activityType} setActivityType={setActivityType} pageType={pageType} />
-            <CenterMove activityType={activityType?.value} pageType={pageType} setPageType={setPageType} />
+            <CenterMove activityType={activityType?.value} resetActivity={resetActivity} pageType={pageType} setPageType={setPageType} />
             <BottomMove pageType={pageType} />
         </View>
     );
