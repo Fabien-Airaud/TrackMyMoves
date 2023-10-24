@@ -1,3 +1,4 @@
+import 'react-native-get-random-values';
 import { useTheme } from '@react-navigation/native';
 import { StyleSheet, Text, View } from "react-native";
 import { IconButton } from 'react-native-paper';
