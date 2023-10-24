@@ -1,11 +1,9 @@
-import { useTheme } from '@react-navigation/native';
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 
-import { MovePageType } from './Move';
+import Timer from './Timer';
 
 const BottomMove = ({ pageType }) => {
     // Style variables
-    const { colors, fontSizes } = useTheme();
     const styles = StyleSheet.create({
         section: {
             width: '80%',
@@ -15,19 +13,11 @@ const BottomMove = ({ pageType }) => {
         }
     });
 
-    if (pageType === MovePageType.start) {
-        return (
-            <View style={styles.section}>
-                <Text> Start bottom </Text>
-            </View>
-        );
-    } else {
-        return (
-            <View style={styles.section}>
-                <Text> Bottom </Text>
-            </View>
-        );
-    };
+    return (
+        <View style={styles.section}>
+            <Timer />
+        </View>
+    );
 };
 
 export default BottomMove;
