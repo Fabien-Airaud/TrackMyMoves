@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { StyleSheet, View } from "react-native";
 
 import BottomMove from './BottomMove';
@@ -5,6 +6,9 @@ import CenterMove from './CenterMove';
 import TopMove from './TopMove';
 
 const Move = () => {
+    // State variables
+    const [activityType, setActivityType] = useState('');
+
     // Style variables
     const styles = StyleSheet.create({
         page: {
@@ -17,8 +21,8 @@ const Move = () => {
 
     return (
         <View style={styles.page}>
-            <TopMove />
-            <CenterMove />
+            <TopMove activityType={activityType} setActivityType={setActivityType} />
+            <CenterMove activityType={activityType ? true : false} />
             <BottomMove />
         </View>
     );
