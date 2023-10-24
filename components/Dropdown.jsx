@@ -50,7 +50,7 @@ const Dropdown = ({ items, value, setValue, leadingIcon = false, width, containe
                         <TextInput
                             label='Activity type'
                             placeholder='Select activity type'
-                            value={value}
+                            value={value?.label}
                             mode='text'
                             textColor={colors.text}
                             theme={{ colors: { primary: colors.primary, onSurfaceVariant: value ? colors.primary : colors.placeholder } }}
@@ -65,11 +65,11 @@ const Dropdown = ({ items, value, setValue, leadingIcon = false, width, containe
             {items.map((value, index) => {
                 if (index == items.length - 1) return (
                     <View key={index}>
-                        <Menu.Item leadingIcon={leadingIcon ? (value.leadingIcon ? value.leadingIcon : 'timer') : ''} onPress={() => pressItem(value.value)} title={value.label} theme={{ colors: { onSurface: colors.text, onSurfaceVariant: colors.text } }} />
+                        <Menu.Item leadingIcon={leadingIcon ? (value.leadingIcon ? value.leadingIcon : 'timer') : ''} onPress={() => pressItem(value)} title={value.label} theme={{ colors: { onSurface: colors.text, onSurfaceVariant: colors.text } }} />
                     </View>);
                 else return (
                     <View key={index}>
-                        <Menu.Item leadingIcon={leadingIcon ? (value.leadingIcon ? value.leadingIcon : 'timer') : ''} onPress={() => pressItem(value.value)} title={value.label} theme={{ colors: { onSurface: colors.text, onSurfaceVariant: colors.text } }} />
+                        <Menu.Item leadingIcon={leadingIcon ? (value.leadingIcon ? value.leadingIcon : 'timer') : ''} onPress={() => pressItem(value)} title={value.label} theme={{ colors: { onSurface: colors.text, onSurfaceVariant: colors.text } }} />
                         <Divider />
                     </View>);
             })}
