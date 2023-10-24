@@ -1,13 +1,9 @@
 import { useTheme } from '@react-navigation/native';
-import { useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
 import Dropdown from '../Dropdown';
 
-const TopMove = () => {
-    // State variables
-    const [activityType, setActivityType] = useState('');
-
+const TopMove = ({ activityType, setActivityType }) => {
     // Activity dropdown list
     const activityTypes = [
         {
