@@ -1,6 +1,8 @@
 import { useTheme } from '@react-navigation/native';
 import { StyleSheet, Text, View } from "react-native";
 
+import { formatTime } from './FormatTime';
+
 const Timer = () => {
     // Time variables
 
@@ -17,10 +19,10 @@ const Timer = () => {
             fontSize: fontSizes.xl
         }
     });
-    
+
     return (
         <View>
-            <Text style={styles.text}> Timer </Text>
+            <Text style={styles.text}> {formatTime(0)} </Text>
         </View>
     );
 };
