@@ -12,6 +12,10 @@ const BottomMove = ({ pageType }) => {
             height: '30%',
             alignItems: 'center',
             justifyContent: 'center'
+        },
+        warningText: {
+            color: colors.error,
+            textAlign: 'center'
         }
     });
 
@@ -26,7 +30,7 @@ const BottomMove = ({ pageType }) => {
         case MovePageType.stop:
             return (
                 <View style={styles.section}>
-                    <Text> Stop bottom </Text>
+                    <Text style={styles.warningText}> Please note, if you stop the activity you will not be able to continue it </Text>
                 </View>
             );
 
