@@ -53,26 +53,42 @@ const TopMove = ({ activityType, setActivityType, pageType }) => {
         }
     });
 
-    switch (pageType) {
-        case MovePageType.start:
-            return (
-                <View style={styles.section}>
-                    <Text style={styles.warningText}> Please note, the type of activity can no longer be modified after the activity has started </Text>
-                    <Dropdown items={activityTypes} value={activityType} setValue={setActivityType} leadingIcon={true} width={120} containerStyle={styles.container} />
-                </View>
-            );
-
-        case MovePageType.stop:
-            return (
-                <View style={styles.section}>
-                    <IconButton icon={activityType.leadingIcon} iconColor={colors.text} size={fontSizes.medButton} />
-                    <Text style={styles.activityText}> {activityType.label} </Text>
-                </View>
-            );
-
-        default:
-            break;
+    if (pageType === MovePageType.start) {
+        return (
+            <View style={styles.section}>
+                <Text style={styles.warningText}> Please note, the type of activity can no longer be modified after the activity has started </Text>
+                <Dropdown items={activityTypes} value={activityType} setValue={setActivityType} leadingIcon={true} width={120} containerStyle={styles.container} />
+            </View>
+        );
+    } else {
+        return (
+            <View style={styles.section}>
+                <IconButton icon={activityType.leadingIcon} iconColor={colors.text} size={fontSizes.medButton} />
+                <Text style={styles.activityText}> {activityType.label} </Text>
+            </View>
+        );
     };
+
+    // switch (pageType) {
+    //     case MovePageType.start:
+    //         return (
+    //             <View style={styles.section}>
+    //                 <Text style={styles.warningText}> Please note, the type of activity can no longer be modified after the activity has started </Text>
+    //                 <Dropdown items={activityTypes} value={activityType} setValue={setActivityType} leadingIcon={true} width={120} containerStyle={styles.container} />
+    //             </View>
+    //         );
+
+    //     case MovePageType.stop:
+    //         return (
+    //             <View style={styles.section}>
+    //                 <IconButton icon={activityType.leadingIcon} iconColor={colors.text} size={fontSizes.medButton} />
+    //                 <Text style={styles.activityText}> {activityType.label} </Text>
+    //             </View>
+    //         );
+
+    //     default:
+    //         break;
+    // };
 };
 
 export default TopMove;
