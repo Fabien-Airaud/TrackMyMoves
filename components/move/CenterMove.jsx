@@ -70,6 +70,13 @@ const CenterMove = ({ activityType, pageType, setPageType }) => {
                     <Text style={styles.textButton}> Stop </Text>
                 </View>
             );
+        
+        case MovePageType.save:
+            return (
+                <View style={styles.section}>
+                    <Text style={styles.textButton}> Save </Text>
+                </View>
+            );
 
         default:
             break;
