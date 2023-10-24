@@ -1,7 +1,7 @@
 import { useTheme } from '@react-navigation/native';
 import { StyleSheet, Text, View } from "react-native";
 import { IconButton } from 'react-native-paper';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { v4 } from 'uuid';
 
 import { createActivity } from '../../redux/activitySlice';
@@ -22,6 +22,9 @@ const CenterMove = ({ activityType }) => {
         }
     });
 
+    // Logged account stored in redux
+    const logAcc = useSelector((state) => state.logIn.account);
+
     const dispatch = useDispatch();
 
     // Dispatch the account to log in
@@ -30,6 +33,7 @@ const CenterMove = ({ activityType }) => {
         dispatch(
             createActivity({
                 id: v4(),
+                accountId: logAcc.id,
                 activityType: activityType,
                 startDate: startDate.toISOString()
             })
