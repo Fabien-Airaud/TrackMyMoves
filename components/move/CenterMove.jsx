@@ -70,19 +70,23 @@ const CenterMove = ({ activityType, pageType, setPageType, resetActivity }) => {
         setPageType(MovePageType.save);
     };
 
-    // Create a new activity when start button pressed and change to stop move page
-    const dispatchSaveActivity = () => {
-        // Add activity to activities state
-        dispatch(
-            addActivity(activity)
-        );
-        
+    // Delete the current activity and reset activity
+    const dispatchDelActivity = () => {
         // Remove activity from current activity state
         dispatch(
             deleteActivity()
         );
 
         resetActivity();
+    }
+
+    // Create a new activity when start button pressed
+    const dispatchSaveActivity = () => {
+        // Add activity to activities state
+        dispatch(
+            addActivity(activity)
+        );
+        dispatchDelActivity();
     };
 
     switch (pageType) {
@@ -108,7 +112,7 @@ const CenterMove = ({ activityType, pageType, setPageType, resetActivity }) => {
                     <Text style={styles.text}> Do you want to save or delete the activity ? </Text>
                     <View style={styles.buttons}>
                         <Button title='Save' onPress={dispatchSaveActivity} size='md' radius='sm' color={colors.primary} titleStyle={{ fontWeight: 'bold' }} containerStyle={{width: '40%'}} />
-                        <Button title='Delete' onPress={() => console.log('delete')} size='md' radius='sm' color={colors.error} titleStyle={{ fontWeight: 'bold' }} containerStyle={{width: '40%'}} />
+                        <Button title='Delete' onPress={dispatchDelActivity} size='md' radius='sm' color={colors.error} titleStyle={{ fontWeight: 'bold' }} containerStyle={{width: '40%'}} />
                     </View>
                 </View>
             );
