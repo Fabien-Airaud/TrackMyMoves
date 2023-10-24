@@ -1,8 +1,9 @@
 import { useTheme } from '@react-navigation/native';
 import { StyleSheet, Text, View } from 'react-native';
+import { IconButton } from 'react-native-paper';
 
-import { MovePageType } from './Move';
 import Dropdown from '../Dropdown';
+import { MovePageType } from './Move';
 
 const TopMove = ({ activityType, setActivityType, pageType }) => {
     // Activity dropdown list
@@ -24,7 +25,8 @@ const TopMove = ({ activityType, setActivityType, pageType }) => {
         },
         {
             label: 'Cardio',
-            value: 'Cardio'
+            value: 'Cardio',
+            leadingIcon: 'timer'
         }
     ]
 
@@ -46,7 +48,7 @@ const TopMove = ({ activityType, setActivityType, pageType }) => {
         },
         activityText: {
             color: colors.text,
-            fontSize: fontSizes.lg,
+            fontSize: fontSizes.md,
             textAlign: 'center'
         }
     });
@@ -63,15 +65,14 @@ const TopMove = ({ activityType, setActivityType, pageType }) => {
         case MovePageType.stop:
             return (
                 <View style={styles.section}>
-                    <Text style={styles.activityText}>Stop move page</Text>
+                    <IconButton icon={activityType.leadingIcon} iconColor={colors.text} size={fontSizes.medButton} />
+                    <Text style={styles.activityText}> {activityType.label} </Text>
                 </View>
             );
 
         default:
             break;
-    }
-
-    
+    };
 };
 
 export default TopMove;
