@@ -2,7 +2,7 @@ import { useTheme } from '@react-navigation/native';
 import { StyleSheet, Text, View } from "react-native";
 import { IconButton } from 'react-native-paper';
 
-const CenterMove = () => {
+const CenterMove = ({activityType}) => {
     // Style variables
     const { colors, fontSizes } = useTheme();
     const styles = StyleSheet.create({
@@ -20,7 +20,7 @@ const CenterMove = () => {
 
     return (
         <View style={styles.section}>
-            <IconButton icon='play-circle-outline' iconColor={colors.primary} size={fontSizes.bigButton} />
+            <IconButton disabled={activityType == ''} icon='play-circle-outline' iconColor={colors.primary} size={fontSizes.bigButton} />
             <Text style={styles.textButton}> Start </Text>
         </View>
     );
