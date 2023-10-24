@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
+import 'react-native-get-random-values';
 import { v4 } from 'uuid';
 
 export const currentActivitySlice = createSlice({
@@ -9,13 +10,16 @@ export const currentActivitySlice = createSlice({
             return {
                 id: v4(),
                 accountId: action.payload.accountId,
-                type: action.payload.activityType,
+                activityType: action.payload.activityType,
                 startDate: action.payload.startDate,
                 endDate: ''
             };
         },
         stopActivity: (state, action) => {
             state.endDate = action.payload.endDate;
+        },
+        deleteActivity: () => {
+            return {};
         }
     }
 });
@@ -23,7 +27,8 @@ export const currentActivitySlice = createSlice({
 
 export const {
     createActivity,
-    stopActivity
+    stopActivity,
+    deleteActivity
 } = currentActivitySlice.actions;
 
 export default currentActivitySlice.reducer;
