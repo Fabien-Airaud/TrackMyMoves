@@ -7,6 +7,7 @@ export const activitySlice = createSlice({
         createActivity: (state, action) => {
             const activity = {
                 id: action.payload.id,
+                accountId: action.payload.accountId,
                 type: action.payload.activityType,
                 startDate: action.payload.startDate,
                 endDate: ''
