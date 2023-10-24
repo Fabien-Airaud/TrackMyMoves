@@ -4,22 +4,15 @@ export const activitySlice = createSlice({
     name: 'activities',
     initialState: [],
     reducers: {
-        createActivity: (state, action) => {
-            const activity = {
-                id: action.payload.id,
-                accountId: action.payload.accountId,
-                type: action.payload.activityType,
-                startDate: action.payload.startDate,
-                endDate: ''
-            };
-            state.push(activity);
+        addActivity: (state, action) => {
+            state.push(action.payload);
         }
     }
 });
 
 
 export const {
-    createActivity
+    addActivity
 } = activitySlice.actions;
 
 export default activitySlice.reducer;
