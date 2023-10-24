@@ -7,7 +7,7 @@ import TopMove from './TopMove';
 
 const Move = () => {
     // State variables
-    const [activityType, setActivityType] = useState('');
+    const [activityType, setActivityType] = useState(undefined);
 
     // Style variables
     const styles = StyleSheet.create({
@@ -22,7 +22,7 @@ const Move = () => {
     return (
         <View style={styles.page}>
             <TopMove activityType={activityType} setActivityType={setActivityType} />
-            <CenterMove activityType={activityType} />
+            <CenterMove activityType={activityType?.value} />
             <BottomMove />
         </View>
     );

@@ -42,7 +42,7 @@ const CenterMove = ({ activityType }) => {
 
     return (
         <View style={styles.section}>
-            <IconButton disabled={activityType == ''} onPress={dispatchNewActivity} icon='play-circle-outline' iconColor={colors.primary} size={fontSizes.bigButton} />
+            <IconButton disabled={activityType == undefined} onPress={dispatchNewActivity} icon='play-circle-outline' iconColor={colors.primary} size={fontSizes.bigButton} />
             <Text style={styles.textButton}> Start </Text>
         </View>
     );
