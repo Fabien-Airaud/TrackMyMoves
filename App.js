@@ -26,6 +26,7 @@ const myDarkTheme = {
     md: 20,
     lg: 28,
     xl: 40,
+    medButton: 60,
     bigButton: 120
   }
 };
