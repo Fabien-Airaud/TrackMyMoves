@@ -53,7 +53,6 @@ const CenterMove = ({ activityType, timerStatus, setTimerStatus, pageType, setPa
     // Create a new activity when start button pressed and change to stop move page
     const dispatchNewActivity = () => {
         const startDate = new Date();
-        setTimerStatus(TimerStatus.play); // start the timer
 
         dispatch(
             createActivity({
@@ -64,6 +63,7 @@ const CenterMove = ({ activityType, timerStatus, setTimerStatus, pageType, setPa
             })
         );
 
+        setTimerStatus(TimerStatus.play); // start the timer after activity created
         setPageType(MovePageType.stop);
     };
 
@@ -75,7 +75,7 @@ const CenterMove = ({ activityType, timerStatus, setTimerStatus, pageType, setPa
     // Change endDate of the current activity
     const dispatchStopActivity = () => {
         const endDate = new Date();
-        setTimerStatus(TimerStatus.pause);
+        setTimerStatus(TimerStatus.pause); // stop the timer before activity ended
 
         dispatch(
             stopActivity({ endDate: endDate.toISOString() })
