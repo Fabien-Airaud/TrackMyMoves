@@ -43,7 +43,7 @@ const Move = () => {
     return (
         <View style={styles.page}>
             <TopMove activityType={activityType} setActivityType={setActivityType} pageType={pageType} />
-            <CenterMove activityType={activityType?.value} setTimerStatus={setTimerStatus} resetActivity={resetActivity} pageType={pageType} setPageType={setPageType} />
+            <CenterMove activityType={activityType?.value} timerStatus={timerStatus} setTimerStatus={setTimerStatus} resetActivity={resetActivity} pageType={pageType} setPageType={setPageType} />
             <BottomMove pageType={pageType} timerStatus={timerStatus} />
         </View>
     );
