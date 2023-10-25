@@ -8,7 +8,7 @@ import { addActivity } from '../../redux/activitySlice';
 import { createActivity, deleteActivity, stopActivity } from '../../redux/currentActivitySlice';
 import { MovePageType, TimerStatus } from './Move';
 
-const CenterMove = ({ activityType, setTimerStatus, pageType, setPageType, resetActivity }) => {
+const CenterMove = ({ activityType, timerStatus, setTimerStatus, pageType, setPageType, resetActivity }) => {
     // Style variables
     const { colors, fontSizes } = useTheme();
     const styles = StyleSheet.create({
@@ -67,6 +67,11 @@ const CenterMove = ({ activityType, setTimerStatus, pageType, setPageType, reset
         setPageType(MovePageType.stop);
     };
 
+    // Change between pause and play
+    const pausePlayActivity = () => {
+        (timerStatus === TimerStatus.play) ? setTimerStatus(TimerStatus.pause) : setTimerStatus(TimerStatus.play);
+    }
+
     // Change endDate of the current activity
     const dispatchStopActivity = () => {
         const endDate = new Date();
@@ -110,10 +115,10 @@ const CenterMove = ({ activityType, setTimerStatus, pageType, setPageType, reset
 
         case MovePageType.stop:
             return (
-                <View style={[styles.section, {flexDirection: 'row'}]}>
+                <View style={[styles.section, { flexDirection: 'row' }]}>
                     <View style={styles.subsection}>
-                        <IconButton onPress={dispatchStopActivity} icon='stop-circle-outline' iconColor={colors.primary} size={fontSizes.bigButton} theme={{ colors: { onSurfaceDisabled: colors.placeholder } }} />
-                        <Text style={styles.textButton}> Stop </Text>
+                        <IconButton onPress={pausePlayActivity} icon={(timerStatus === TimerStatus.play) ? 'pause-circle-outline' : 'play-circle-outline'} iconColor={colors.primary} size={fontSizes.bigButton} theme={{ colors: { onSurfaceDisabled: colors.placeholder } }} />
+                        <Text style={styles.textButton}> {(timerStatus === TimerStatus.play) ? 'Pause' : 'Play'} </Text>
                     </View>
                     <View style={styles.subsection}>
                         <IconButton onPress={dispatchStopActivity} icon='stop-circle-outline' iconColor={colors.primary} size={fontSizes.bigButton} theme={{ colors: { onSurfaceDisabled: colors.placeholder } }} />
