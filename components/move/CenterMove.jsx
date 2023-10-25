@@ -63,6 +63,7 @@ const CenterMove = ({ activityType, setPlayTimer, pageType, setPageType, resetAc
     // Change endDate of the current activity
     const dispatchStopActivity = () => {
         const endDate = new Date();
+        setPlayTimer(false);
 
         dispatch(
             stopActivity({ endDate: endDate.toISOString() })
