@@ -5,7 +5,7 @@ import { StyleSheet, Text, View } from "react-native";
 import { formatTime } from './FormatTime';
 import { TimerStatus } from './Move';
 
-const Timer = ({ status, dispatchPlayTimer }) => {
+const Timer = ({ status, dispatchPlayTimer, dispatchPauseTimer }) => {
     // Timer variables
     const [time, setTime] = useState(0);
 
@@ -39,6 +39,7 @@ const Timer = ({ status, dispatchPlayTimer }) => {
                 setTime((time) => time + 10);
             }, 10);
         } else {
+            if (status === TimerStatus.pause && dispatchPauseTimer) dispatchPauseTimer(time); 
             clearInterval(timerId);
 
             if (status === TimerStatus.reset) resetTimer();
