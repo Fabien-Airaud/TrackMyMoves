@@ -80,6 +80,7 @@ const CenterMove = ({ activityType, setTimerStatus, pageType, setPageType, reset
         );
 
         resetActivity();
+        setTimerStatus(TimerStatus.reset);
     }
 
     // Create a new activity when start button pressed
