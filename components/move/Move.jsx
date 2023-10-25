@@ -16,6 +16,7 @@ const Move = () => {
     // State variables
     const [activityType, setActivityType] = useState(undefined);
     const [pageType, setPageType] = useState(MovePageType.start);
+    const [playTimer, setPlayTimer] = useState(false);
 
     // Style variables
     const styles = StyleSheet.create({
@@ -27,7 +28,7 @@ const Move = () => {
         }
     });
 
-    const resetActivity= () => {
+    const resetActivity = () => {
         setActivityType(undefined);
         setPageType(MovePageType.start);
     }
@@ -35,8 +36,8 @@ const Move = () => {
     return (
         <View style={styles.page}>
             <TopMove activityType={activityType} setActivityType={setActivityType} pageType={pageType} />
-            <CenterMove activityType={activityType?.value} resetActivity={resetActivity} pageType={pageType} setPageType={setPageType} />
-            <BottomMove pageType={pageType} />
+            <CenterMove activityType={activityType?.value} setPlayTimer={setPlayTimer} resetActivity={resetActivity} pageType={pageType} setPageType={setPageType} />
+            <BottomMove pageType={pageType} playTimer={playTimer} />
         </View>
     );
 };
