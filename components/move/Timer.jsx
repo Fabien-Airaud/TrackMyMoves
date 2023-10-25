@@ -23,6 +23,11 @@ const Timer = ({ status }) => {
         }
     });
 
+    // Reset the timer to 0
+    const resetTimer = () => {
+        setTime(0);
+    }
+
     // Timer functions
     useEffect(() => {
         // Implementing the setInterval method
@@ -33,6 +38,8 @@ const Timer = ({ status }) => {
             }, 10);
         } else {
             clearInterval(timerId);
+
+            if (status === TimerStatus.reset) resetTimer();
         }
 
         return () => clearInterval(timerId);
