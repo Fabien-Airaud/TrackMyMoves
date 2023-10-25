@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { StyleSheet, View } from "react-native";
+import { useDispatch } from 'react-redux';
 
+import { playInterval } from '../../redux/currentActivitySlice';
 import BottomMove from './BottomMove';
 import CenterMove from './CenterMove';
 import TopMove from './TopMove';
@@ -40,11 +42,25 @@ const Move = () => {
         setPageType(MovePageType.start);
     }
 
+    const dispatch = useDispatch();
+
+    // Function to play timer
+    const dispatchPlayTimer = (currentTime) => {
+        const startDate = new Date();
+
+        dispatch(
+            playInterval({
+                startDateInterval: startDate.toISOString(),
+                startTimeInterval: currentTime
+            })
+        );
+    };
+
     return (
         <View style={styles.page}>
             <TopMove activityType={activityType} setActivityType={setActivityType} pageType={pageType} />
             <CenterMove activityType={activityType?.value} timerStatus={timerStatus} setTimerStatus={setTimerStatus} resetActivity={resetActivity} pageType={pageType} setPageType={setPageType} />
-            <BottomMove pageType={pageType} timerStatus={timerStatus} />
+            <BottomMove pageType={pageType} timerStatus={timerStatus} dispatchPlayTimer={dispatchPlayTimer} />
         </View>
     );
 };
