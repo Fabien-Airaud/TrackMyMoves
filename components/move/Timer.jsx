@@ -24,12 +24,17 @@ const Timer = ({ play }) => {
 
     // Timer functions
     useEffect(() => {
+        // Implementing the setInterval method
         let timerId;
         if (play) {
             timerId = setInterval(() => {
                 setTime((time) => time + 10);
             }, 10);
+        } else {
+            clearInterval(timerId);
         }
+
+        return () => clearInterval(timerId);
     }, [play])
 
     return (
