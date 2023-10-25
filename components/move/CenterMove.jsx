@@ -4,11 +4,11 @@ import { StyleSheet, Text, View } from "react-native";
 import { IconButton } from 'react-native-paper';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { createActivity, stopActivity, deleteActivity } from '../../redux/currentActivitySlice';
-import { MovePageType } from './Move';
 import { addActivity } from '../../redux/activitySlice';
+import { createActivity, deleteActivity, stopActivity } from '../../redux/currentActivitySlice';
+import { MovePageType } from './Move';
 
-const CenterMove = ({ activityType, pageType, setPageType, resetActivity }) => {
+const CenterMove = ({ activityType, setPlayTimer, pageType, setPageType, resetActivity }) => {
     // Style variables
     const { colors, fontSizes } = useTheme();
     const styles = StyleSheet.create({
@@ -46,6 +46,7 @@ const CenterMove = ({ activityType, pageType, setPageType, resetActivity }) => {
     // Create a new activity when start button pressed and change to stop move page
     const dispatchNewActivity = () => {
         const startDate = new Date();
+        setPlayTimer(true); // start the timer
 
         dispatch(
             createActivity({
@@ -93,7 +94,7 @@ const CenterMove = ({ activityType, pageType, setPageType, resetActivity }) => {
         case MovePageType.start:
             return (
                 <View style={styles.section}>
-                    <IconButton disabled={activityType == undefined} onPress={dispatchNewActivity} icon='play-circle-outline' iconColor={colors.primary} size={fontSizes.bigButton} theme={{colors: {onSurfaceDisabled: colors.placeholder}}} />
+                    <IconButton disabled={activityType == undefined} onPress={dispatchNewActivity} icon='play-circle-outline' iconColor={colors.primary} size={fontSizes.bigButton} theme={{ colors: { onSurfaceDisabled: colors.placeholder } }} />
                     <Text style={styles.textButton}> Start </Text>
                 </View>
             );
@@ -101,7 +102,7 @@ const CenterMove = ({ activityType, pageType, setPageType, resetActivity }) => {
         case MovePageType.stop:
             return (
                 <View style={styles.section}>
-                    <IconButton onPress={dispatchStopActivity} icon='stop-circle-outline' iconColor={colors.primary} size={fontSizes.bigButton} theme={{colors: {onSurfaceDisabled: colors.placeholder}}} />
+                    <IconButton onPress={dispatchStopActivity} icon='stop-circle-outline' iconColor={colors.primary} size={fontSizes.bigButton} theme={{ colors: { onSurfaceDisabled: colors.placeholder } }} />
                     <Text style={styles.textButton}> Stop </Text>
                 </View>
             );
@@ -111,8 +112,8 @@ const CenterMove = ({ activityType, pageType, setPageType, resetActivity }) => {
                 <View style={styles.section}>
                     <Text style={styles.text}> Do you want to save or delete the activity ? </Text>
                     <View style={styles.buttons}>
-                        <Button title='Save' onPress={dispatchSaveActivity} size='md' radius='sm' color={colors.primary} titleStyle={{ fontWeight: 'bold' }} containerStyle={{width: '40%'}} />
-                        <Button title='Delete' onPress={dispatchDelActivity} size='md' radius='sm' color={colors.error} titleStyle={{ fontWeight: 'bold' }} containerStyle={{width: '40%'}} />
+                        <Button title='Save' onPress={dispatchSaveActivity} size='md' radius='sm' color={colors.primary} titleStyle={{ fontWeight: 'bold' }} containerStyle={{ width: '40%' }} />
+                        <Button title='Delete' onPress={dispatchDelActivity} size='md' radius='sm' color={colors.error} titleStyle={{ fontWeight: 'bold' }} containerStyle={{ width: '40%' }} />
                     </View>
                 </View>
             );
