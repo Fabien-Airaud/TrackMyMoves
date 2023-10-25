@@ -24,6 +24,15 @@ export const currentActivitySlice = createSlice({
                 endTime: ''
             })
         },
+        pauseInterval: (state, action) => {
+            let lastInterval = state.intervals.pop(); // Remove last interval pushed
+
+            if (lastInterval) { // If last interval is defined
+                lastInterval.endDate = action.payload.endDateInterval;
+                lastInterval.endTime = action.payload.endTimeInterval;
+                state.intervals.push(lastInterval); // Push interval with endDate and endTime added
+            }
+        },
         stopActivity: (state, action) => {
             state.endDate = action.payload.endDate;
         },
@@ -37,6 +46,7 @@ export const currentActivitySlice = createSlice({
 export const {
     createActivity,
     playInterval,
+    pauseInterval,
     stopActivity,
     deleteActivity
 } = currentActivitySlice.actions;
