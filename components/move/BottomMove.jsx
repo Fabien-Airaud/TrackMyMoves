@@ -2,7 +2,7 @@ import { StyleSheet, View } from "react-native";
 
 import Timer from './Timer';
 
-const BottomMove = ({ pageType, playTimer }) => {
+const BottomMove = ({ pageType, timerStatus }) => {
     // Style variables
     const styles = StyleSheet.create({
         section: {
@@ -15,7 +15,7 @@ const BottomMove = ({ pageType, playTimer }) => {
 
     return (
         <View style={styles.section}>
-            <Timer play={playTimer} />
+            <Timer status={timerStatus} />
         </View>
     );
 };

@@ -6,9 +6,9 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { addActivity } from '../../redux/activitySlice';
 import { createActivity, deleteActivity, stopActivity } from '../../redux/currentActivitySlice';
-import { MovePageType } from './Move';
+import { MovePageType, TimerStatus } from './Move';
 
-const CenterMove = ({ activityType, setPlayTimer, pageType, setPageType, resetActivity }) => {
+const CenterMove = ({ activityType, setTimerStatus, pageType, setPageType, resetActivity }) => {
     // Style variables
     const { colors, fontSizes } = useTheme();
     const styles = StyleSheet.create({
@@ -46,7 +46,7 @@ const CenterMove = ({ activityType, setPlayTimer, pageType, setPageType, resetAc
     // Create a new activity when start button pressed and change to stop move page
     const dispatchNewActivity = () => {
         const startDate = new Date();
-        setPlayTimer(true); // start the timer
+        setTimerStatus(TimerStatus.play); // start the timer
 
         dispatch(
             createActivity({
@@ -63,7 +63,7 @@ const CenterMove = ({ activityType, setPlayTimer, pageType, setPageType, resetAc
     // Change endDate of the current activity
     const dispatchStopActivity = () => {
         const endDate = new Date();
-        setPlayTimer(false);
+        setTimerStatus(TimerStatus.pause);
 
         dispatch(
             stopActivity({ endDate: endDate.toISOString() })

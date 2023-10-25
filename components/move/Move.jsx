@@ -12,11 +12,18 @@ export const MovePageType = Object.freeze({
     save: 3
 });
 
+// Status for timer
+export const TimerStatus = Object.freeze({
+    reset: -1,
+    pause: 0,
+    play: 1
+});
+
 const Move = () => {
     // State variables
     const [activityType, setActivityType] = useState(undefined);
     const [pageType, setPageType] = useState(MovePageType.start);
-    const [playTimer, setPlayTimer] = useState(false);
+    const [timerStatus, setTimerStatus] = useState(TimerStatus.pause);
 
     // Style variables
     const styles = StyleSheet.create({
@@ -36,8 +43,8 @@ const Move = () => {
     return (
         <View style={styles.page}>
             <TopMove activityType={activityType} setActivityType={setActivityType} pageType={pageType} />
-            <CenterMove activityType={activityType?.value} setPlayTimer={setPlayTimer} resetActivity={resetActivity} pageType={pageType} setPageType={setPageType} />
-            <BottomMove pageType={pageType} playTimer={playTimer} />
+            <CenterMove activityType={activityType?.value} setTimerStatus={setTimerStatus} resetActivity={resetActivity} pageType={pageType} setPageType={setPageType} />
+            <BottomMove pageType={pageType} timerStatus={timerStatus} />
         </View>
     );
 };

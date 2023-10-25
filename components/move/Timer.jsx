@@ -3,8 +3,9 @@ import { useEffect, useState } from 'react';
 import { StyleSheet, Text, View } from "react-native";
 
 import { formatTime } from './FormatTime';
+import { TimerStatus } from './Move';
 
-const Timer = ({ play }) => {
+const Timer = ({ status }) => {
     // Timer variables
     const [time, setTime] = useState(0);
 
@@ -26,7 +27,7 @@ const Timer = ({ play }) => {
     useEffect(() => {
         // Implementing the setInterval method
         let timerId;
-        if (play) {
+        if (status === TimerStatus.play) {
             timerId = setInterval(() => {
                 setTime((time) => time + 10);
             }, 10);
@@ -35,7 +36,7 @@ const Timer = ({ play }) => {
         }
 
         return () => clearInterval(timerId);
-    }, [play])
+    }, [status])
 
     return (
         <View>
