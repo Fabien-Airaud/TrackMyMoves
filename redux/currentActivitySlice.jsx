@@ -12,8 +12,17 @@ export const currentActivitySlice = createSlice({
                 accountId: action.payload.accountId,
                 activityType: action.payload.activityType,
                 startDate: action.payload.startDate,
+                intervals: [],
                 endDate: ''
             };
+        },
+        playInterval: (state, action) => {
+            state.intervals.push({
+                startDate: action.payload.startDateInterval,
+                startTime: action.payload.startTimeInterval,
+                endDate: '',
+                endTime: ''
+            })
         },
         stopActivity: (state, action) => {
             state.endDate = action.payload.endDate;
@@ -27,6 +36,7 @@ export const currentActivitySlice = createSlice({
 
 export const {
     createActivity,
+    playInterval,
     stopActivity,
     deleteActivity
 } = currentActivitySlice.actions;
