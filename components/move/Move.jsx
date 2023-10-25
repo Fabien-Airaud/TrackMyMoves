@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { StyleSheet, View } from "react-native";
 import { useDispatch } from 'react-redux';
 
-import { playInterval } from '../../redux/currentActivitySlice';
+import { playInterval, pauseInterval } from '../../redux/currentActivitySlice';
 import BottomMove from './BottomMove';
 import CenterMove from './CenterMove';
 import TopMove from './TopMove';
@@ -25,7 +25,7 @@ const Move = () => {
     // State variables
     const [activityType, setActivityType] = useState(undefined);
     const [pageType, setPageType] = useState(MovePageType.start);
-    const [timerStatus, setTimerStatus] = useState(TimerStatus.pause);
+    const [timerStatus, setTimerStatus] = useState(TimerStatus.reset);
 
     // Style variables
     const styles = StyleSheet.create({
@@ -56,11 +56,23 @@ const Move = () => {
         );
     };
 
+    // Function to pause timer
+    const dispatchPauseTimer = (currentTime) => {
+        const endDate = new Date();
+
+        dispatch(
+            pauseInterval({
+                endDateInterval: endDate.toISOString(),
+                endTimeInterval: currentTime
+            })
+        );
+    };
+
     return (
         <View style={styles.page}>
             <TopMove activityType={activityType} setActivityType={setActivityType} pageType={pageType} />
             <CenterMove activityType={activityType?.value} timerStatus={timerStatus} setTimerStatus={setTimerStatus} resetActivity={resetActivity} pageType={pageType} setPageType={setPageType} />
-            <BottomMove pageType={pageType} timerStatus={timerStatus} dispatchPlayTimer={dispatchPlayTimer} />
+            <BottomMove pageType={pageType} timerStatus={timerStatus} dispatchPlayTimer={dispatchPlayTimer} dispatchPauseTimer={dispatchPauseTimer} />
         </View>
     );
 };
