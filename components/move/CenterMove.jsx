@@ -13,8 +13,15 @@ const CenterMove = ({ activityType, setTimerStatus, pageType, setPageType, reset
     const { colors, fontSizes } = useTheme();
     const styles = StyleSheet.create({
         section: {
-            width: '80%',
+            width: '90%',
             height: '40%',
+            alignItems: 'center',
+            justifyContent: 'center'
+        },
+        subsection: {
+            height: '100%',
+            width: '40%',
+            marginHorizontal: '3%',
             alignItems: 'center',
             justifyContent: 'center'
         },
@@ -103,9 +110,15 @@ const CenterMove = ({ activityType, setTimerStatus, pageType, setPageType, reset
 
         case MovePageType.stop:
             return (
-                <View style={styles.section}>
-                    <IconButton onPress={dispatchStopActivity} icon='stop-circle-outline' iconColor={colors.primary} size={fontSizes.bigButton} theme={{ colors: { onSurfaceDisabled: colors.placeholder } }} />
-                    <Text style={styles.textButton}> Stop </Text>
+                <View style={[styles.section, {flexDirection: 'row'}]}>
+                    <View style={styles.subsection}>
+                        <IconButton onPress={dispatchStopActivity} icon='stop-circle-outline' iconColor={colors.primary} size={fontSizes.bigButton} theme={{ colors: { onSurfaceDisabled: colors.placeholder } }} />
+                        <Text style={styles.textButton}> Stop </Text>
+                    </View>
+                    <View style={styles.subsection}>
+                        <IconButton onPress={dispatchStopActivity} icon='stop-circle-outline' iconColor={colors.primary} size={fontSizes.bigButton} theme={{ colors: { onSurfaceDisabled: colors.placeholder } }} />
+                        <Text style={styles.textButton}> Stop </Text>
+                    </View>
                 </View>
             );
 
