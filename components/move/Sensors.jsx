@@ -6,7 +6,7 @@ import { TimerStatus } from './Move';
 const Sensors = ({ timerStatus, dispatchSensorsInter }) => {
     const [sensorsInter, setSensorsInter] = useState({
         startDate: '',
-        interval: []
+        accelerometer: []
     });
     
     Accelerometer.setUpdateInterval(1000);
