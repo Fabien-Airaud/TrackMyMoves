@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { StyleSheet, View } from "react-native";
 import { useDispatch } from 'react-redux';
 
-import { pauseInterval, playInterval } from '../../redux/currentActivitySlice';
+import { pauseInterval, playInterval, addAccelerometerInterval } from '../../redux/currentActivitySlice';
 import BottomMove from './BottomMove';
 import CenterMove from './CenterMove';
 import TopMove from './TopMove';
@@ -69,9 +69,16 @@ const Move = () => {
         );
     };
 
+    // Add accelerometer interval to the current activity
+    const dispatchAccelerometerInterval = (accelerometerInterval) => {
+        dispatch(
+            addAccelerometerInterval(accelerometerInterval)
+        );
+    };
+
     return (
         <View style={styles.page}>
-            <SensorAccelerometer timerStatus={timerStatus} />
+            <SensorAccelerometer timerStatus={timerStatus} dispatchAccelInter={dispatchAccelerometerInterval} />
             <TopMove activityType={activityType} setActivityType={setActivityType} pageType={pageType} />
             <CenterMove activityType={activityType?.value} timerStatus={timerStatus} setTimerStatus={setTimerStatus} resetActivity={resetActivity} pageType={pageType} setPageType={setPageType} />
             <BottomMove pageType={pageType} timerStatus={timerStatus} dispatchPlayTimer={dispatchPlayTimer} dispatchPauseTimer={dispatchPauseTimer} />
