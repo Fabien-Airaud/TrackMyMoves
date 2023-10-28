@@ -1,26 +1,26 @@
 import { Accelerometer } from 'expo-sensors';
 import { useEffect, useState } from 'react';
 
-import { TimerStatus } from '../Move';
+import { TimerStatus } from './Move';
 
-const SensorAccelerometer = ({ timerStatus, dispatchAccelInter }) => {
-    const [accelInter, setAccelInter] = useState({
+const Sensors = ({ timerStatus, dispatchSensorsInter }) => {
+    const [sensorsInter, setSensorsInter] = useState({
         startDate: '',
         interval: []
     });
     const [subscription, setSubscription] = useState(null);
 
     // Add a data in accelerometer interval using the setter
-    const addIntervalData = (intervalData) => {
-        return setAccelInter(prevData => ({
+    const addAccelData = (AccelData) => {
+        return setSensorsInter(prevData => ({
             ...prevData,
-            interval: prevData.interval ? [...prevData.interval, intervalData] : []
+            accelerometer: prevData.accelerometer ? [...prevData.accelerometer, AccelData] : []
         }))
     };
 
     const subscribe = () => {
         Accelerometer.setUpdateInterval(1000);
-        setSubscription(Accelerometer.addListener(addIntervalData));
+        setSubscription(Accelerometer.addListener(addAccelData));
     };
 
     const unsubscribe = () => {
@@ -34,16 +34,16 @@ const SensorAccelerometer = ({ timerStatus, dispatchAccelInter }) => {
 
         // Init accelerometer interval with start date
         const startDate = new Date();
-        setAccelInter({
+        setSensorsInter({
             startDate: startDate.toISOString(),
-            interval: []
+            accelerometer: []
         });
     }
 
     // Send interval to the store and unsubscribe
     const endInterval = () => {
-        console.log(accelInter);
-        dispatchAccelInter(accelInter);
+        console.log(sensorsInter);
+        dispatchSensorsInter(sensorsInter);
         unsubscribe();
     }
 
@@ -53,4 +53,4 @@ const SensorAccelerometer = ({ timerStatus, dispatchAccelInter }) => {
     }, [timerStatus]);
 };
 
-export default SensorAccelerometer;
+export default Sensors;
