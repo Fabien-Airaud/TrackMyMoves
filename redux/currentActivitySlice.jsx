@@ -13,6 +13,7 @@ export const currentActivitySlice = createSlice({
                 activityType: action.payload.activityType,
                 startDate: action.payload.startDate,
                 intervals: [],
+                accelerometerIntervals: [],
                 endDate: ''
             };
         },
@@ -33,6 +34,9 @@ export const currentActivitySlice = createSlice({
                 state.intervals.push(lastInterval); // Push interval with endDate and endTime added
             }
         },
+        addAccelerometerInterval: (state, action) => {
+            state.accelerometerIntervals.push(action.payload); // {startDate: string, interval: []}
+        },
         stopActivity: (state, action) => {
             state.endDate = action.payload.endDate;
         },
@@ -47,6 +51,7 @@ export const {
     createActivity,
     playInterval,
     pauseInterval,
+    addAccelerometerInterval,
     stopActivity,
     deleteActivity
 } = currentActivitySlice.actions;
