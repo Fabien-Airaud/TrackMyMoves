@@ -8,7 +8,8 @@ const Sensors = ({ timerStatus, dispatchSensorsInter }) => {
         startDate: '',
         interval: []
     });
-    const [subscription, setSubscription] = useState(null);
+    
+    Accelerometer.setUpdateInterval(1000);
 
     // Add a data in accelerometer interval using the setter
     const addAccelData = (AccelData) => {
@@ -19,20 +20,18 @@ const Sensors = ({ timerStatus, dispatchSensorsInter }) => {
     };
 
     const subscribe = () => {
-        Accelerometer.setUpdateInterval(1000);
-        setSubscription(Accelerometer.addListener(addAccelData));
+        Accelerometer.addListener(addAccelData);
     };
 
     const unsubscribe = () => {
-        subscription && subscription.remove();
-        setSubscription(null);
+        Accelerometer.removeAllListeners();
     };
 
     // Subscribe and add start date in interval
     const startInterval = () => {
         subscribe();
 
-        // Init accelerometer interval with start date
+        // Init sensors interval with start date
         const startDate = new Date();
         setSensorsInter({
             startDate: startDate.toISOString(),
