@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 
 import { TimerStatus } from '../Move';
 
-const SensorAccelerometer = ({ timerStatus }) => {
+const SensorAccelerometer = ({ timerStatus, dispatchAccelInter }) => {
     const [accelInter, setAccelInter] = useState({
         startDate: '',
         interval: []
@@ -40,9 +40,10 @@ const SensorAccelerometer = ({ timerStatus }) => {
         });
     }
 
-    // Unsubscribe to end interval
+    // Send interval to the store and unsubscribe
     const endInterval = () => {
         console.log(accelInter);
+        dispatchAccelInter(accelInter);
         unsubscribe();
     }
 
