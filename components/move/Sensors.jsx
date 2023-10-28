@@ -1,4 +1,4 @@
-import { Accelerometer } from 'expo-sensors';
+import { Accelerometer, Gyroscope } from 'expo-sensors';
 import { useEffect, useState } from 'react';
 
 import { TimerStatus } from './Move';
@@ -6,25 +6,37 @@ import { TimerStatus } from './Move';
 const Sensors = ({ timerStatus, dispatchSensorsInter }) => {
     const [sensorsInter, setSensorsInter] = useState({
         startDate: '',
-        accelerometer: []
+        accelerometer: [],
+        gyroscope: []
     });
     
     Accelerometer.setUpdateInterval(1000);
+    Gyroscope.setUpdateInterval(1000);
 
     // Add a data in accelerometer interval using the setter
-    const addAccelData = (AccelData) => {
+    const addAccelData = (accelData) => {
         return setSensorsInter(prevData => ({
             ...prevData,
-            accelerometer: prevData.accelerometer ? [...prevData.accelerometer, AccelData] : []
+            accelerometer: prevData.accelerometer ? [...prevData.accelerometer, accelData] : []
+        }))
+    };
+
+    // Add a data in gyroscope interval using the setter
+    const addGyrosData = (gyrosData) => {
+        return setSensorsInter(prevData => ({
+            ...prevData,
+            gyroscope: prevData.gyroscope ? [...prevData.gyroscope, gyrosData] : []
         }))
     };
 
     const subscribe = () => {
         Accelerometer.addListener(addAccelData);
+        Gyroscope.addListener(addGyrosData);
     };
 
     const unsubscribe = () => {
         Accelerometer.removeAllListeners();
+        Gyroscope.removeAllListeners();
     };
 
     // Subscribe and add start date in interval
@@ -35,7 +47,8 @@ const Sensors = ({ timerStatus, dispatchSensorsInter }) => {
         const startDate = new Date();
         setSensorsInter({
             startDate: startDate.toISOString(),
-            accelerometer: []
+            accelerometer: [],
+            gyroscope: []
         });
     }
 
