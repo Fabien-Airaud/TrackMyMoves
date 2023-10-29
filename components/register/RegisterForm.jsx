@@ -18,6 +18,8 @@ const RegisterForm = ({ navigation }) => {
     const [emailAddress, setEmailAddress] = useState('');
     const [password, setPassword] = useState('');
     const [securedPassword, setSecuredPassword] = useState(true);
+    const [confirmPassword, setConfirmPassword] = useState('');
+    const [securedConfirmPassword, setSecuredConfirmPassword] = useState(true);
     const [birthdate, setBirthdate] = useState(undefined);
     const [height, setHeight] = useState(undefined);
     const [weight, setWeight] = useState(undefined);
@@ -40,7 +42,7 @@ const RegisterForm = ({ navigation }) => {
 
     // Check function to disable the register button
     const disableRegister = () => {
-        return usedEmail(accounts, emailAddress) || (firstName == '') || (lastName == '') || (emailAddress == '') || (password == '') || (birthdate == undefined) || (height == undefined) || (weight == undefined) || (country == '');
+        return usedEmail(accounts, emailAddress) || (firstName == '') || (lastName == '') || (emailAddress == '') || (password == '') || (password !== confirmPassword) || (birthdate == undefined) || (height == undefined) || (weight == undefined) || (country == '');
     };
 
     // Dispatch account
@@ -68,6 +70,7 @@ const RegisterForm = ({ navigation }) => {
             <Input label='Last name' placeholder='Enter your last name' onChangeText={text => setLastName(text)} inputMode='text' />
             <Input label='Email address' placeholder='Enter your email address' onChangeText={text => setEmailAddress(text)} inputMode='email' />
             <Input label='Password' placeholder='Enter your password' secureTextEntry={securedPassword} onChangeText={text => setPassword(text)} inputMode='text' right={<TextInput.Icon icon={securedPassword ? 'eye' : 'eye-off'} onPress={() => setSecuredPassword(!securedPassword)} color={colors.placeholder} />} />
+            <Input label='Confirm password' placeholder='Confirm your password' secureTextEntry={securedConfirmPassword} onChangeText={text => setConfirmPassword(text)} inputMode='text' right={<TextInput.Icon icon={securedConfirmPassword ? 'eye' : 'eye-off'} onPress={() => setSecuredConfirmPassword(!securedConfirmPassword)} color={colors.placeholder} />} />
             <DatePickerInput locale='en' label='Birthdate' value={birthdate} onChange={(date) => setBirthdate(date)} validRange={{ endDate: Date.now() }} inputMode='start' textColor={colors.text} theme={{ colors: { primary: colors.primary, onSurfaceVariant: colors.placeholder } }} iconColor={colors.placeholder} style={styles.datePickerInput} />
             <Input label='Current height (cm)' placeholder='Enter your current height' onChangeText={number => { (/^\b\d{1,3}\b$/.test(number)) ? setHeight(number) : setHeight(undefined) }} inputMode='numeric' />
             <Input label='Current weigh (kg)' placeholder='Enter your current weight' onChangeText={number => { (/^\b\d+[.,]?\d*\b$/.test(number) && number < 1000) ? setWeight(number) : setWeight(undefined) }} inputMode='decimal' />
