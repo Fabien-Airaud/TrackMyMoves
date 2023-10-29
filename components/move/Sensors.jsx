@@ -3,7 +3,6 @@ import { useEffect, useState } from 'react';
 import * as Location from 'expo-location';
 
 import { TimerStatus } from './Move';
-import { color } from '@rneui/base';
 
 const Sensors = ({ timerStatus, dispatchSensorsInter }) => {
     const [sensorsInter, setSensorsInter] = useState({
@@ -13,7 +12,7 @@ const Sensors = ({ timerStatus, dispatchSensorsInter }) => {
         location: []
     });
     const [addLocation, setAddLocation] = useState(false);
-    
+
     Accelerometer.setUpdateInterval(1000);
     Gyroscope.setUpdateInterval(1000);
 
@@ -76,22 +75,20 @@ const Sensors = ({ timerStatus, dispatchSensorsInter }) => {
 
     useEffect(() => {
         (async () => {
-            let { status } = await Location.requestForegroundPermissionsAsync();
-            if (status !== "granted") {
-                alert("Permission to access location was denied");
+            let { granted } = await Location.requestForegroundPermissionsAsync();
+            if (!granted) {
+                setErrorMsg('Permission to access location was denied');
                 return;
             }
-            await Location.getCurrentPositionAsync();
 
             let subscription;
             if (addLocation) {
                 subscription = await Location.watchPositionAsync({
-                    timeInterval: 1000,
+                    timeInterval: 1000
                 }, (position) => {
                     addLocationData(position);
                 });
             } else if (addLocation && subscription) {
-                console.log('subscription.remove()');
                 subscription.remove();
             }
         })();
