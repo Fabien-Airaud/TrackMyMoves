@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { addActivity } from '../../redux/activitySlice';
 import { createActivity, deleteActivity, stopActivity } from '../../redux/currentActivitySlice';
 import { MovePageType, TimerStatus } from './Move';
+import { saveActivity } from './ActivityFilesFunctions';
 
 const CenterMove = ({ activityType, timerStatus, setTimerStatus, pageType, setPageType, resetActivity }) => {
     // Style variables
@@ -96,7 +97,9 @@ const CenterMove = ({ activityType, timerStatus, setTimerStatus, pageType, setPa
     }
 
     // Create a new activity when start button pressed
-    const dispatchSaveActivity = () => {
+    const dispatchSaveActivity = async () => {
+        await saveActivity(activity).then(() => alert('Activity saved'), () => alert('Impossible to save activity'));
+
         // Add activity to activities state
         dispatch(
             addActivity(activity)
