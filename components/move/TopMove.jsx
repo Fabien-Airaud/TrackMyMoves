@@ -10,22 +10,22 @@ const TopMove = ({ activityType, setActivityType, pageType }) => {
     const activityTypes = [
         {
             label: 'Walking',
-            value: 'Walking',
+            value: 'walking',
             leadingIcon: 'walk'
         },
         {
             label: 'Running',
-            value: 'Running',
+            value: 'running',
             leadingIcon: 'run'
         },
         {
             label: 'Cycling',
-            value: 'Cycling',
+            value: 'cycling',
             leadingIcon: 'bike'
         },
         {
             label: 'Cardio',
-            value: 'Cardio',
+            value: 'cardio',
             leadingIcon: 'timer'
         }
     ]
