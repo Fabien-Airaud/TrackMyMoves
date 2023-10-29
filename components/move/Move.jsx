@@ -39,8 +39,8 @@ const Move = () => {
     });
 
     const resetActivity = () => {
-        setActivityType(undefined);
         setPageType(MovePageType.start);
+        setActivityType(undefined);
     }
 
     const dispatch = useDispatch();
