@@ -1,6 +1,6 @@
 import { useTheme } from '@react-navigation/native';
 import { Button } from '@rneui/themed';
-import { StyleSheet, Text, View } from "react-native";
+import { Alert, StyleSheet, Text, View } from "react-native";
 import { IconButton } from 'react-native-paper';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -97,7 +97,11 @@ const CenterMove = ({ activityType, timerStatus, setTimerStatus, pageType, setPa
 
     // Create a new activity when start button pressed
     const dispatchSaveActivity = async () => {
-        await saveActivity(activity).then(() => alert('Activity saved'), () => alert('Impossible to save activity'));
+        await saveActivity(activity).then(
+            () => Alert.alert(
+                'Activity saved',
+                'Your current activity is saved'),
+            () => alert('An error occured while saving the activity'));
 
         // Add activity to activities state
         dispatchDelActivity();
