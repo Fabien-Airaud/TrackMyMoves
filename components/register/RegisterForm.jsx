@@ -62,6 +62,7 @@ const RegisterForm = ({ navigation }) => {
             })
         );
         navigation.navigate('LogIn');
+        alert('Account created, please log in');
     };
 
     return (

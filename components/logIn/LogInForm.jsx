@@ -32,7 +32,10 @@ const LogInForm = () => {
 
     // Dispatch the account to log in
     const dispatchLogIn = (account, rememberMe) => {
-        if (account === undefined) return false;
+        if (account === undefined) {
+            alert('Log in failed, email or password not correct, please retry');
+            return false;
+        }
 
         dispatch(
             logInAccount({
@@ -40,7 +43,6 @@ const LogInForm = () => {
                 rememberMe: rememberMe
             })
         );
-        console.log("User " + account.firstName + " " + account.lastName + " is logged in");
         return true;
     };
 
