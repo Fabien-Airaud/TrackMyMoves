@@ -19,6 +19,6 @@ export const saveActivity = async (activity) => {
     await ensureDirExists(dirActivityTypeUri).catch(() => console.log(dirActivityTypeUri + ' cannot be created'));
 
     // Add the activity in the activity type directory
-    const fileActivityUri = dirActivityTypeUri + '/' + activity.id;
+    const fileActivityUri = dirActivityTypeUri + '/' + activity.id + '.json';
     await FileSystem.writeAsStringAsync(fileActivityUri, JSON.stringify(activity)).then(() => console.log(fileActivityUri + ' written'), () => console.log(fileActivityUri + ' cannot be writen'));
 }
