@@ -1,7 +1,7 @@
 import { useTheme } from '@react-navigation/native';
 import { Button } from '@rneui/themed';
 import { useState } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { Alert, StyleSheet, Text, View } from 'react-native';
 import { Checkbox, TextInput } from 'react-native-paper';
 import { DatePickerInput } from 'react-native-paper-dates';
 import { useDispatch, useSelector } from 'react-redux';
@@ -62,7 +62,10 @@ const RegisterForm = ({ navigation }) => {
             })
         );
         navigation.navigate('LogIn');
-        alert('Account created, please log in');
+        Alert.alert(
+            'Register',
+            'Account created, please log in'
+        );
     };
 
     return (
