@@ -1,6 +1,6 @@
 import { useTheme } from '@react-navigation/native';
 import { Button } from '@rneui/themed';
-import { ScrollView, StyleSheet } from 'react-native';
+import { ScrollView, StyleSheet, Alert } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { logOutAccount } from '../../redux/logInSlice';
@@ -38,8 +38,14 @@ const Profile = () => {
     const dispatch = useDispatch();
 
     const dispatchLogOut = () => {
-        dispatch(
-            logOutAccount()
+        Alert.alert(
+            'Log out?',
+            'Are you sure you want to log out?',
+            [
+                { text: 'Log out', onPress: () => dispatch(logOutAccount()) },
+                { text: 'Cancel' }
+            ],
+            { cancelable: true }
         );
     };
 
