@@ -77,7 +77,7 @@ const Sensors = ({ timerStatus, dispatchSensorsInter }) => {
         (async () => {
             let { granted } = await Location.requestForegroundPermissionsAsync();
             if (!granted) {
-                setErrorMsg('Permission to access location was denied');
+                alert('Permission to access location was denied');
                 return;
             }
 
