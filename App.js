@@ -1,6 +1,7 @@
 import { NavigationContainer } from '@react-navigation/native';
-import { Provider } from 'react-redux';
+import { StatusBar } from 'expo-status-bar';
 import { PaperProvider } from 'react-native-paper';
+import { Provider } from 'react-redux';
 
 import AppNav from './components/navigation/AppNav';
 import store from './redux/store';
@@ -37,6 +38,7 @@ const App = () => {
       <NavigationContainer theme={myDarkTheme}>
         <PaperProvider>
           <AppNav />
+          <StatusBar style="auto" />
         </PaperProvider>
       </NavigationContainer>
     </Provider>
