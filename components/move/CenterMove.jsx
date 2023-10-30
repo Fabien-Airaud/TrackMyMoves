@@ -4,10 +4,9 @@ import { StyleSheet, Text, View } from "react-native";
 import { IconButton } from 'react-native-paper';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { addActivity } from '../../redux/activitySlice';
 import { createActivity, deleteActivity, stopActivity } from '../../redux/currentActivitySlice';
-import { MovePageType, TimerStatus } from './Move';
 import { saveActivity } from './ActivityFilesFunctions';
+import { MovePageType, TimerStatus } from './Move';
 
 const CenterMove = ({ activityType, timerStatus, setTimerStatus, pageType, setPageType, resetActivity }) => {
     // Style variables
@@ -101,9 +100,6 @@ const CenterMove = ({ activityType, timerStatus, setTimerStatus, pageType, setPa
         await saveActivity(activity).then(() => alert('Activity saved'), () => alert('Impossible to save activity'));
 
         // Add activity to activities state
-        dispatch(
-            addActivity(activity)
-        );
         dispatchDelActivity();
     };
 
