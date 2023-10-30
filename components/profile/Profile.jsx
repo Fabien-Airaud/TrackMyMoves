@@ -39,7 +39,7 @@ const Profile = () => {
 
     const dispatchLogOut = () => {
         Alert.alert(
-            'Log out?',
+            'Log out',
             'Are you sure you want to log out?',
             [
                 { text: 'Log out', onPress: () => dispatch(logOutAccount()) },
@@ -50,13 +50,20 @@ const Profile = () => {
     };
 
     const dispatchDeleteAccount = () => {
-        dispatch(
-            deleteAccount({
-                id: logAcc.id
-            })
-        );
-        dispatch(
-            logOutAccount()
+        Alert.alert(
+            'Delete account',
+            'Are you sure you want to delete your account?',
+            [
+                {
+                    text: 'Delete',
+                    onPress: () => {
+                        dispatch(deleteAccount({ id: logAcc.id }));
+                        dispatch(logOutAccount());
+                    }
+                },
+                { text: 'Cancel' }
+            ],
+            { cancelable: true }
         );
     };
 
