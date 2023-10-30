@@ -1,10 +1,11 @@
 import { useTheme } from '@react-navigation/native';
 import { Button } from '@rneui/themed';
-import { ScrollView, StyleSheet, Alert } from 'react-native';
+import * as FileSystem from 'expo-file-system';
+import { Alert, ScrollView, StyleSheet } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { logOutAccount } from '../../redux/logInSlice';
 import { deleteAccount } from '../../redux/accountSlice';
+import { logOutAccount } from '../../redux/logInSlice';
 import BirthdateProfile from './BirthdateProfile';
 import CountryProfile from './CountryProfile';
 import EmailProfile from './EmailProfile';
@@ -49,6 +50,16 @@ const Profile = () => {
         );
     };
 
+    const deleteCurrentAccount = async () => {
+        const dirAccountUri = FileSystem.documentDirectory + logAcc.id;
+        await FileSystem.deleteAsync(dirAccountUri, { idempotent: true }).then( // If account directory doesn't exist, do not throw an error
+            () => console.log('Account directory deleted')
+        );
+
+        dispatch(deleteAccount({ id: logAcc.id }));
+        dispatch(logOutAccount());
+    }
+
     const dispatchDeleteAccount = () => {
         Alert.alert(
             'Delete account',
@@ -56,10 +67,7 @@ const Profile = () => {
             [
                 {
                     text: 'Delete',
-                    onPress: () => {
-                        dispatch(deleteAccount({ id: logAcc.id }));
-                        dispatch(logOutAccount());
-                    }
+                    onPress: async () => await deleteCurrentAccount()
                 },
                 { text: 'Cancel' }
             ],
