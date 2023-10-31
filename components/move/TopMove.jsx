@@ -5,31 +5,30 @@ import { IconButton } from 'react-native-paper';
 import Dropdown from '../Dropdown';
 import { MovePageType } from './Move';
 
-const TopMove = ({ activityType, setActivityType, pageType }) => {
-    // Activity dropdown list
-    const activityTypes = [
-        {
-            label: 'Walking',
-            value: 'walking',
-            leadingIcon: 'walk'
-        },
-        {
-            label: 'Running',
-            value: 'running',
-            leadingIcon: 'run'
-        },
-        {
-            label: 'Cycling',
-            value: 'cycling',
-            leadingIcon: 'bike'
-        },
-        {
-            label: 'Cardio',
-            value: 'cardio',
-            leadingIcon: 'timer'
-        }
-    ]
+export const ActivityTypes = [
+    {
+        label: 'Walking',
+        value: 'walking',
+        leadingIcon: 'walk'
+    },
+    {
+        label: 'Running',
+        value: 'running',
+        leadingIcon: 'run'
+    },
+    {
+        label: 'Cycling',
+        value: 'cycling',
+        leadingIcon: 'bike'
+    },
+    {
+        label: 'Cardio',
+        value: 'cardio',
+        leadingIcon: 'timer'
+    }
+];
 
+const TopMove = ({ activityType, setActivityType, pageType }) => {
     // Style variables
     const { colors, fontSizes } = useTheme();
     const styles = StyleSheet.create({
@@ -57,7 +56,7 @@ const TopMove = ({ activityType, setActivityType, pageType }) => {
         return (
             <View style={styles.section}>
                 <Text style={styles.warningText}> Please note, the type of activity can no longer be modified after the activity has started </Text>
-                <Dropdown items={activityTypes} value={activityType} setValue={setActivityType} leadingIcon={true} width={120} containerStyle={styles.container} />
+                <Dropdown items={ActivityTypes} value={activityType} setValue={setActivityType} leadingIcon={true} width={120} containerStyle={styles.container} />
             </View>
         );
     } else {
