@@ -1,10 +1,13 @@
 import { useTheme } from '@react-navigation/native';
 import { ListItem } from '@rneui/themed';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ScrollView, StyleSheet } from 'react-native';
 import { IconButton } from 'react-native-paper';
+import { useSelector } from 'react-redux';
 
-const History = () => {
+import { getActivityTypes } from './HistoryFunctions';
+
+const History = ({ navigation }) => {
     // State variables
     const [expanded, setExpanded] = useState(false);
 
@@ -28,6 +31,23 @@ const History = () => {
             color: colors.text
         }
     });
+
+    // Logged account stored in redux
+    const logAcc = useSelector((state) => state.logIn.account);
+
+    useEffect(() => {
+        const unsubscribe = navigation.addListener('focus', async () => {
+            console.log(await getActivityTypes(logAcc.id));
+        });
+        
+        return unsubscribe;
+    }, [navigation]);
+
+    useEffect(() => {
+        (async () => {
+            console.log(await getActivityTypes(logAcc.id));
+        })();
+    }, []);
 
     return (
         <ScrollView style={styles.page}>
