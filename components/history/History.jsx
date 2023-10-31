@@ -1,9 +1,8 @@
 import { useTheme } from '@react-navigation/native';
-import { useState } from 'react';
 import { ListItem } from '@rneui/themed';
-import { IconButton } from 'react-native-paper';
+import { useState } from 'react';
 import { ScrollView, StyleSheet } from 'react-native';
-import { ListItemChevron } from '@rneui/base/dist/ListItem/ListItem.Chevron';
+import { IconButton } from 'react-native-paper';
 
 const History = () => {
     // State variables
@@ -52,18 +51,16 @@ const History = () => {
                 containerStyle={styles.accordion}
             >
                 <ListItem containerStyle={styles.listItem} bottomDivider={true}>
-                    {/* <IconButton icon='clock' iconColor={colors.text} /> */}
                     <ListItem.Content>
                         <ListItem.Title style={styles.text}>Activity type 1</ListItem.Title>
                     </ListItem.Content>
-                    <ListItemChevron color={colors.text} />
+                    <ListItem.Chevron color={colors.text} />
                 </ListItem>
                 <ListItem containerStyle={styles.listItem}>
-                    {/* <IconButton icon='clock' iconColor={colors.text} /> */}
                     <ListItem.Content>
                         <ListItem.Title style={styles.text}>Activity type 2</ListItem.Title>
                     </ListItem.Content>
-                    <ListItemChevron color={colors.text} />
+                    <ListItem.Chevron color={colors.text} />
                 </ListItem>
 
             </ListItem.Accordion>
