@@ -10,6 +10,14 @@ export const getActivityTypes = async (userId) => {
         return [];
     }
 
-    const files = await FileSystem.readDirectoryAsync(userDirUri); // return elements in user directory
-    return files;
+    const elements = await FileSystem.readDirectoryAsync(userDirUri); // return elements in user directory
+
+    // Filter elements, keep directories
+    const activityTypes = [];
+    for (let element of elements) {
+        const fileInfo = await FileSystem.getInfoAsync(userDirUri + '/' + element);
+        if (fileInfo.isDirectory) activityTypes.push(element);
+    }
+    return activityTypes; // Return all directories in user directory
+
 }
