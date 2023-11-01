@@ -1,21 +1,17 @@
-import { useTheme } from '@react-navigation/native';
-import { ListItem } from '@rneui/themed';
-import { useEffect, useState } from 'react';
-import { ScrollView, StyleSheet, Text } from 'react-native';
-import { IconButton } from 'react-native-paper';
+import { useFocusEffect, useTheme } from '@react-navigation/native';
+import { useCallback, useState } from 'react';
+import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { useSelector } from 'react-redux';
 
+import ActivityList from './ActivityList';
 import { getActivityTypes } from './HistoryFunctions';
-import { ActivityTypes } from '../move/TopMove';
 
-const History = ({ navigation }) => {
+const History = () => {
     // State variables
-    const [unsubscribeFocus, setUnsubscribeFocus] = useState(() => { });
-    const [expanded, setExpanded] = useState(false);
     const [list, setList] = useState([]);
 
     // Style variables
-    const { colors, fontsizes } = useTheme();
+    const { colors, fontSizes } = useTheme();
     const styles = StyleSheet.create({
         page: {
             minHeight: '100%',
@@ -23,66 +19,44 @@ const History = ({ navigation }) => {
             padding: '5%',
             backgroundColor: colors.background
         },
-        accordion: {
-            borderBottomWidth: 2,
-            backgroundColor: colors.inputFill
-        },
-        listItem: {
-            backgroundColor: colors.inputFill
-        },
         text: {
-            color: colors.text
+            textAlign: 'center',
+            margin: 10,
+            color: colors.text,
+            fontSize: fontSizes.md
         }
     });
 
     // Logged account stored in redux
     const logAcc = useSelector((state) => state.logIn.account);
 
-    useEffect(() => {
-        (async () => {
-            const unsubscribe = await navigation.addListener('focus', async () => {
-                setList(await getActivityTypes(logAcc.id));
-            });
-            setUnsubscribeFocus(unsubscribe);
-        })(setUnsubscribeFocus, setList);
+    useFocusEffect(
+        useCallback(() => {
+            let isSubscribed = true;
 
-        return unsubscribeFocus;
-    }, [navigation]);
+            // declare the async data fetching function
+            const getData = async () => {
+                // get the activity types
+                const activityTypes = await getActivityTypes(logAcc.id);
+
+                // set state with the result if `isSubscribed` is true
+                if (isSubscribed) {
+                    setList(activityTypes);
+                }
+            }
+
+            getData().catch(console.error); // make sure to catch any error
+
+            // cancel any future `setData`
+            return () => isSubscribed = false;
+        }, [])
+    );
 
     return (
         <ScrollView style={styles.page}>
-            {
-                list.map((value, index) => {
-                    return (
-                        <ListItem.Accordion
-                            key={index}
-                            content={<>
-                                <IconButton icon='clock' iconColor={colors.text} />
-                                <ListItem.Content>
-                                    <ListItem.Title style={styles.text}> {value} </ListItem.Title>
-                                </ListItem.Content>
-                            </>}
-                            isExpanded={expanded}
-                            // onPress={() => {setExpanded(!expanded)}}
-                            icon={<IconButton icon='chevron-down' iconColor={colors.text} />}
-                            bottomDivider={true}
-                            containerStyle={styles.accordion}
-                        >
-                            <ListItem containerStyle={styles.listItem} bottomDivider={true}>
-                                <ListItem.Content>
-                                    <ListItem.Title style={styles.text}>Activity 1</ListItem.Title>
-                                </ListItem.Content>
-                                <ListItem.Chevron color={colors.text} />
-                            </ListItem>
-                            <ListItem containerStyle={styles.listItem}>
-                                <ListItem.Content>
-                                    <ListItem.Title style={styles.text}>Activity 2</ListItem.Title>
-                                </ListItem.Content>
-                                <ListItem.Chevron color={colors.text} />
-                            </ListItem>
-                        </ListItem.Accordion>
-                    )
-                })
+            {(list.length === 0)
+                ? <Text style={styles.text}>You can go to move page to create your first activity</Text>
+                : <ActivityList list={list} />
             }
         </ScrollView>
     );
