@@ -51,7 +51,12 @@ export const getActivityTypes = async (userId) => {
     return activityTypes; // Return all directories in user directory
 }
 
-export const deleteLocalActivity = (accountId, activityType, activityId) => {
-    const fileURI = `${FileSystem.documentDirectory}/${accountId}/${activityType}/${activityId}`;
-    console.log(fileURI);
+export const deleteLocalActivity = async (accountId, activityType, activityId) => {
+    const fileURI = `${FileSystem.documentDirectory}${accountId}/${activityType}/${activityId}.json`;
+    const fileInfo = await FileSystem.getInfoAsync(fileURI);
+
+    if (fileInfo.exists && !fileInfo.isDirectory) { // if is a file
+        await FileSystem.deleteAsync(fileURI).then(() => true, () => false);
+    }
+    return false;
 }
