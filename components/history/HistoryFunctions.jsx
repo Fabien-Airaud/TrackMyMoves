@@ -68,15 +68,15 @@ export const deleteLocalActivity = async (accountId, activityType, activityId) =
     const fileInfo = await FileSystem.getInfoAsync(fileURI);
 
     if (fileInfo.exists && !fileInfo.isDirectory) { // if is a file
-        await FileSystem.deleteAsync(fileURI).catch(() => false);
+        await FileSystem.deleteAsync(fileURI).catch(() => console.log('Failed to delete activity'));
 
         let emptyDir = await checkIsEmpty(activityTypeDirURI);
         if (emptyDir) { // if activity type directory is now empty
-            await FileSystem.deleteAsync(activityTypeDirURI).catch(() => false);
+            await FileSystem.deleteAsync(activityTypeDirURI).catch(() => console.log('Failed to delete activity type directory'));
 
             emptyDir = await checkIsEmpty(accountDirURI);
             if (emptyDir) { // if account directory is now empty
-                await FileSystem.deleteAsync(accountDirURI).catch(() => false);
+                await FileSystem.deleteAsync(accountDirURI).catch(() => console.log('Failed to delete account directory'));
             }
         }
         return true; // Everything to delete is deleted

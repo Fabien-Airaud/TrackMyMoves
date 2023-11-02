@@ -30,8 +30,7 @@ const ActivityList = ({ list, navigation }) => {
                 {
                     text: 'Delete',
                     onPress: async () => {
-                        const deleted = await deleteLocalActivity(accountId, activityType, activityId);
-                        console.log(deleted ? 'Activity deleted' : 'Failed to delete activity');
+                        await deleteLocalActivity(accountId, activityType, activityId);
                         navigation.reset({ index: 0, routes: [{ name: 'History' }] }); // Refresh history page to update list
                     }
                 },

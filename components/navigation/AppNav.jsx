@@ -24,12 +24,10 @@ const AppNav = () => {
 
                 // Try to find the relative account for the accountId given
                 const account = accounts.find(account => account.id === accountId);
-                console.log('account: ' + JSON.stringify(account));
 
                 // If found an account, then dispatch it to log in
                 if (account) {
                     dispatch(logInAccount({ account: account, rememberMe: true }));
-                    console.log('Logged in');
                 }
             }
         };

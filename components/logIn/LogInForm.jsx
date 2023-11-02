@@ -47,8 +47,7 @@ const LogInForm = () => {
 
         if (rememberMe) {
             const logInFileURI = FileSystem.documentDirectory + 'logIn.json';
-            await FileSystem.writeAsStringAsync(logInFileURI, account.id)
-                .then(() => console.log('File created'), () => console.log('Failed to create file'));
+            await FileSystem.writeAsStringAsync(logInFileURI, account.id).catch(() => console.log('Failed to create logInFile'));
         }
         return true;
     };
