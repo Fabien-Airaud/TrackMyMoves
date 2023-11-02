@@ -44,12 +44,7 @@ const CountryProfile = ({ id, data }) => {
                     country: value
                 })
             );
-            dispatch(
-                updateLogCountry({
-                    id: id,
-                    country: value
-                })
-            );
+            dispatch(updateLogCountry(value));
         }
         setEdit(false);
     };

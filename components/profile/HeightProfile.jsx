@@ -44,12 +44,7 @@ const HeightProfile = ({ id, data }) => {
                     height: value
                 })
             );
-            dispatch(
-                updateLogHeight({
-                    id: id,
-                    height: value
-                })
-            );
+            dispatch(updateLogHeight(value));
         } else {
             setValue(data);
         }

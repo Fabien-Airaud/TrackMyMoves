@@ -44,12 +44,7 @@ const WeightProfile = ({ id, data }) => {
                     weight: value
                 })
             );
-            dispatch(
-                updateLogWeight({
-                    id: id,
-                    weight: value
-                })
-            );
+            dispatch(updateLogWeight(value));
         } else {
             setValue(data);
         }

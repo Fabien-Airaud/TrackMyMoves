@@ -44,12 +44,7 @@ const FirstNameProfile = ({ id, data }) => {
                     firstName: value
                 })
             );
-            dispatch(
-                updateLogFirstName({
-                    id: id,
-                    firstName: value
-                })
-            );
+            dispatch(updateLogFirstName(value));
         }
         setEdit(false);
     };

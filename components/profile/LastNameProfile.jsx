@@ -44,12 +44,7 @@ const LastNameProfile = ({ id, data }) => {
                     lastName: value
                 })
             );
-            dispatch(
-                updateLogLastName({
-                    id: id,
-                    lastName: value
-                })
-            );
+            dispatch(updateLogLastName(value));
         }
         setEdit(false);
     };

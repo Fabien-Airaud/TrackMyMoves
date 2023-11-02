@@ -51,12 +51,7 @@ const PasswordProfile = ({ id, data }) => {
                         password: value
                     })
                 );
-                dispatch(
-                    updateLogPassword({
-                        id: id,
-                        password: value
-                    })
-                );
+                dispatch(updateLogPassword(value));
             } else {
                 alert('Password and confirmation password are different');
                 return ;

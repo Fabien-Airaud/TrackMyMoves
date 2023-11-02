@@ -11,28 +11,28 @@ export const logInSlice = createSlice({
             return null;
         },
         updateLogEmailAddress: (state, action) => {
-            state.emailAddress = action.payload.emailAddress;
+            state.emailAddress = action.payload;
         },
         updateLogPassword: (state, action) => {
-            state.password = action.payload.password;
+            state.password = action.payload;
         },
         updateLogFirstName: (state, action) => {
-            state.firstName = action.payload.firstName;
+            state.firstName = action.payload;
         },
         updateLogLastName: (state, action) => {
-            state.lastName = action.payload.lastName;
+            state.lastName = action.payload;
         },
         updateLogBirthdate: (state, action) => {
-            state.birthdate = action.payload.birthdate;
+            state.birthdate = action.payload;
         },
         updateLogHeight: (state, action) => {
-            state.height = action.payload.height;
+            state.height = action.payload;
         },
         updateLogWeight: (state, action) => {
-            state.weight = action.payload.weight;
+            state.weight = action.payload;
         },
         updateLogCountry: (state, action) => {
-            state.country = action.payload.country;
+            state.country = action.payload;
         }
     }
 });

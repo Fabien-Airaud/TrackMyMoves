@@ -44,12 +44,7 @@ const EmailProfile = ({ id, data }) => {
                     emailAddress: value
                 })
             );
-            dispatch(
-                updateLogEmailAddress({
-                    id: id,
-                    emailAddress: value
-                })
-            );
+            dispatch(updateLogEmailAddress(value));
         }
         setEdit(false);
     };

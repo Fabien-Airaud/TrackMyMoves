@@ -48,12 +48,7 @@ const BirthdateProfile = ({ id, data }) => {
                     birthdate: birthdate
                 })
             );
-            dispatch(
-                updateLogBirthdate({
-                    id: id,
-                    birthdate: birthdate
-                })
-            );
+            dispatch(updateLogBirthdate(birthdate));
         }
         setEdit(false);
     };
