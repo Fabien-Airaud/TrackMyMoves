@@ -38,12 +38,23 @@ const Profile = () => {
     // Dispatch account
     const dispatch = useDispatch();
 
+    const removeLogIn = async () => {
+        const logInFileURI = FileSystem.documentDirectory + 'logIn.json';
+        const fileInfo = await FileSystem.getInfoAsync(logInFileURI);
+
+        if (fileInfo.exists && !fileInfo.isDirectory) { // if log in file exists
+            await FileSystem.deleteAsync(logInFileURI).catch(() => console.log('Failed to delete logInFile'));
+        }
+
+        dispatch(logOutAccount());
+    }
+
     const dispatchLogOut = () => {
         Alert.alert(
             'Log out',
             'Are you sure you want to log out?',
             [
-                { text: 'Log out', onPress: () => dispatch(logOutAccount()) },
+                { text: 'Log out', onPress: () => removeLogIn() },
                 { text: 'Cancel' }
             ],
             { cancelable: true }
@@ -52,7 +63,7 @@ const Profile = () => {
 
     const deleteCurrentAccount = async () => {
         const dirAccountUri = FileSystem.documentDirectory + logAcc.id;
-        await FileSystem.deleteAsync(dirAccountUri, { idempotent: true }).then(() => console.log('Account directory deleted'));
+        await FileSystem.deleteAsync(dirAccountUri, { idempotent: true });
 
         dispatch(deleteAccount({ id: logAcc.id }));
         dispatch(logOutAccount());
