@@ -14,7 +14,6 @@ const AppNav = () => {
     useEffect(() => {
         // log in if has a log in file in local
         const dispatchLogIn = async () => {
-
             const logInFileURI = FileSystem.documentDirectory + 'logIn.json';
             const fileInfo = await FileSystem.getInfoAsync(logInFileURI);
 
@@ -26,17 +25,16 @@ const AppNav = () => {
                 const account = accounts.find(account => account.id === accountId);
 
                 // If found an account, then dispatch it to log in
-                if (account) {
-                    dispatch(logInAccount({ account: account, rememberMe: true }));
-                }
+                if (account) dispatch(logInAccount(account));
+                else await FileSystem.deleteAsync(logInFileURI);
             }
         };
 
         dispatchLogIn().catch(console.error);;
-    }, [])
+    }, []);
 
     // Logged account stored in redux
-    const loggedAccount = useSelector((state) => state.logIn.account);
+    const loggedAccount = useSelector((state) => state.logIn);
 
     if (loggedAccount) return <AppTab />;
     else return <HomeStack />;

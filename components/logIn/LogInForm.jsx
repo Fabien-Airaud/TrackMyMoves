@@ -38,12 +38,7 @@ const LogInForm = () => {
             return false;
         }
 
-        dispatch(
-            logInAccount({
-                account: account,
-                rememberMe: rememberMe
-            })
-        );
+        dispatch(logInAccount(account));
 
         if (rememberMe) {
             const logInFileURI = FileSystem.documentDirectory + 'logIn.json';

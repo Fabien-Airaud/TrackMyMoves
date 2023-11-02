@@ -17,7 +17,7 @@ import WeightProfile from './WeightProfile';
 
 const Profile = () => {
     // Logged account stored in redux
-    const logAcc = useSelector((state) => state.logIn.account);
+    const logAcc = useSelector((state) => state.logIn);
 
     // Style variables
     const { colors } = useTheme();
@@ -66,7 +66,7 @@ const Profile = () => {
         await FileSystem.deleteAsync(dirAccountUri, { idempotent: true });
 
         dispatch(deleteAccount({ id: logAcc.id }));
-        dispatch(logOutAccount());
+        removeLogIn();
     }
 
     const dispatchDeleteAccount = () => {

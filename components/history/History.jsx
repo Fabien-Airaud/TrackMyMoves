@@ -28,7 +28,7 @@ const History = ({ navigation }) => {
     });
 
     // Logged account stored in redux
-    const logAcc = useSelector((state) => state.logIn.account);
+    const logAcc = useSelector((state) => state.logIn);
 
     useFocusEffect(
         useCallback(() => {

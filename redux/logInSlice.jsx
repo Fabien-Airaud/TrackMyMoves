@@ -2,42 +2,37 @@ import { createSlice } from '@reduxjs/toolkit';
 
 export const logInSlice = createSlice({
     name: 'logIn',
-    initialState: {
-        account: undefined,
-        rememberMe: false
-    },
+    initialState: null,
     reducers: {
         logInAccount: (state, action) => {
-            state.account = action.payload.account;
-            state.rememberMe = action.payload.rememberMe;
+            return action.payload;
         },
         logOutAccount: (state) => {
-            state.account = undefined;
-            state.rememberMe = false;
+            return null;
         },
         updateLogEmailAddress: (state, action) => {
-            state.account.emailAddress = action.payload.emailAddress;
+            state.emailAddress = action.payload.emailAddress;
         },
         updateLogPassword: (state, action) => {
-            state.account.password = action.payload.password;
+            state.password = action.payload.password;
         },
         updateLogFirstName: (state, action) => {
-            state.account.firstName = action.payload.firstName;
+            state.firstName = action.payload.firstName;
         },
         updateLogLastName: (state, action) => {
-            state.account.lastName = action.payload.lastName;
+            state.lastName = action.payload.lastName;
         },
         updateLogBirthdate: (state, action) => {
-            state.account.birthdate = action.payload.birthdate;
+            state.birthdate = action.payload.birthdate;
         },
         updateLogHeight: (state, action) => {
-            state.account.height = action.payload.height;
+            state.height = action.payload.height;
         },
         updateLogWeight: (state, action) => {
-            state.account.weight = action.payload.weight;
+            state.weight = action.payload.weight;
         },
         updateLogCountry: (state, action) => {
-            state.account.country = action.payload.country;
+            state.country = action.payload.country;
         }
     }
 });

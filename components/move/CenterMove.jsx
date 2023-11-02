@@ -44,7 +44,7 @@ const CenterMove = ({ activityType, timerStatus, setTimerStatus, pageType, setPa
     });
 
     // Logged account stored in redux
-    const logAcc = useSelector((state) => state.logIn.account);
+    const logAcc = useSelector((state) => state.logIn);
     // Current activity stored in redux
     const activity = useSelector((state) => state.currentActivity);
 
@@ -58,8 +58,7 @@ const CenterMove = ({ activityType, timerStatus, setTimerStatus, pageType, setPa
             createActivity({
                 accountId: logAcc.id,
                 activityType: activityType,
-                startDate: startDate.toISOString(),
-                endDate: ''
+                startDate: startDate.toISOString()
             })
         );
 
