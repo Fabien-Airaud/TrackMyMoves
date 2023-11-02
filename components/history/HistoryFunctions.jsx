@@ -50,3 +50,8 @@ export const getActivityTypes = async (userId) => {
     }
     return activityTypes; // Return all directories in user directory
 }
+
+export const deleteLocalActivity = (accountId, activityType, activityId) => {
+    const fileURI = `${FileSystem.documentDirectory}/${accountId}/${activityType}/${activityId}`;
+    console.log(fileURI);
+}
