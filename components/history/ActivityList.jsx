@@ -23,8 +23,9 @@ const ActivityList = ({ list }) => {
         }
     });
 
-    const dispatchDeleteActivity = (accountId, activityType, activityId) => {
-        deleteLocalActivity(accountId, activityType, activityId);
+    const dispatchDeleteActivity = async (accountId, activityType, activityId) => {
+        await deleteLocalActivity(accountId, activityType, activityId)
+            .then(() => console.log('Activity deleted'), () => console.log('Failed to delete activity'));
     }
 
     return list.map((value, index) => {
