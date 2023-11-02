@@ -1,11 +1,10 @@
 import { useTheme } from '@react-navigation/native';
-import { ListItem } from '@rneui/themed';
-import { StyleSheet } from 'react-native';
+import { Button, ListItem } from '@rneui/themed';
+import { Alert, StyleSheet } from 'react-native';
 import { IconButton } from 'react-native-paper';
-import { Button } from '@rneui/themed';
 
-import Accordion from './Accordion';
 import { formatTime } from '../move/FormatTime';
+import Accordion from './Accordion';
 import { deleteLocalActivity } from './HistoryFunctions';
 
 const ActivityList = ({ list, navigation }) => {
@@ -24,9 +23,22 @@ const ActivityList = ({ list, navigation }) => {
     });
 
     const dispatchDeleteActivity = async (accountId, activityType, activityId) => {
-        const deleted = await deleteLocalActivity(accountId, activityType, activityId);
-        console.log(deleted ? 'Activity deleted' : 'Failed to delete activity');
-        navigation.reset({ index: 0, routes: [{ name: 'History' }] }); // Refresh history page to update list
+        Alert.alert(
+            'Delete activity',
+            'Are you sure you want to delete this activity?',
+            [
+                {
+                    text: 'Delete',
+                    onPress: async () => {
+                        const deleted = await deleteLocalActivity(accountId, activityType, activityId);
+                        console.log(deleted ? 'Activity deleted' : 'Failed to delete activity');
+                        navigation.reset({ index: 0, routes: [{ name: 'History' }] }); // Refresh history page to update list
+                    }
+                },
+                { text: 'Cancel' }
+            ],
+            { cancelable: true }
+        );
     }
 
     return list.map((value, index) => {
