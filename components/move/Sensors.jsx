@@ -68,7 +68,6 @@ const Sensors = ({ timerStatus, dispatchSensorsInter }) => {
 
     // Send interval to the store and unsubscribe
     const endInterval = () => {
-        console.log(sensorsInter);
         dispatchSensorsInter(sensorsInter);
         unsubscribe();
     }

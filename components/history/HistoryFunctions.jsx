@@ -31,7 +31,6 @@ export const getActivityTypes = async (userId) => {
     const dirUserInfo = await FileSystem.getInfoAsync(userDirUri);
 
     if (!dirUserInfo.isDirectory) { // if isn't a directory
-        console.log("User directory doesn't exists");
         return [];
     }
 
@@ -56,12 +55,9 @@ const checkIsEmpty = async (dirURI) => {
 
     if (fileInfo.isDirectory) {
         const elements = await FileSystem.readDirectoryAsync(dirURI);
-        console.log(elements.length);
         return elements.length === 0;
-    } else {
-        console.log(dirURI + "isn't a directory");
-        return false;
     }
+    return false;
 }
 
 export const deleteLocalActivity = async (accountId, activityType, activityId) => {
@@ -76,12 +72,10 @@ export const deleteLocalActivity = async (accountId, activityType, activityId) =
 
         let emptyDir = await checkIsEmpty(activityTypeDirURI);
         if (emptyDir) { // if activity type directory is now empty
-            console.log('Will delete ' + activityTypeDirURI);
             await FileSystem.deleteAsync(activityTypeDirURI).catch(() => false);
 
             emptyDir = await checkIsEmpty(accountDirURI);
             if (emptyDir) { // if account directory is now empty
-                console.log('Will delete ' + accountDirURI);
                 await FileSystem.deleteAsync(accountDirURI).catch(() => false);
             }
         }

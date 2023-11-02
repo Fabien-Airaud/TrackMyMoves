@@ -50,7 +50,6 @@ const FirstNameProfile = ({ id, data }) => {
                     firstName: value
                 })
             );
-            console.log(data + ' -> ' + value);
         }
         setEdit(false);
     };

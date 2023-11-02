@@ -50,7 +50,6 @@ const EmailProfile = ({ id, data }) => {
                     emailAddress: value
                 })
             );
-            console.log(data + ' -> ' + value);
         }
         setEdit(false);
     };

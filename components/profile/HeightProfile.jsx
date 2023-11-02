@@ -50,7 +50,6 @@ const HeightProfile = ({ id, data }) => {
                     height: value
                 })
             );
-            console.log(data + ' -> ' + value);
         } else {
             setValue(data);
         }

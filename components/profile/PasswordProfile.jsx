@@ -57,7 +57,6 @@ const PasswordProfile = ({ id, data }) => {
                         password: value
                     })
                 );
-                console.log(data + ' -> ' + value);
             } else {
                 alert('Password and confirmation password are different');
                 return ;

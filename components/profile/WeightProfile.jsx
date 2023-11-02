@@ -50,7 +50,6 @@ const WeightProfile = ({ id, data }) => {
                     weight: value
                 })
             );
-            console.log(data + ' -> ' + value);
         } else {
             setValue(data);
         }

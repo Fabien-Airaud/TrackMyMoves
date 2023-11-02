@@ -54,7 +54,6 @@ const BirthdateProfile = ({ id, data }) => {
                     birthdate: birthdate
                 })
             );
-            console.log(data + ' -> ' + birthdate);
         }
         setEdit(false);
     };

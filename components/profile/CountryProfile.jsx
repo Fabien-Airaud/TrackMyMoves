@@ -50,7 +50,6 @@ const CountryProfile = ({ id, data }) => {
                     country: value
                 })
             );
-            console.log(data + ' -> ' + value);
         }
         setEdit(false);
     };

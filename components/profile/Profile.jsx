@@ -52,9 +52,7 @@ const Profile = () => {
 
     const deleteCurrentAccount = async () => {
         const dirAccountUri = FileSystem.documentDirectory + logAcc.id;
-        await FileSystem.deleteAsync(dirAccountUri, { idempotent: true }).then( // If account directory doesn't exist, do not throw an error
-            () => console.log('Account directory deleted')
-        );
+        await FileSystem.deleteAsync(dirAccountUri, { idempotent: true }).then(() => console.log('Account directory deleted'));
 
         dispatch(deleteAccount({ id: logAcc.id }));
         dispatch(logOutAccount());

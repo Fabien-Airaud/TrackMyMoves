@@ -50,7 +50,6 @@ const LastNameProfile = ({ id, data }) => {
                     lastName: value
                 })
             );
-            console.log(data + ' -> ' + value);
         }
         setEdit(false);
     };
