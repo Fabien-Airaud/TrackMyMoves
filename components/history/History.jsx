@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux';
 import ActivityList from './ActivityList';
 import { getActivityTypes } from './HistoryFunctions';
 
-const History = () => {
+const History = ({ navigation }) => {
     // State variables
     const [list, setList] = useState([]);
 
@@ -56,7 +56,7 @@ const History = () => {
         <ScrollView style={styles.page}>
             {(list.length === 0)
                 ? <Text style={styles.text}>You can go to move page to create your first activity</Text>
-                : <ActivityList list={list} />
+                : <ActivityList list={list} navigation={navigation} />
             }
         </ScrollView>
     );
