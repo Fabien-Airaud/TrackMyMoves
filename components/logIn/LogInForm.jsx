@@ -1,5 +1,6 @@
 import { useTheme } from '@react-navigation/native';
 import { Button } from '@rneui/themed';
+import * as FileSystem from 'expo-file-system';
 import { useState } from 'react';
 import { Text, View } from 'react-native';
 import { Checkbox, TextInput } from 'react-native-paper';
@@ -31,7 +32,7 @@ const LogInForm = () => {
     const dispatch = useDispatch();
 
     // Dispatch the account to log in
-    const dispatchLogIn = (account, rememberMe) => {
+    const dispatchLogIn = async (account, rememberMe) => {
         if (account === undefined) {
             alert('Log in failed, email or password not correct, please retry');
             return false;
@@ -43,6 +44,12 @@ const LogInForm = () => {
                 rememberMe: rememberMe
             })
         );
+
+        if (rememberMe) {
+            const logInFileURI = FileSystem.documentDirectory + 'logIn.json';
+            await FileSystem.writeAsStringAsync(logInFileURI, account.id)
+                .then(() => console.log('File created'), () => console.log('Failed to create file'));
+        }
         return true;
     };
 
