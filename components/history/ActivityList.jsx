@@ -6,10 +6,11 @@ import { Button } from '@rneui/themed';
 
 import Accordion from './Accordion';
 import { formatTime } from '../move/FormatTime';
+import { deleteLocalActivity } from './HistoryFunctions';
 
 const ActivityList = ({ list }) => {
     // Style variables
-    const { colors, fontSizes } = useTheme();
+    const { colors } = useTheme();
     const styles = StyleSheet.create({
         listItem: {
             backgroundColor: colors.inputFill
@@ -21,6 +22,10 @@ const ActivityList = ({ list }) => {
             color: colors.placeholder
         }
     });
+
+    const dispatchDeleteActivity = (accountId, activityType, activityId) => {
+        deleteLocalActivity(accountId, activityType, activityId);
+    }
 
     return list.map((value, index) => {
 
@@ -47,11 +52,10 @@ const ActivityList = ({ list }) => {
                     return (
                         <ListItem.Swipeable
                             key={num}
-                            rightContent={(reset) => (
+                            rightContent={() => (
                                 <Button
                                     title='Delete'
-                                    // onPress={() => reset()}
-                                    onPress={() => console.log('delete activity')}
+                                    onPress={() => dispatchDeleteActivity(activity.accountId, activity.activityType, activity.id)}
                                     icon={{ name: 'delete', color: 'white' }}
                                     color={colors.error} titleStyle={{ fontWeight: 'bold' }}
                                     buttonStyle={{ minHeight: '100%' }}
