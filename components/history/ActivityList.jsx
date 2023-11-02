@@ -2,13 +2,14 @@ import { useTheme } from '@react-navigation/native';
 import { ListItem } from '@rneui/themed';
 import { StyleSheet } from 'react-native';
 import { IconButton } from 'react-native-paper';
+import { Button } from '@rneui/themed';
 
 import Accordion from './Accordion';
 import { formatTime } from '../move/FormatTime';
 
 const ActivityList = ({ list }) => {
     // Style variables
-    const { colors } = useTheme();
+    const { colors, fontSizes } = useTheme();
     const styles = StyleSheet.create({
         listItem: {
             backgroundColor: colors.inputFill
@@ -44,13 +45,26 @@ const ActivityList = ({ list }) => {
                     const dateString = startDate.toLocaleString();
 
                     return (
-                        <ListItem key={num} containerStyle={styles.listItem} bottomDivider={true}>
+                        <ListItem.Swipeable
+                            key={num}
+                            rightContent={(reset) => (
+                                <Button
+                                    title='Delete'
+                                    // onPress={() => reset()}
+                                    onPress={() => console.log('delete activity')}
+                                    icon={{ name: 'delete', color: 'white' }}
+                                    color={colors.error} titleStyle={{ fontWeight: 'bold' }}
+                                    buttonStyle={{ minHeight: '100%' }}
+                                />
+                            )}
+                            containerStyle={styles.listItem}
+                            bottomDivider={true}>
                             <ListItem.Content>
                                 <ListItem.Title style={styles.title}> {`${value.label} - ${time}`} </ListItem.Title>
                                 <ListItem.Subtitle style={styles.subtitle}> {dateString} </ListItem.Subtitle>
                             </ListItem.Content>
                             <ListItem.Chevron color={colors.text} />
-                        </ListItem>
+                        </ListItem.Swipeable>
                     );
                 })}
             />
