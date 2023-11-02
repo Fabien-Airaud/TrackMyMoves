@@ -8,7 +8,7 @@ import Accordion from './Accordion';
 import { formatTime } from '../move/FormatTime';
 import { deleteLocalActivity } from './HistoryFunctions';
 
-const ActivityList = ({ list }) => {
+const ActivityList = ({ list, navigation }) => {
     // Style variables
     const { colors } = useTheme();
     const styles = StyleSheet.create({
@@ -26,6 +26,7 @@ const ActivityList = ({ list }) => {
     const dispatchDeleteActivity = async (accountId, activityType, activityId) => {
         const deleted = await deleteLocalActivity(accountId, activityType, activityId);
         console.log(deleted ? 'Activity deleted' : 'Failed to delete activity');
+        navigation.reset({ index: 0, routes: [{ name: 'History' }] }); // Refresh history page to update list
     }
 
     return list.map((value, index) => {
