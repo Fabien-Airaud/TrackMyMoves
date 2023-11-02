@@ -24,13 +24,12 @@ const ActivityList = ({ list }) => {
     });
 
     const dispatchDeleteActivity = async (accountId, activityType, activityId) => {
-        await deleteLocalActivity(accountId, activityType, activityId)
-            .then(() => console.log('Activity deleted'), () => console.log('Failed to delete activity'));
+        const deleted = await deleteLocalActivity(accountId, activityType, activityId);
+        console.log(deleted ? 'Activity deleted' : 'Failed to delete activity');
     }
 
     return list.map((value, index) => {
-
-        return (
+        if (value.activities.length > 0) return (
             <Accordion
                 key={index}
                 content={<>
