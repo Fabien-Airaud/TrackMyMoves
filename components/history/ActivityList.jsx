@@ -55,7 +55,7 @@ const ActivityList = ({ list, navigation }) => {
                 children={value.activities.map((activity, num) => {
                     // Get elapsed time (in the last interval) in string formatted
                     const lastInterval = activity.intervals[activity.intervals.length - 1];
-                    const time = formatTime(lastInterval.endTime);
+                    const time = formatTime(lastInterval.endTime, false);
 
                     // Get start date in string
                     const startDate = new Date(activity.startDate);
