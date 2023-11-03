@@ -36,8 +36,8 @@ const Timer = ({ status, dispatchPlayTimer, dispatchPauseTimer }) => {
             if (dispatchPlayTimer) dispatchPlayTimer(time); 
 
             timerId = setInterval(() => {
-                setTime((time) => time + 10);
-            }, 10);
+                setTime((time) => time + 100);
+            }, 100);
         } else {
             if (status === TimerStatus.pause && dispatchPauseTimer) dispatchPauseTimer(time); 
             clearInterval(timerId);
