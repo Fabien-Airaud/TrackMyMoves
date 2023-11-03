@@ -24,7 +24,6 @@ const RegisterForm = ({ navigation }) => {
     const [height, setHeight] = useState(undefined);
     const [weight, setWeight] = useState(undefined);
     const [country, setCountry] = useState('');
-    const [rememberMe, setRememberMe] = useState(false);
 
 
     // Style variables
@@ -79,11 +78,6 @@ const RegisterForm = ({ navigation }) => {
             <Input label='Current height (cm)' placeholder='Enter your current height' onChangeText={number => { (/^\b\d{1,3}\b$/.test(number)) ? setHeight(number) : setHeight(undefined) }} inputMode='numeric' />
             <Input label='Current weigh (kg)' placeholder='Enter your current weight' onChangeText={number => { (/^\b\d+[.,]?\d*\b$/.test(number) && number < 1000) ? setWeight(number) : setWeight(undefined) }} inputMode='decimal' />
             <Input label='Country' placeholder='Enter your country' onChangeText={text => setCountry(text)} inputMode='text' />
-
-            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                <Checkbox status={rememberMe ? 'checked' : 'unchecked'} onPress={() => setRememberMe(!rememberMe)} color={colors.primary} />
-                <Text style={{ color: colors.text }}>Remember me</Text>
-            </View>
 
             <Button title='Register' disabled={disableRegister()} onPress={() => dispatchAccount()} size='md' radius='sm' titleStyle={{ fontWeight: 'bold' }} disabledTitleStyle={{ color: colors.placeholder }} disabledStyle={{ backgroundColor: colors.inputFill }} containerStyle={{ marginHorizontal: '5%', marginTop: '5%' }} />
             <Helper visible={disableRegister()} message={usedEmail(accounts, emailAddress) ? 'Email already in use, please use another or log in' : 'All the inputs should be correctly filled.'} justifyContent='center' />
