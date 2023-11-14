@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "TrackMyMoves",
-    "slug": "TrackMyMoves",
+    "slug": "trackmymoves",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/ic_launcher.png",
@@ -21,13 +21,23 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/transparent-logo.png",
         "backgroundColor": "#090909"
-      }
+      },
+      "package": "com.fabien_airaud.trackmymoves"
     },
     "web": {
       "favicon": "./assets/ic_launcher.png"
     },
     "plugins": [
       "expo-router"
-    ]
+    ],
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "3e9dbf0d-47ce-4730-b77b-09cdeb6007cc"
+      }
+    },
+    "owner": "fabien_airaud"
   }
 }
