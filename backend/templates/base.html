@@ -3,11 +3,11 @@
 
 <head>
     <meta charset="utf-8">
-    <title> TrackMyMoves </title>
+    <title> {% block title %}{% endblock title %} </title>
 </head>
 
 <body>
-    <h1> {{title}} </h1>
+    {% block body %}{% endblock body %}
 </body>
 
 </html>
