@@ -17,7 +17,7 @@ class Activity(models.Model):
     # user = models.ForeignKey("app.Model", verbose_name=_(""), on_delete=models.CASCADE)
     activityType = models.CharField(max_length=50, choices=ActivityTypes.choices, validators=[validate_activity_type])
     startDate = models.DateTimeField(auto_now=False, auto_now_add=False)
-    endDate = models.DateTimeField(auto_now=False, auto_now_add=False)
+    endDate = models.DateTimeField(auto_now=False, auto_now_add=False, blank=True, null=True)
     
     def save(self, *args, **kwargs):
         self.full_clean()
