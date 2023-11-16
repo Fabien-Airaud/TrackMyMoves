@@ -16,3 +16,8 @@ class User(AbstractUser):
 
     def __str__(self):
         return self.email
+    
+    @property
+    def is_staff(self):
+        "Is the user a member of staff?"
+        return self.is_superuser

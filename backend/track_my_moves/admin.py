@@ -9,11 +9,11 @@ class UserAdmin(UserAdmin):
     add_form = UserCreationForm
     form = UserChangeForm
     model = User
-    list_display = ["email", "is_superuser", "is_staff", "is_active"]
-    list_filter = ["email", "is_superuser", "is_staff", "is_active"]
+    list_display = ["email", "is_superuser", "is_active"]
+    list_filter = ["email", "is_superuser", "is_active"]
     fieldsets = [
         (None, {"fields": ["email", "password"]}),
-        ("Permissions", {"fields": ["is_superuser", "is_staff", "is_active", "groups", "user_permissions"]}),
+        ("Permissions", {"fields": ["is_superuser", "is_active", "groups", "user_permissions"]}),
     ]
     add_fieldsets = [
         (
@@ -21,7 +21,7 @@ class UserAdmin(UserAdmin):
             {
                 "classes": ["wide"],
                 "fields": [
-                    "email", "password1", "password2", "is_superuser", "is_staff",
+                    "email", "password1", "password2", "is_superuser",
                     "is_active", "groups", "user_permissions"
                 ],
             },
