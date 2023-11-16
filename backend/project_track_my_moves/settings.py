@@ -82,6 +82,8 @@ DATABASES = {
     }
 }
 
+AUTH_USER_MODEL = "track_my_moves.User"
+
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
