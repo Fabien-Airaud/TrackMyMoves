@@ -7,6 +7,9 @@ venv_track_my_moves/
 __pychache__/
 *.py[cod]
 
+#django
+migrations/
+
 # debug
 npm-debug.*
 yarn-debug.*
