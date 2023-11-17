@@ -1,11 +1,11 @@
 <form method="post" id="logInForm">{% csrf_token %}
     <div class="mb-3">
         <label for="logInEmail" class="form-label">Email address</label>
-        <input type="email" class="form-control" name="logInEmail" id="logInEmail">
+        <input type="email" class="form-control" name="logInEmail" id="logInEmail" required>
     </div>
     <div class="mb-3">
         <label for="logInPassword" class="form-label">Password</label>
-        <input type="password" class="form-control" name="logInPassword" id="logInPassword">
+        <input type="password" class="form-control" name="logInPassword" id="logInPassword" required>
     </div>
     <button type="submit" class="btn btn-primary" name="logInSubmit">Log in</button>
 </form>
