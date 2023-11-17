@@ -12,19 +12,14 @@ def validate_activity_type(value):
         raise ValidationError("Value '{}' is not an activity type".format(value))
 
 class Activity(models.Model):
-    id = models.AutoField(primary_key=True)
-    # user = models.ForeignKey("app.Model", verbose_name=_(""), on_delete=models.CASCADE)
-    activityType = models.CharField(max_length=50, choices=ActivityTypes.choices, validators=[validate_activity_type])
-    startDate = models.DateTimeField(auto_now=False, auto_now_add=False)
-    endDate = models.DateTimeField(auto_now=False, auto_now_add=False, blank=True, null=True)
+    user = models.ForeignKey("User", on_delete=models.CASCADE)
+    activity_type = models.CharField(max_length=50, choices=ActivityTypes.choices, validators=[validate_activity_type])
+    start_date = models.DateTimeField(auto_now=False, auto_now_add=False)
+    end_date = models.DateTimeField(auto_now=False, auto_now_add=False, blank=True, null=True)
     
     def save(self, *args, **kwargs):
         self.full_clean()
         return super(Activity, self).save(*args, **kwargs)
     
-    # accountId: action.payload.accountId,
-    # 
-    # 
-    # intervals: [],
-    # sensorsIntervals: [],
-    # 
+    # intervals: []
+    # sensors_intervals: []
