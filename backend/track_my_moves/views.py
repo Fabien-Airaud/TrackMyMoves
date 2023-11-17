@@ -2,7 +2,7 @@ from django.shortcuts import render
 
 APP_DIR_PATH = "track_my_moves/"
 
-def home(request):
+def logIn(request):
     return render(request, APP_DIR_PATH + "logIn.html")
 
 # def contact(request):
