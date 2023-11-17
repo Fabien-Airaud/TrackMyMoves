@@ -1,6 +1,6 @@
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import user_passes_test
 
 APP_DIR_PATH = "track_my_moves/"
@@ -33,6 +33,10 @@ def logIn(request):
         return render(request, APP_DIR_PATH + "logIn.html", {"alertLogIn": alertLogIn})
     
     return render(request, APP_DIR_PATH + "logIn.html")
+
+def logOut(request):
+    logout(request)
+    return HttpResponseRedirect("logIn")
 
 @user_passes_test(adminUser, login_url="logIn")
 def usersAdmin(request):
