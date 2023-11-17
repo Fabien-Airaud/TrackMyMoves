@@ -22,9 +22,15 @@ def logIn(request):
         logInPassword = request.POST["logInPassword"]
         
         user = authenticate(request, username=logInEmail, password=logInPassword)
-        if user is not None and user.is_superuser and user.is_active:
-            login(request, user)
-            return HttpResponseRedirect("usersAdmin")
+        if user is not None:
+            if user.is_superuser and user.is_active:
+                login(request, user)
+                return HttpResponseRedirect("usersAdmin")
+            alertLogIn = "You don't have required permissions"
+        else:
+            alertLogIn = "Log in failed, please retry"
+            
+        return render(request, APP_DIR_PATH + "logIn.html", {"alertLogIn": alertLogIn})
     
     return render(request, APP_DIR_PATH + "logIn.html")
 
