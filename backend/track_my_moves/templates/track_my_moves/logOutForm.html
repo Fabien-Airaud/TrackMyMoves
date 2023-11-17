@@ -1,3 +1,3 @@
-<form class="d-flex" method="post" id="logOutForm">{% csrf_token %}
-    <button type="submit" class="btn btn-outline-primary" name="logOutSubmit">Log out</button>
+<form class="d-flex" method="post" action="{% url 'logOut' %}" id="logOutForm">{% csrf_token %}
+    <button type="submit" class="btn btn-outline-primary" name="logOutSubmit" value="logOut">Log out</button>
 </form>
