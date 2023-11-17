@@ -1,12 +1,16 @@
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.contrib.auth import authenticate, login
+from django.contrib.auth.decorators import user_passes_test
 
 APP_DIR_PATH = "track_my_moves/"
 
+def adminUser(user):
+    return user.is_authenticated and user.is_superuser and user.is_active
+
 def home(request):
     user = request.user
-    if user.is_authenticated and user.is_superuser and user.is_active:
+    if adminUser(user):
         # utilisateur connecté
         return HttpResponseRedirect("usersAdmin")
     else:
@@ -24,5 +28,6 @@ def logIn(request):
     
     return render(request, APP_DIR_PATH + "logIn.html")
 
+@user_passes_test(adminUser, login_url="logIn")
 def usersAdmin(request):
     return render(request, APP_DIR_PATH + "usersAdmin.html")
