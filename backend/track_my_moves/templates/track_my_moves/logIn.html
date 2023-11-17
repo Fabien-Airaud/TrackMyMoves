@@ -9,6 +9,11 @@
             <div class="card-body">
                 {% include "track_my_moves/logInForm.html" %}
             </div>
+            {% if alertLogIn %}
+                <div class="card-footer alert alert-warning mb-0" role="alert">
+                    {{alertLogIn}}
+                </div>
+            {% endif %}
         </div>
     </div>
 {% endblock body %}
