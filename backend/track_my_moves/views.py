@@ -27,7 +27,8 @@ def logIn(request):
         if user is not None:
             if user.is_superuser and user.is_active:
                 login(request, user)
-                return HttpResponseRedirect("usersAdmin")
+                account = Account.objects.get(user_id=user.id)
+                return HttpResponseRedirect("usersAdmin/{}".format(account.id))
             alertLogIn = "You don't have required permissions"
         else:
             alertLogIn = "Log in failed, please retry"
@@ -42,8 +43,8 @@ def logOut(request):
 
 @user_passes_test(adminUser, login_url="logIn")
 def usersAdmin(request):
-    accounts = Account.objects.all()
-    return render(request, APP_DIR_PATH + "usersAdmin.html", {"accounts": accounts})
+    account = Account.objects.get(user_id=request.user.id)
+    return HttpResponseRedirect("usersAdmin/{}".format(account.id))
 
 @user_passes_test(adminUser, login_url="logIn")
 def usersAdminStats(request, accountId):
