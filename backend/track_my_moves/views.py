@@ -44,3 +44,9 @@ def logOut(request):
 def usersAdmin(request):
     accounts = Account.objects.all()
     return render(request, APP_DIR_PATH + "usersAdmin.html", {"accounts": accounts})
+
+@user_passes_test(adminUser, login_url="logIn")
+def usersAdminStats(request, accountId):
+    accounts = Account.objects.all()
+    currentAccount = Account.objects.get(id=accountId)
+    return render(request, APP_DIR_PATH + "usersAdmin.html", {"accounts": accounts, "currentAccount": currentAccount})
