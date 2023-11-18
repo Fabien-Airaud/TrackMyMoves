@@ -2,6 +2,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import user_passes_test
+from django.urls import reverse
 
 from .models.account import Account
 
@@ -28,7 +29,7 @@ def logIn(request):
             if user.is_superuser and user.is_active:
                 login(request, user)
                 account = Account.objects.get(user_id=user.id)
-                return HttpResponseRedirect("usersAdmin/{}".format(account.id))
+                return HttpResponseRedirect(reverse("usersAdminStats", kwargs={"accountId": account.id}))
             alertLogIn = "You don't have required permissions"
         else:
             alertLogIn = "Log in failed, please retry"
@@ -44,7 +45,7 @@ def logOut(request):
 @user_passes_test(adminUser, login_url="logIn")
 def usersAdmin(request):
     account = Account.objects.get(user_id=request.user.id)
-    return HttpResponseRedirect("usersAdmin/{}".format(account.id))
+    return HttpResponseRedirect(reverse("usersAdminStats", kwargs={"accountId": account.id}))
 
 @user_passes_test(adminUser, login_url="logIn")
 def usersAdminStats(request, accountId):
@@ -52,9 +53,14 @@ def usersAdminStats(request, accountId):
     currentAccount = Account.objects.get(id=accountId)
     
     if request.method == "POST":
-        currentAccount.user.is_superuser = "isSuperuser" in request.POST
-        currentAccount.user.is_active = "isActive" in request.POST
-        currentAccount.user.save()
+        if "delete" in request.POST:
+            currentAccount.user.delete()
+            return HttpResponseRedirect(reverse("usersAdminStats", kwargs={"accountId": adminId}))
+        else:
+            currentAccount.user.is_superuser = "isSuperuser" in request.POST
+            currentAccount.user.is_active = "isActive" in request.POST
+            print("delete:{}".format("delete" in request.POST))
+            currentAccount.user.save()
     
     accounts = Account.objects.all()
     return render(request, APP_DIR_PATH + "usersAdmin.html", {"accounts": accounts, "adminId": adminId, "currentAccount": currentAccount})
