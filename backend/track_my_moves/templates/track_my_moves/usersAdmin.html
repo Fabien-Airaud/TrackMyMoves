@@ -4,6 +4,6 @@
 
 {% block content %}
 <div class="d-flex justify-content-around align-items-center" style="height: 80%;">
-    {% include "./userList.html" with accounts=accounts adminId=adminId currentAccount=currentAccount %}
+    {% include "track_my_moves/userList.html" with accounts=accounts adminId=adminId currentAccount=currentAccount %}
 </div>
 {% endblock content %}
