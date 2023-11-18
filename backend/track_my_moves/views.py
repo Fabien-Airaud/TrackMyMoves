@@ -48,6 +48,7 @@ def usersAdmin(request):
 
 @user_passes_test(adminUser, login_url="logIn")
 def usersAdminStats(request, accountId):
+    adminId = Account.objects.get(user_id=request.user.id).id
     currentAccount = Account.objects.get(id=accountId)
     
     if request.method == "POST":
@@ -56,4 +57,4 @@ def usersAdminStats(request, accountId):
         currentAccount.user.save()
     
     accounts = Account.objects.all()
-    return render(request, APP_DIR_PATH + "usersAdmin.html", {"accounts": accounts, "currentAccount": currentAccount})
+    return render(request, APP_DIR_PATH + "usersAdmin.html", {"accounts": accounts, "adminId": adminId, "currentAccount": currentAccount})
