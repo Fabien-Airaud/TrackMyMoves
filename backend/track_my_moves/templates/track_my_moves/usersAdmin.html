@@ -3,5 +3,35 @@
 {% block title %} Users administration {% endblock title %}
 
 {% block content %}
-    <h2>Users administration</h2>
+    <div class="h-100 d-flex justify-content-around align-items-center">
+        <div class="card" style="min-width: 40%">
+            <h2 class="card-header">User List</h2>
+            <div class="card-body">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Email</th>
+                            <th scope="col">First name</th>
+                            <th scope="col">Last name</th>
+                        </tr>
+                    </thead>
+                    <tbody class="table-group-divider">
+                        <tr>
+                            <th scope="row">1</th>
+                            <td>airaudfabien@gmail.com</td>
+                            <td>Fabien</td>
+                            <td>Airaud</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">2</th>
+                            <td>airf0001@uqar.ca</td>
+                            <td>FabienUQAR</td>
+                            <td>Airaud</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 {% endblock content %}
