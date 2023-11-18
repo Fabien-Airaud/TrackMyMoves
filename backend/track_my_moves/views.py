@@ -3,6 +3,8 @@ from django.shortcuts import render
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import user_passes_test
 
+from .models.account import Account
+
 APP_DIR_PATH = "track_my_moves/"
 
 def adminUser(user):
@@ -40,4 +42,5 @@ def logOut(request):
 
 @user_passes_test(adminUser, login_url="logIn")
 def usersAdmin(request):
-    return render(request, APP_DIR_PATH + "usersAdmin.html")
+    accounts = Account.objects.all()
+    return render(request, APP_DIR_PATH + "usersAdmin.html", {"accounts": accounts})
