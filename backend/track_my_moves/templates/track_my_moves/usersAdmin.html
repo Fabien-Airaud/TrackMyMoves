@@ -3,7 +3,7 @@
 {% block title %} Users administration {% endblock title %}
 
 {% block content %}
-<div class="d-flex justify-content-around align-items-center" style="height: 80%;">
+<div class="d-flex justify-content-around align-items-center flex-wrap" style="height: 80%;">
     {% include "track_my_moves/userList.html" with accounts=accounts adminId=adminId currentAccount=currentAccount %}
     {% include "track_my_moves/userStats.html" with currentAccount=currentAccount %}
 </div>
