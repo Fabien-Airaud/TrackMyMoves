@@ -7,10 +7,10 @@
     <header>
         <nav class="navbar bg-body-tertiary">
             <div class="container-fluid">
-                <span class="navbar-brand my-0 h1 fs-3">
+                <a class="navbar-brand my-0 h1 fs-3" href="{% url "usersAdmin" %}">
                     <img src="{% static "track_my_moves/transparent-logo.png" %}" alt="TrackMyMoves logo" width="40" height="40" class="d-inline-block align-text-center">
                     TrackMyMoves administration
-                </span>
+                </a>
                 {% include "track_my_moves/logOutForm.html" %}
             </div>
           </nav>
