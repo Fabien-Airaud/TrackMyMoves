@@ -48,6 +48,12 @@ def usersAdmin(request):
 
 @user_passes_test(adminUser, login_url="logIn")
 def usersAdminStats(request, accountId):
-    accounts = Account.objects.all()
     currentAccount = Account.objects.get(id=accountId)
+    
+    if request.method == "POST":
+        currentAccount.user.is_superuser = "isSuperuser" in request.POST
+        currentAccount.user.is_active = "isActive" in request.POST
+        currentAccount.user.save()
+    
+    accounts = Account.objects.all()
     return render(request, APP_DIR_PATH + "usersAdmin.html", {"accounts": accounts, "currentAccount": currentAccount})
