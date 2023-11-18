@@ -17,18 +17,14 @@
                         </tr>
                     </thead>
                     <tbody class="table-group-divider">
-                        <tr>
-                            <th scope="row">1</th>
-                            <td>airaudfabien@gmail.com</td>
-                            <td>Fabien</td>
-                            <td>Airaud</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">2</th>
-                            <td>airf0001@uqar.ca</td>
-                            <td>FabienUQAR</td>
-                            <td>Airaud</td>
-                        </tr>
+                        {% for account in accounts %}
+                            <tr>
+                                <th scope="row">{{ forloop.counter }}</th>
+                                <td>{{ account.user.email }}</td>
+                                <td>{{ account.first_name }}</td>
+                                <td>{{ account.last_name }}</td>
+                            </tr>
+                        {% endfor %}
                     </tbody>
                 </table>
             </div>
