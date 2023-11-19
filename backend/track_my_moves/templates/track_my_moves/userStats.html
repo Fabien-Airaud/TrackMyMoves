@@ -1,6 +1,19 @@
-<div class="card m-2" style="min-width: 30%; width: 40%">
+<div class="card m-2" style="min-width: 320px; width: 40%">
     <h2 class="card-header">{{currentAccount.first_name}} {{currentAccount.last_name}} statistics</h2>
     <div class="card-body">
-        Statistics
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+                {% if currentStats.mostActivities %}Most activities in {{currentStats.mostActivities}}{% else %}No activities{% endif %}
+            </li>
+            <li class="list-group-item">
+                Total activities: {% if currentStats.totalActivities %}{{currentStats.totalActivities}}{% else %}0{% endif %}
+            </li>
+            <li class="list-group-item">
+                Distinct activities: {% if currentStats.distinctActivities %}{{currentStats.distinctActivities}}{% else %}0{% endif %}
+            </li>
+            <li class="list-group-item">
+                Last login: {{currentStats.lastLogin}}
+            </li>
+        </ul>
     </div>
 </div>
