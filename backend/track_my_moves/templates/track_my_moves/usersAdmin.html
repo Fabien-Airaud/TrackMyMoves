@@ -5,6 +5,6 @@
 {% block content %}
 <div class="d-flex justify-content-around align-items-center flex-wrap" style="height: 80%;">
     {% include "track_my_moves/userList.html" with accounts=accounts adminId=adminId currentAccount=currentAccount %}
-    {% include "track_my_moves/userStats.html" with currentAccount=currentAccount %}
+    {% include "track_my_moves/userStats.html" with currentAccount=currentAccount currentStats=currentStats %}
 </div>
 {% endblock content %}
