@@ -64,6 +64,15 @@ const ActivityList = ({ list, navigation }) => {
                     return (
                         <ListItem.Swipeable
                             key={num}
+                            leftContent={() => (
+                                <Button
+                                    title='Infos'
+                                    onPress={() => console.log("infos button")}
+                                    icon={{ name: 'info', color: 'white' }}
+                                    titleStyle={{ fontWeight: 'bold' }}
+                                    buttonStyle={{ minHeight: '100%' }}
+                                />
+                            )}
                             rightContent={() => (
                                 <Button
                                     title='Delete'
