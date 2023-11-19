@@ -1,6 +1,6 @@
 import * as FileSystem from 'expo-file-system';
 
-import { ActivityTypes } from "../move/TopMove";
+import ActivityTypes from "../move/ActivityTypes";
 
 const getActivities = async (activityTypeDirUri) => {
     const elements = await FileSystem.readDirectoryAsync(activityTypeDirUri); // return elements in activity type directory
@@ -22,7 +22,7 @@ const getActivities = async (activityTypeDirUri) => {
 const createActivityList = (activityTypeValue, activities) => {
     const activityType = ActivityTypes.find(type => type.value === activityTypeValue);
 
-    return {...activityType, activities: activities};
+    return { ...activityType, activities: activities };
 };
 
 export const getActivityTypes = async (userId) => {

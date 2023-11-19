@@ -3,30 +3,8 @@ import { StyleSheet, Text, View } from 'react-native';
 import { IconButton } from 'react-native-paper';
 
 import Dropdown from '../Dropdown';
+import ActivityTypes from './ActivityTypes';
 import { MovePageType } from './Move';
-
-export const ActivityTypes = [
-    {
-        label: 'Walking',
-        value: 'walking',
-        leadingIcon: 'walk'
-    },
-    {
-        label: 'Running',
-        value: 'running',
-        leadingIcon: 'run'
-    },
-    {
-        label: 'Cycling',
-        value: 'cycling',
-        leadingIcon: 'bike'
-    },
-    {
-        label: 'Cardio',
-        value: 'cardio',
-        leadingIcon: 'timer'
-    }
-];
 
 const TopMove = ({ activityType, setActivityType, pageType }) => {
     // Style variables
