@@ -5,6 +5,7 @@ from django.contrib.auth.decorators import user_passes_test
 from django.urls import reverse
 
 from .models.account import Account
+from .models.activity import Activity, ActivityTypes
 
 APP_DIR_PATH = "track_my_moves/"
 
@@ -47,6 +48,31 @@ def usersAdmin(request):
     account = Account.objects.get(user_id=request.user.id)
     return HttpResponseRedirect(reverse("usersAdminStats", kwargs={"accountId": account.id}))
 
+def getActivitiesCount(activities):
+    activitiesCount = {}
+    
+    for activityType in ActivityTypes.values:
+        activitiesCount[activityType] = activities.filter(activity_type=activityType).count()
+    return activitiesCount
+
+def nbDistinctActivities(activitiesCount):
+    nb = 0
+    
+    for activityType in activitiesCount.keys():
+        if activitiesCount[activityType] > 0:
+            nb += 1
+    return nb
+
+def mostActivities(activitiesCount):
+    max = 0
+    best = ""
+    
+    for activityType in activitiesCount.keys():
+        if activitiesCount[activityType] > max:
+            max = activitiesCount[activityType]
+            best = activityType
+    return best.replace('_', ' ')
+
 @user_passes_test(adminUser, login_url="logIn")
 def usersAdminStats(request, accountId):
     adminId = Account.objects.get(user_id=request.user.id).id
@@ -63,4 +89,12 @@ def usersAdminStats(request, accountId):
             currentAccount.user.save()
     
     accounts = Account.objects.all()
-    return render(request, APP_DIR_PATH + "usersAdmin.html", {"accounts": accounts, "adminId": adminId, "currentAccount": currentAccount})
+    
+    currentStats = {"lastLogin": currentAccount.user.last_login}
+    accountActivities = Activity.objects.filter(user_id=accountId)
+    currentStats["totalActivities"] = accountActivities.count()
+    activitiesCount = getActivitiesCount(accountActivities)
+    currentStats["distinctActivities"] = nbDistinctActivities(activitiesCount)
+    currentStats["mostActivities"] = mostActivities(activitiesCount)
+    
+    return render(request, APP_DIR_PATH + "usersAdmin.html", {"accounts": accounts, "adminId": adminId, "currentAccount": currentAccount, "currentStats": currentStats})
