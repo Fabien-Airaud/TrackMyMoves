@@ -2,7 +2,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { IconButton } from 'react-native-paper';
 
 import { Image } from 'react-native';
-import History from '../history/History';
+import HistoryStack from './HistoryStack';
 import Move from '../move/Move';
 import Profile from '../profile/Profile';
 
@@ -32,7 +32,7 @@ const AppTab = () => {
     return (
         <Tab.Navigator screenOptions={{ headerTitle: 'TrackMyMoves', headerLeft: () => <Image source={PlaceholderImageSource} style={{ height: 50, width: 50, marginStart: 10 }} /> }}>
             <Tab.Screen name="Move" component={Move} options={{ tabBarIcon: MoveIcon }} />
-            <Tab.Screen name="History" component={History} options={{ tabBarIcon: HistoryIcon }} />
+            <Tab.Screen name="HistoryStack" component={HistoryStack} options={{ tabBarIcon: HistoryIcon, title: "History"}} />
             <Tab.Screen name="Profile" component={Profile} options={{ tabBarIcon: ProfileIcon }} />
         </Tab.Navigator>
     );
