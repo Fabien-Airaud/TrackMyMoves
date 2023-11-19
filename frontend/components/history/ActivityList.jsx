@@ -67,7 +67,7 @@ const ActivityList = ({ list, navigation }) => {
                             leftContent={() => (
                                 <Button
                                     title='Infos'
-                                    onPress={() => console.log("infos button")}
+                                    onPress={() => navigation.navigate("Informations")}
                                     icon={{ name: 'info', color: 'white' }}
                                     titleStyle={{ fontWeight: 'bold' }}
                                     buttonStyle={{ minHeight: '100%' }}

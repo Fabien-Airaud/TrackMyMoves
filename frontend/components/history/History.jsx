@@ -1,6 +1,6 @@
 import { useFocusEffect, useTheme } from '@react-navigation/native';
 import { useCallback, useState } from 'react';
-import { ScrollView, StyleSheet, Text, View } from 'react-native';
+import { ScrollView, StyleSheet, Text } from 'react-native';
 import { useSelector } from 'react-redux';
 
 import ActivityList from './ActivityList';
