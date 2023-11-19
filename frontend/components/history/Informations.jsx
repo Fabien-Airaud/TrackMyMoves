@@ -1,7 +1,7 @@
 import { useTheme } from '@react-navigation/native';
 import { ScrollView, StyleSheet, Text } from 'react-native';
 
-const History = ({ navigation }) => {
+const Informations = ({ navigation }) => {
     // Style variables
     const { colors, fontSizes } = useTheme();
     const styles = StyleSheet.create({
@@ -26,4 +26,4 @@ const History = ({ navigation }) => {
     );
 };
 
-export default History;
+export default Informations;
