@@ -1,7 +1,13 @@
 import { useTheme } from '@react-navigation/native';
-import { ScrollView, StyleSheet, Text } from 'react-native';
+import { ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Avatar, Button, Card } from 'react-native-paper';
+
+import ActivityTypes from '../move/ActivityTypes';
 
 const ActivityGeneral = ({ navigation, route: { params } }) => {
+    // Activity type
+    const activityType = ActivityTypes.find((activityType) => activityType.value == params.activityType);
+
     // Style variables
     const { colors, fontSizes } = useTheme();
     const styles = StyleSheet.create({
@@ -12,15 +18,20 @@ const ActivityGeneral = ({ navigation, route: { params } }) => {
             backgroundColor: colors.background
         },
         text: {
-            textAlign: 'center',
-            margin: 10,
             color: colors.text,
-            fontSize: fontSizes.sm
+            fontSize: fontSizes.md
         }
     });
 
     return (
         <ScrollView style={styles.page}>
+            <View style={{flexDirection: 'row', marginBottom: 20}}>
+                <Avatar.Icon icon={activityType.leadingIcon} size={fontSizes.bigButton} color={colors.text} style={{backgroundColor: colors.card}} />
+                <View style={{justifyContent: 'space-evenly', marginHorizontal: 15}}>
+                    <Text style={[styles.text, {fontSize: fontSizes.xl}]}>{activityType.label}</Text>
+                    <Text style={styles.text}>{new Date(params.startDate).toDateString()}</Text>
+                </View>
+            </View>
             <Text style={styles.text}>{JSON.stringify(params)}</Text>
         </ScrollView>
     );
