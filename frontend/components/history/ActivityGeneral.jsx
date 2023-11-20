@@ -1,7 +1,7 @@
 import { useTheme } from '@react-navigation/native';
 import { ScrollView, StyleSheet, Text } from 'react-native';
 
-const ActivityGeneral = ({ navigation, route: { params: { activity } } }) => {
+const ActivityGeneral = ({ navigation, route: { params } }) => {
     // Style variables
     const { colors, fontSizes } = useTheme();
     const styles = StyleSheet.create({
@@ -21,7 +21,7 @@ const ActivityGeneral = ({ navigation, route: { params: { activity } } }) => {
 
     return (
         <ScrollView style={styles.page}>
-            <Text style={styles.text}>{JSON.stringify(activity)}</Text>
+            <Text style={styles.text}>{JSON.stringify(params)}</Text>
         </ScrollView>
     );
 };

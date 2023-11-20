@@ -8,8 +8,8 @@ const Tab = createMaterialTopTabNavigator();
 const ActivityInformationsTopTab = ({ activity }) => {
   return (
     <Tab.Navigator>
-      <Tab.Screen name="General" component={ActivityGeneral} initialParams={{activity: activity}} />
-      <Tab.Screen name="Intervals" component={ActivityIntervals} initialParams={{activity: activity}} />
+      <Tab.Screen name="General" component={ActivityGeneral} initialParams={activity} />
+      <Tab.Screen name="Intervals" component={ActivityIntervals} initialParams={activity} />
     </Tab.Navigator>
   );
 };
