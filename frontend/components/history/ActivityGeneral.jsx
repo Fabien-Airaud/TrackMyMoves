@@ -26,8 +26,8 @@ const ActivityGeneral = ({ navigation, route: { params } }) => {
     return (
         <ScrollView style={styles.page}>
             <View style={{flexDirection: 'row', marginBottom: 20}}>
-                <Avatar.Icon icon={activityType.leadingIcon} size={fontSizes.bigButton} color={colors.text} style={{backgroundColor: colors.card}} />
-                <View style={{justifyContent: 'space-evenly', marginHorizontal: 15}}>
+                <Avatar.Icon icon={activityType.leadingIcon} size={100} color={colors.text} style={{backgroundColor: colors.background}} />
+                <View style={{justifyContent: 'space-evenly'}}>
                     <Text style={[styles.text, {fontSize: fontSizes.xl}]}>{activityType.label}</Text>
                     <Text style={styles.text}>{new Date(params.startDate).toDateString()}</Text>
                 </View>
