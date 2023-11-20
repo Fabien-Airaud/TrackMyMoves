@@ -9,7 +9,7 @@ const Informations = ({ navigation, route: { params: { activity } } }) => {
     const styles = StyleSheet.create({
         page: {
             minHeight: '100%',
-            width: '100%',
+            minWidth: '100%',
             backgroundColor: colors.card
         },
         text: {
