@@ -1,15 +1,16 @@
 import { useTheme } from '@react-navigation/native';
-import { ScrollView, StyleSheet, Text } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 
-const Informations = ({ navigation, route: {params: {activity}} }) => {
+import ActivityInformationsTopTab from '../navigation/ActivityInformationsTopTab';
+
+const Informations = ({ navigation, route: { params: { activity } } }) => {
     // Style variables
     const { colors, fontSizes } = useTheme();
     const styles = StyleSheet.create({
         page: {
             minHeight: '100%',
             width: '100%',
-            padding: '5%',
-            backgroundColor: colors.background
+            backgroundColor: colors.card
         },
         text: {
             textAlign: 'center',
@@ -20,9 +21,10 @@ const Informations = ({ navigation, route: {params: {activity}} }) => {
     });
 
     return (
-        <ScrollView style={styles.page}>
-            <Text style={styles.text}>{JSON.stringify(activity)}</Text>
-        </ScrollView>
+        <View style={styles.page}>
+            {/* <Text style={styles.text}>Activity informations</Text> */}
+            <ActivityInformationsTopTab activity={activity} />
+        </View>
     );
 };
 
