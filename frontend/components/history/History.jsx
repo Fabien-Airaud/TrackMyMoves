@@ -16,7 +16,6 @@ const History = ({ navigation }) => {
         page: {
             minHeight: '100%',
             width: '100%',
-            padding: '5%',
             backgroundColor: colors.background
         },
         text: {
