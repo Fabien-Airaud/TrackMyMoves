@@ -24,7 +24,7 @@ const ActivityIntervals = ({ navigation, route: { params: { intervals } } }) => 
             width: 30
         },
         date: {
-            width: 180
+            width: 100
         },
         time: {
             width: 80
@@ -51,7 +51,7 @@ const ActivityIntervals = ({ navigation, route: { params: { intervals } } }) => 
                     const totalTime = formatTime(interval.endTime, false);
 
                     // Get start date in string
-                    const startDate = new Date(interval.startDate).toLocaleString();
+                    const startDate = new Date(interval.startDate).toLocaleTimeString();
 
                     return (
                         <DataTable.Row key={index}>
@@ -71,7 +71,6 @@ const ActivityIntervals = ({ navigation, route: { params: { intervals } } }) => 
                     numberOfItemsPerPageList={numberOfItemsPerPageList}
                     numberOfItemsPerPage={itemsPerPage}
                     onItemsPerPageChange={onItemsPerPageChange}
-                    showFastPaginationControls
                     selectPageDropdownLabel={'Rows per page'}
                 />
             </DataTable>
