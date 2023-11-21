@@ -1,9 +1,38 @@
 {% extends "track_my_moves/administration.html" %}
 
+{% block charts %}
+{% if currentStats.mostActivities %}
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script type="text/javascript">
+    google.charts.load('current', {'packages':['corechart']});
+    google.charts.setOnLoadCallback(drawChart);
+
+    function drawChart() {
+        const activitiesCount = [["Activity type", "Nb activities"],
+            {% for count in currentStats.activitiesCount %}{{count | safe}},{% endfor %}
+        ];
+        console.log(JSON.stringify(activitiesCount));
+
+        var data = google.visualization.arrayToDataTable(activitiesCount);
+        var options = {
+            title: 'Activity type stats',
+            backgroundColor: "#343a40",
+            titleTextStyle: {color: 'white'},
+            legend: { textStyle: {color: 'white'} },
+                /*is3D: true*/
+            };
+
+        var chart = new google.visualization.PieChart(document.getElementById('activityTypeStats'));
+        chart.draw(data, options);
+    }
+</script>
+{% endif %}
+{% endblock charts %}
+
 {% block title %} Users administration {% endblock title %}
 
 {% block content %}
-<div class="d-flex justify-content-around align-items-center flex-wrap" style="height: 80%;">
+<div class="d-flex justify-content-around align-items-center flex-wrap" style="min-height: 550px;">
     {% include "track_my_moves/userList.html" with accounts=accounts adminId=adminId currentAccount=currentAccount %}
     {% include "track_my_moves/userStats.html" with currentAccount=currentAccount currentStats=currentStats %}
 </div>
