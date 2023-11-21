@@ -12,6 +12,7 @@ const myDarkTheme = {
     primary: '#253BFF',
     background: '#191919',
     card: '#090909',
+    surface: '#252525',
     text: '#E4E4E4',
     border: '#BBB',
     inputFill: '#393939',
