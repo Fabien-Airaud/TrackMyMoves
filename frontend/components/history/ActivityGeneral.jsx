@@ -19,7 +19,6 @@ const ActivityGeneral = ({ navigation, route: { params } }) => {
         page: {
             minHeight: '100%',
             width: '100%',
-            paddingVertical: '5%',
             backgroundColor: colors.background
         },
         text: {
@@ -33,7 +32,7 @@ const ActivityGeneral = ({ navigation, route: { params } }) => {
 
     return (
         <ScrollView style={styles.page}>
-            <View style={{ flexDirection: 'row', marginBottom: 20 }}>
+            <View style={{ flexDirection: 'row' }}>
                 <Avatar.Icon icon={activityType.leadingIcon} size={100} color={colors.text} style={{ backgroundColor: colors.background }} />
                 <View style={{ justifyContent: 'space-evenly' }}>
                     <Text style={[styles.text, { fontSize: fontSizes.xl }]}>{activityType.label}</Text>
@@ -69,8 +68,8 @@ const ActivityGeneral = ({ navigation, route: { params } }) => {
                     />
                 </Surface>
             </List.Section>
-            
-            <Text style={styles.text}>{JSON.stringify(params)}</Text>
+
+            <Text style={styles.text}>{JSON.stringify(params.sensorsIntervals)}</Text>
         </ScrollView>
     );
 };
