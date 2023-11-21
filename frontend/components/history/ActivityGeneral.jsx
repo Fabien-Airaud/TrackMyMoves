@@ -68,8 +68,6 @@ const ActivityGeneral = ({ navigation, route: { params } }) => {
                     />
                 </Surface>
             </List.Section>
-
-            <Text style={styles.text}>{JSON.stringify(params.sensorsIntervals)}</Text>
         </ScrollView>
     );
 };
