@@ -31,7 +31,7 @@
                         <input class="form-check-input" type="checkbox" value="isActive" name="isActive" onchange="submit()" {% if account.user.is_active %}checked{% endif %} {% if account.id == adminId %}disabled{% endif %}>
                     </td>
                     <td>
-                        <input class="btn-check" type="checkbox" value="resetPassword" name="resetPassword" id="resetPwd{{forloop.counter}}" autocomplete="off" disabled>
+                        <input class="btn-check" type="checkbox" value="resetPassword" name="resetPassword" onchange="submit()" id="resetPwd{{forloop.counter}}" autocomplete="off" {% if account.id == adminId %}disabled{% endif %}>
                         <label class="btn" for="resetPwd{{forloop.counter}}" style="--bs-btn-color: var(--bs-danger-text-emphasis); --bs-btn-active-color: var(--bs-danger-border-subtle); --bs-btn-active-border-color: var(--bs-danger-border-subtle);">
                             Reset
                         </label>
