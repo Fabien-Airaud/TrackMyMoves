@@ -12,7 +12,7 @@ const Accordion = ({ content, icon, bottomDivider, children }) => {
     const styles = StyleSheet.create({
         accordion: {
             borderBottomWidth: 2,
-            backgroundColor: colors.inputFill
+            backgroundColor: colors.surface
         }
     });
 
