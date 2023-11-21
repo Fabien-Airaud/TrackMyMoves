@@ -85,11 +85,12 @@ def usersAdminStats(request, accountId):
         if "delete" in request.POST:
             currentAccount.user.delete()
             return HttpResponseRedirect(reverse("usersAdminStats", kwargs={"accountId": adminId}))
+        elif "resetPassword" in request.POST:
+            currentAccount.user.set_password("ResetPassword")
         else:
             currentAccount.user.is_superuser = "isSuperuser" in request.POST
             currentAccount.user.is_active = "isActive" in request.POST
-            print("delete:{}".format("delete" in request.POST))
-            currentAccount.user.save()
+        currentAccount.user.save()
     
     accounts = Account.objects.all()
     
