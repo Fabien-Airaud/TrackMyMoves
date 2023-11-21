@@ -49,29 +49,32 @@ def usersAdmin(request):
     return HttpResponseRedirect(reverse("usersAdminStats", kwargs={"accountId": account.id}))
 
 def getActivitiesCount(activities):
-    activitiesCount = {}
+    activitiesCount = []
     
     for activityType in ActivityTypes.values:
-        activitiesCount[activityType] = activities.filter(activity_type=activityType).count()
+        count = activities.filter(activity_type=activityType).count()
+        if count > 0:
+            activitiesCount.append([activityType.replace('_', ' '), count])
+    
     return activitiesCount
 
-def nbDistinctActivities(activitiesCount):
+def getNbDistinctActivities(activitiesCount):
     nb = 0
     
-    for activityType in activitiesCount.keys():
-        if activitiesCount[activityType] > 0:
+    for count in activitiesCount:
+        if count[1] > 0:
             nb += 1
     return nb
 
-def mostActivities(activitiesCount):
+def getMostActivities(activitiesCount):
     max = 0
     best = ""
     
-    for activityType in activitiesCount.keys():
-        if activitiesCount[activityType] > max:
-            max = activitiesCount[activityType]
-            best = activityType
-    return best.replace('_', ' ')
+    for count in activitiesCount:
+        if count[1] > max:
+            best = count[0]
+            max = count[1]
+    return best
 
 @user_passes_test(adminUser, login_url="logIn")
 def usersAdminStats(request, accountId):
@@ -93,8 +96,8 @@ def usersAdminStats(request, accountId):
     currentStats = {"lastLogin": currentAccount.user.last_login}
     accountActivities = Activity.objects.filter(user_id=accountId)
     currentStats["totalActivities"] = accountActivities.count()
-    activitiesCount = getActivitiesCount(accountActivities)
-    currentStats["distinctActivities"] = nbDistinctActivities(activitiesCount)
-    currentStats["mostActivities"] = mostActivities(activitiesCount)
+    currentStats["activitiesCount"] = getActivitiesCount(accountActivities)
+    currentStats["distinctActivities"] = getNbDistinctActivities(currentStats["activitiesCount"])
+    currentStats["mostActivities"] = getMostActivities(currentStats["activitiesCount"])
     
     return render(request, APP_DIR_PATH + "usersAdmin.html", {"accounts": accounts, "adminId": adminId, "currentAccount": currentAccount, "currentStats": currentStats})
