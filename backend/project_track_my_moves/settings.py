@@ -38,7 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'track_my_moves.apps.TrackMyMovesConfig'
+    'track_my_moves.apps.TrackMyMovesConfig',
+    'rest_framework'
 ]
 
 MIDDLEWARE = [
