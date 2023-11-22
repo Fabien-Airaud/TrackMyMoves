@@ -8,6 +8,7 @@ from rest_framework.response import Response
 
 from .models.account import Account
 from .models.activity import Activity, ActivityTypes
+from .serializers import ActivitySerializer
 
 ####################################################################################################
 #   Partie application
@@ -113,3 +114,11 @@ def usersAdminStats(request, accountId):
 ####################################################################################################
 #   Partie API Rest
 ####################################################################################################
+
+
+class ActivityViewSet(viewsets.ViewSet):
+    def list(self, request):
+        user = request.user
+        activities = Activity.objects.filter(user_id=user.id)
+        serializedActivities = ActivitySerializer(activities, many=True)
+        return Response(serializedActivities.data, status=status.HTTP_200_OK)
