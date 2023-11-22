@@ -3,9 +3,15 @@ from django.shortcuts import render
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import user_passes_test
 from django.urls import reverse
+from rest_framework import status, viewsets
+from rest_framework.response import Response
 
 from .models.account import Account
 from .models.activity import Activity, ActivityTypes
+
+####################################################################################################
+#   Partie application
+####################################################################################################
 
 APP_DIR_PATH = "track_my_moves/"
 
@@ -95,10 +101,15 @@ def usersAdminStats(request, accountId):
     accounts = Account.objects.all()
     
     currentStats = {"lastLogin": currentAccount.user.last_login}
-    accountActivities = Activity.objects.filter(user_id=accountId)
-    currentStats["totalActivities"] = accountActivities.count()
-    currentStats["activitiesCount"] = getActivitiesCount(accountActivities)
+    userActivities = Activity.objects.filter(user_id=currentAccount.user_id)
+    currentStats["totalActivities"] = userActivities.count()
+    currentStats["activitiesCount"] = getActivitiesCount(userActivities)
     currentStats["distinctActivities"] = getNbDistinctActivities(currentStats["activitiesCount"])
     currentStats["mostActivities"] = getMostActivities(currentStats["activitiesCount"])
     
     return render(request, APP_DIR_PATH + "usersAdmin.html", {"accounts": accounts, "adminId": adminId, "currentAccount": currentAccount, "currentStats": currentStats})
+
+
+####################################################################################################
+#   Partie API Rest
+####################################################################################################
