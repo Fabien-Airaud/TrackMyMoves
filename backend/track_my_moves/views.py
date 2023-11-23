@@ -174,6 +174,14 @@ class AccountViewSet(viewsets.ViewSet):
         account = Account.objects.get(id=pk)
         serializer = AccountSerializer(account)
         return Response(serializer.data, status=status.HTTP_200_OK)
+    
+    def update(self, request, pk):
+        account = Account.objects.get(id=pk)
+        serializer = AccountSerializer(account, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class ActivityViewSet(viewsets.ViewSet):
