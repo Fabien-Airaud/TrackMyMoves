@@ -150,6 +150,11 @@ class UserViewSet(viewsets.ViewSet):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+    def destroy(self, request, pk):
+        user = User.objects.get(id=pk)
+        user.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
 
 class ActivityViewSet(viewsets.ViewSet):
