@@ -9,7 +9,10 @@ class AccountSerializer(serializers.ModelSerializer):
 class ActivitySerializer(serializers.ModelSerializer):
     class Meta:
         model = Activity
-        fields = ["id", "activity_type", "start_date", "end_date", "user_id"]
+        fields = '__all__'
+    
+    def create(self, validated_data):
+        return Activity.objects.create(**validated_data)
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
