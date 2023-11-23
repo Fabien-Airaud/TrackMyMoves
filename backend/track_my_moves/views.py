@@ -5,10 +5,12 @@ from django.contrib.auth.decorators import user_passes_test
 from django.urls import reverse
 from rest_framework import status, viewsets
 from rest_framework.response import Response
+from rest_framework.decorators import action
 
-from .models.account import Account
+from .models import Account
 from .models.activity import Activity, ActivityTypes
-from .serializers import ActivitySerializer
+from .models.user import User
+from .serializers import ActivitySerializer, UserSerializer
 
 ####################################################################################################
 #   Partie application
@@ -115,6 +117,11 @@ def usersAdminStats(request, accountId):
 #   Partie API Rest
 ####################################################################################################
 
+class UserViewSet(viewsets.ViewSet):
+    def list(self, request):
+        users = User.objects.all()
+        serializer = UserSerializer(users, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
 class ActivityViewSet(viewsets.ViewSet):
     def list(self, request):
