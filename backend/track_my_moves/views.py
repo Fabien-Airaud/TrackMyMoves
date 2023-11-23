@@ -7,10 +7,10 @@ from rest_framework import status, viewsets
 from rest_framework.response import Response
 from rest_framework.decorators import action
 
-from .models import Account
+from .models.account import Account
 from .models.activity import Activity, ActivityTypes
 from .models.user import User
-from .serializers import ActivitySerializer, UserSerializer
+from .serializers import AccountSerializer, ActivitySerializer, UserSerializer
 
 ####################################################################################################
 #   Partie application
@@ -155,6 +155,13 @@ class UserViewSet(viewsets.ViewSet):
         user = User.objects.get(id=pk)
         user.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class AccountViewSet(viewsets.ViewSet):
+    def list(self, request):
+        accounts = Account.objects.all()
+        serializer = AccountSerializer(accounts, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
 
 class ActivityViewSet(viewsets.ViewSet):
