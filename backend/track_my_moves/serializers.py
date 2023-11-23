@@ -22,3 +22,10 @@ class UserSerializer(serializers.ModelSerializer):
     
     def create(self, validated_data):
         return User.objects.create_user(**validated_data)
+    
+    def update(self, instance, validated_data):
+        instance.email = validated_data.get('email', instance.email)
+        if 'password' in validated_data:
+            instance.set_password(validated_data.get('password'))
+        instance.save()
+        return instance
