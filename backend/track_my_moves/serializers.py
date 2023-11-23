@@ -4,7 +4,10 @@ from .models import Account, Activity, User
 class AccountSerializer(serializers.ModelSerializer):
     class Meta:
         model = Account
-        fields = ["id", "first_name", "last_name", "birthdate", "height", "weight", "country", "user_id"]
+        fields = '__all__'
+    
+    def create(self, validated_data):
+        return Account.objects.create(**validated_data)
 
 class ActivitySerializer(serializers.ModelSerializer):
     class Meta:
