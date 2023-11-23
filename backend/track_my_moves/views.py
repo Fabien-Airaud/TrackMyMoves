@@ -120,5 +120,38 @@ class ActivityViewSet(viewsets.ViewSet):
     def list(self, request):
         user = request.user
         activities = Activity.objects.filter(user_id=user.id)
-        serializedActivities = ActivitySerializer(activities, many=True)
-        return Response(serializedActivities.data, status=status.HTTP_200_OK)
+        serializer = ActivitySerializer(activities, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    
+    def create(self, request):
+        serializer = ActivitySerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+    def retrieve(self, request, pk):
+        activity = Activity.objects.get(id=pk)
+        serializer = ActivitySerializer(activity)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    
+    def update(self, request, pk):
+        activity = Activity.objects.get(id=pk)
+        serializer = ActivitySerializer(activity, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+    def partial_update(self, request, pk):
+        activity = Activity.objects.get(id=pk)
+        serializer = ActivitySerializer(activity, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+    def delete(self, request, pk):
+        activity = Activity.objects.get(id=pk)
+        activity.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
