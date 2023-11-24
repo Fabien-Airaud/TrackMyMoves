@@ -139,6 +139,11 @@ def logInAPIViewDeco(request):
         return Response(serializer.data, status=status.HTTP_200_OK)
     return Response({"message": "Log in failed, please retry"}, status=status.HTTP_200_OK)
 
+@api_view()
+def logOutAPIViewDeco(request):
+    logout(request)
+    return Response({"message": "Log out successed"}, status=status.HTTP_200_OK)
+
 
 class UserViewSet(viewsets.ViewSet):
     def list(self, request):
