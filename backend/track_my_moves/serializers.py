@@ -1,21 +1,6 @@
 from rest_framework import serializers
+from rest_framework.validators import UniqueValidator
 from .models import Account, Activity, User
-
-class AccountSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Account
-        fields = '__all__'
-    
-    def create(self, validated_data):
-        return Account.objects.create(**validated_data)
-
-class ActivitySerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Activity
-        fields = '__all__'
-    
-    def create(self, validated_data):
-        return Activity.objects.create(**validated_data)
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -32,3 +17,23 @@ class UserSerializer(serializers.ModelSerializer):
             instance.set_password(validated_data.get('password'))
         instance.save()
         return instance
+
+class AccountSerializer(serializers.ModelSerializer):
+    user = UserSerializer()
+    
+    class Meta:
+        model = Account
+        fields = '__all__'
+    
+    def create(self, validated_data):
+        user_data = validated_data.pop("user")
+        user = User.objects.create_user(**user_data)
+        return Account.objects.create(**validated_data, user=user)
+
+class ActivitySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Activity
+        fields = '__all__'
+    
+    def create(self, validated_data):
+        return Activity.objects.create(**validated_data)
