@@ -125,6 +125,20 @@ def registerAPIViewDeco(request):
         return Response(serializer.data, status=status.HTTP_201_CREATED)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+@api_view(['POST'])
+def logInAPIViewDeco(request):
+    logInEmail = request.data["email"]
+    logInPassword = request.data["password"]
+    
+    user = authenticate(request, username=logInEmail, password=logInPassword)
+    if user is not None:
+        login(request, user)
+        
+        account = Account.objects.get(user_id=user.id)
+        serializer = AccountSerializer(account)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    return Response({"message": "Log in failed, please retry"}, status=status.HTTP_200_OK)
+
 
 class UserViewSet(viewsets.ViewSet):
     def list(self, request):
