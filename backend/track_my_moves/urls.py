@@ -3,7 +3,7 @@ from rest_framework import routers
 
 from .views import home, logIn, logOut, usersAdmin, usersAdminStats
 from .views import AccountViewSet, ActivityViewSet, UserViewSet
-from .views import registerAPIViewDeco
+from .views import registerAPIViewDeco, logInAPIViewDeco
 
 router = routers.DefaultRouter()
 router.register(r'accounts', AccountViewSet, basename='account')
@@ -18,5 +18,6 @@ urlpatterns = [
     path('usersAdmin', usersAdmin, name='usersAdmin'),
     path('usersAdmin/<int:accountId>', usersAdminStats, name='usersAdminStats'),
     path('api/', include(router.urls)),
-    path('api/register', registerAPIViewDeco, name='api-register')
+    path('api/register', registerAPIViewDeco, name='api-register'),
+    path('api/logIn', logInAPIViewDeco, name='api-logIn')
 ]
