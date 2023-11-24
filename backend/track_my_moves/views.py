@@ -117,6 +117,14 @@ def usersAdminStats(request, accountId):
 #   Partie API Rest
 ####################################################################################################
 
+@api_view(['POST'])
+def registerAPIViewDeco(request):
+    serializer = AccountSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 class UserViewSet(viewsets.ViewSet):
     def list(self, request):
