@@ -5,7 +5,7 @@ from django.contrib.auth.decorators import user_passes_test
 from django.urls import reverse
 from rest_framework import status, viewsets
 from rest_framework.response import Response
-from rest_framework.decorators import action
+from rest_framework.decorators import api_view
 
 from .models.account import Account
 from .models.activity import Activity, ActivityTypes
@@ -117,6 +117,7 @@ def usersAdminStats(request, accountId):
 #   Partie API Rest
 ####################################################################################################
 
+
 class UserViewSet(viewsets.ViewSet):
     def list(self, request):
         users = User.objects.all()
@@ -193,7 +194,9 @@ class AccountViewSet(viewsets.ViewSet):
     
     def destroy(self, request, pk):
         account = Account.objects.get(id=pk)
+        user = account.user
         account.delete()
+        user.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
