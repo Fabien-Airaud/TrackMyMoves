@@ -1,9 +1,20 @@
 from django.urls import path, include
 from rest_framework import routers
+from drf_yasg import openapi
+from drf_yasg.views import get_schema_view
 
 from .views import home, logIn, logOut, usersAdmin, usersAdminStats
 from .views import AccountViewSet, ActivityViewSet, UserViewSet
 from .views import registerAPIViewDeco, logInAPIViewDeco, logOutAPIViewDeco
+
+schema_view = get_schema_view(
+    openapi.Info(
+        title="TrackMyMoves API",
+        default_version="v1.0",
+        description="Description of TrackMyMoves REST API"
+    ),
+    public=True
+)
 
 router = routers.DefaultRouter()
 router.register(r'accounts', AccountViewSet, basename='account')
@@ -20,5 +31,6 @@ urlpatterns = [
     path('api/', include(router.urls)),
     path('api/register', registerAPIViewDeco, name='api-register'),
     path('api/logIn', logInAPIViewDeco, name='api-logIn'),
-    path('api/logOut', logOutAPIViewDeco, name='api-logOut')
+    path('api/logOut', logOutAPIViewDeco, name='api-logOut'),
+    path('swagger', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui')
 ]
