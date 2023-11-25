@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'track_my_moves.apps.TrackMyMovesConfig',
     'rest_framework',
-    "rest_framework.authtoken"
+    "rest_framework.authtoken",
+    "drf_yasg"
 ]
 
 MIDDLEWARE = [
