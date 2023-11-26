@@ -72,7 +72,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'project_track_my_moves.wsgi.application'
+WSGI_APPLICATION = 'project_track_my_moves.wsgi.app'
 
 
 # Database
