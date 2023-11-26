@@ -38,6 +38,25 @@ const LogInForm = () => {
             return false;
         }
 
+        fetch("http://fabienairaud.pythonanywhere.com/TrackMyMoves/api/logIn", {
+            method: "POST",
+            headers: {
+              Accept: "application/json",
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              email: account.emailAddress,
+              password: account.password
+            }),
+        })
+        .then(response => response.json())
+        .then(json => {
+            return console.log(JSON.stringify(json));
+        })
+        .catch(error => {
+            console.error(error);
+        });
+
         dispatch(logInAccount(account));
 
         if (rememberMe) {
