@@ -17,6 +17,7 @@ export const apiAccountSlice = createSlice({
             console.log("Change account: " + JSON.stringify(state))
         },
         removeAccount: (state) => {
+            state.token = null
             state.account = null;
             console.log("Remove account: " + JSON.stringify(state))
         }
