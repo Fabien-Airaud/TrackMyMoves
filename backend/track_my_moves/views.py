@@ -135,7 +135,7 @@ def logInAPIViewDeco(request):
     if user is not None:
         login(request, user)
         
-        token = Token.objects.create(user=user)
+        token, created = Token.objects.get_or_create(user=user)
         account = Account.objects.get(user_id=user.id)
         serializer = AccountSerializer(account)
         return Response({"token": token.key, "account": serializer.data}, status=status.HTTP_200_OK)
