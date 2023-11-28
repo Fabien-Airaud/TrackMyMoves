@@ -5,8 +5,9 @@ from django.contrib.auth.decorators import user_passes_test
 from django.urls import reverse
 from rest_framework import status, viewsets
 from rest_framework.response import Response
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
 from rest_framework.authtoken.models import Token
+from rest_framework.permissions import IsAuthenticated
 
 from .models.account import Account
 from .models.activity import Activity, ActivityTypes
@@ -142,8 +143,13 @@ def logInAPIViewDeco(request):
     return Response({"message": "Log in failed, please retry"}, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view()
+@permission_classes([IsAuthenticated])
 def logOutAPIViewDeco(request):
+    current_token = Token.objects.get(user=request.user)
+    
+    current_token.delete()
     logout(request)
+    print(Token.objects.all())
     return Response({"message": "Log out successed"}, status=status.HTTP_200_OK)
 
 
