@@ -12,6 +12,9 @@ import Input from '../Input';
 import { checkAccount } from './CheckFonctions';
 
 const LogInForm = () => {
+    // Api variables
+    const apiUrl = process.env.EXPO_PUBLIC_API_URL
+
     // Input variables
     const [emailAddress, setEmailAddress] = useState('');
     const [password, setPassword] = useState('');
@@ -38,7 +41,7 @@ const LogInForm = () => {
             return false;
         }
 
-        fetch("http://fabienairaud.pythonanywhere.com/TrackMyMoves/api/logIn", {
+        fetch(apiUrl + "/logIn", {
             method: "POST",
             headers: {
               Accept: "application/json",
