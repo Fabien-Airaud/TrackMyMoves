@@ -14,8 +14,12 @@ import HeightProfile from './HeightProfile';
 import LastNameProfile from './LastNameProfile';
 import PasswordProfile from './PasswordProfile';
 import WeightProfile from './WeightProfile';
+import { removeAccount } from '../../redux/apiAccountSlice';
 
 const Profile = () => {
+    // Api variables
+    const apiUrl = process.env.EXPO_PUBLIC_API_URL
+
     // Logged account stored in redux
     const logAcc = useSelector((state) => state.logIn);
 
@@ -47,6 +51,21 @@ const Profile = () => {
         }
 
         dispatch(logOutAccount());
+
+        fetch(apiUrl + "/logOut", {
+            method: "GET"
+        })
+            .then(response => {
+                if (response.status === 200) {
+                    dispatch(removeAccount());
+                }
+                else {
+                    console.log("Log out failed");
+                }
+            })
+            .catch(error => {
+                console.error(error);
+            });
     }
 
     const dispatchLogOut = () => {
@@ -66,6 +85,7 @@ const Profile = () => {
         await FileSystem.deleteAsync(dirAccountUri, { idempotent: true });
 
         dispatch(deleteAccount({ id: logAcc.id }));
+
         removeLogIn();
     }
 
