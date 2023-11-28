@@ -138,7 +138,7 @@ def logInAPIViewDeco(request):
         token = Token.objects.create(user=user)
         account = Account.objects.get(user_id=user.id)
         serializer = AccountSerializer(account)
-        return Response({"token": token, "account": serializer.data}, status=status.HTTP_200_OK)
+        return Response({"token": token.key, "account": serializer.data}, status=status.HTTP_200_OK)
     return Response({"message": "Log in failed, please retry"}, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view()
