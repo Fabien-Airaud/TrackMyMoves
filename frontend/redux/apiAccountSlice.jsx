@@ -7,6 +7,11 @@ export const apiAccountSlice = createSlice({
         account: null
     },
     reducers: {
+        newAccount: (state, action) => {
+            state.token = action.payload.token;
+            state.account = action.payload.account;
+            console.log("New account: " + JSON.stringify(state))
+        },
         changeAccount: (state, action) => {
             state.account = action.payload;
             console.log("Change account: " + JSON.stringify(state))
@@ -20,6 +25,7 @@ export const apiAccountSlice = createSlice({
 
 
 export const {
+    newAccount,
     changeAccount,
     removeAccount
 } = apiAccountSlice.actions;
