@@ -7,6 +7,7 @@ import { Checkbox, TextInput } from 'react-native-paper';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { logInAccount } from '../../redux/logInSlice';
+import { changeAccount } from '../../redux/apiAccountSlice';
 import Helper from '../Helper';
 import Input from '../Input';
 import { checkAccount } from './CheckFonctions';
@@ -54,7 +55,7 @@ const LogInForm = () => {
         })
         .then(response => response.json())
         .then(json => {
-            return console.log(JSON.stringify(json));
+            dispatch(changeAccount(json));
         })
         .catch(error => {
             console.error(error);
