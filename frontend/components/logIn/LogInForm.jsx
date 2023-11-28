@@ -6,8 +6,8 @@ import { Text, View } from 'react-native';
 import { Checkbox, TextInput } from 'react-native-paper';
 import { useDispatch, useSelector } from 'react-redux';
 
+import { newAccount } from '../../redux/apiAccountSlice';
 import { logInAccount } from '../../redux/logInSlice';
-import { changeAccount } from '../../redux/apiAccountSlice';
 import Helper from '../Helper';
 import Input from '../Input';
 import { checkAccount } from './CheckFonctions';
@@ -45,21 +45,20 @@ const LogInForm = () => {
         fetch(apiUrl + "/logIn", {
             method: "POST",
             headers: {
-              Accept: "application/json",
-              "Content-Type": "application/json",
+                Accept: "application/json",
+                "Content-Type": "application/json",
             },
             body: JSON.stringify({
-              email: account.emailAddress,
-              password: account.password
+                email: account.emailAddress,
+                password: account.password
             }),
         })
-        .then(response => response.json())
-        .then(json => {
-            dispatch(changeAccount(json));
-        })
-        .catch(error => {
-            console.error(error);
-        });
+            .then(response => response.json())
+            .then(json => {
+                if (json.message) console.log(json.message); // Erreur requête
+                else dispatch(newAccount(json));
+            })
+            .catch(error => console.error(error));
 
         dispatch(logInAccount(account));
 
