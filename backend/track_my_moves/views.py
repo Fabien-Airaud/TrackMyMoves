@@ -6,6 +6,7 @@ from django.urls import reverse
 from rest_framework import status, viewsets
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
+from rest_framework.authtoken.models import Token
 
 from .models.account import Account
 from .models.activity import Activity, ActivityTypes
@@ -134,9 +135,10 @@ def logInAPIViewDeco(request):
     if user is not None:
         login(request, user)
         
+        token = Token.objects.create(user=user)
         account = Account.objects.get(user_id=user.id)
         serializer = AccountSerializer(account)
-        return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response({"token": token, "account": serializer.data}, status=status.HTTP_200_OK)
     return Response({"message": "Log in failed, please retry"}, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view()
