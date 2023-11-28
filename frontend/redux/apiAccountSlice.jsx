@@ -9,14 +9,19 @@ export const apiAccountSlice = createSlice({
     reducers: {
         changeAccount: (state, action) => {
             state.account = action.payload;
-            console.log(JSON.stringify(state))
+            console.log("Change account: " + JSON.stringify(state))
+        },
+        removeAccount: (state) => {
+            state.account = null;
+            console.log("Remove account: " + JSON.stringify(state))
         }
     }
 });
 
 
 export const {
-    changeAccount
+    changeAccount,
+    removeAccount
 } = apiAccountSlice.actions;
 
 export default apiAccountSlice.reducer;
