@@ -198,22 +198,22 @@ class UserViewSet(viewsets.ViewSet):
 
 
 class AccountViewSet(viewsets.ViewSet):
-    def list(self, request):
-        accounts = Account.objects.all()
-        serializer = AccountSerializer(accounts, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
+    # def list(self, request):
+    #     accounts = Account.objects.all()
+    #     serializer = AccountSerializer(accounts, many=True)
+    #     return Response(serializer.data, status=status.HTTP_200_OK)
     
-    def create(self, request):
-        serializer = AccountSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    # def create(self, request):
+    #     serializer = AccountSerializer(data=request.data)
+    #     if serializer.is_valid():
+    #         serializer.save()
+    #         return Response(serializer.data, status=status.HTTP_201_CREATED)
+    #     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
-    def retrieve(self, request, pk):
-        account = Account.objects.get(id=pk)
-        serializer = AccountSerializer(account)
-        return Response(serializer.data, status=status.HTTP_200_OK)
+    # def retrieve(self, request, pk):
+    #     account = Account.objects.get(id=pk)
+    #     serializer = AccountSerializer(account)
+    #     return Response(serializer.data, status=status.HTTP_200_OK)
     
     def update(self, request, pk):
         account = Account.objects.get(id=pk)
