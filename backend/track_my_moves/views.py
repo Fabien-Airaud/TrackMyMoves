@@ -153,7 +153,6 @@ def logOutAPIViewDeco(request):
     
     current_token.delete()
     logout(request)
-    print(Token.objects.all())
     return Response({"message": "Log out successed"}, status=status.HTTP_200_OK)
 
 
