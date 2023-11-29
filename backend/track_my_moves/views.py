@@ -244,6 +244,8 @@ class AccountViewSet(viewsets.ViewSet):
 
 
 class ActivityViewSet(viewsets.ViewSet):
+    permission_classes = [IsAuthenticated]
+    
     def list(self, request):
         user = request.user
         activities = Activity.objects.filter(user_id=user.id)
