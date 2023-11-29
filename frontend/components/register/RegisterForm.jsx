@@ -1,17 +1,21 @@
 import { useTheme } from '@react-navigation/native';
 import { Button } from '@rneui/themed';
 import { useState } from 'react';
-import { Alert, StyleSheet, Text, View } from 'react-native';
-import { Checkbox, TextInput } from 'react-native-paper';
+import { Alert, StyleSheet, View } from 'react-native';
+import { TextInput } from 'react-native-paper';
 import { DatePickerInput } from 'react-native-paper-dates';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { createAccount } from '../../redux/accountSlice';
+import { dateToStringAPIDate } from '../APIFunctions';
 import Helper from '../Helper';
 import Input from '../Input';
 import { usedEmail } from './CheckFonctions';
 
 const RegisterForm = ({ navigation }) => {
+    // Api variables
+    const apiUrl = process.env.EXPO_PUBLIC_API_URL
+
     // Input variables
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
@@ -60,6 +64,33 @@ const RegisterForm = ({ navigation }) => {
                 country: country
             })
         );
+
+        fetch(apiUrl + "/register", {
+            method: "POST",
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                user: {
+                    email: emailAddress,
+                    password: password
+                },
+                first_name: firstName,
+                last_name: lastName,
+                birthdate: dateToStringAPIDate(birthdate),
+                height: height,
+                weight: weight,
+                country: country
+            }),
+        })
+            .then(response => response.json())
+            .then(json => {
+                if (json.errors) console.log(JSON.stringify(json.errors)); // Erreur requête
+                else console.log(JSON.stringify(json));
+            })
+            .catch(error => console.error(error));
+
         navigation.navigate('LogIn');
         Alert.alert(
             'Register',
