@@ -141,10 +141,10 @@ def logInAPIViewDeco(request):
         serializer = AccountSerializer(account)
         return Response({"token": token.key, "account": serializer.data}, status=status.HTTP_200_OK)
     
-    testUser = User.objects.get(email=logInEmail)
-    if testUser:
-        return Response({'errors': {'password': ['Enter a valid password.']}}, status=status.HTTP_400_BAD_REQUEST)
-    return Response({'errors': {'email': ['Enter a valid e-mail address.']}}, status=status.HTTP_400_BAD_REQUEST)
+    users = User.objects.filter(email=logInEmail)
+    if users.count() == 0: # wrong email => 0 user found
+        return Response({'errors': {'email': ['Enter a valid e-mail address.']}}, status=status.HTTP_400_BAD_REQUEST)
+    return Response({'errors': {'password': ['Enter a valid password.']}}, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view()
 @permission_classes([IsAuthenticated])
