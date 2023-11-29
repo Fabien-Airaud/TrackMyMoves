@@ -55,7 +55,7 @@ const LogInForm = () => {
         })
             .then(response => response.json())
             .then(json => {
-                if (json.message) console.log(json.message); // Erreur requête
+                if (json.errors) console.log(JSON.stringify(json.errors)); // Erreur requête
                 else dispatch(newAccount(json));
             })
             .catch(error => console.error(error));
