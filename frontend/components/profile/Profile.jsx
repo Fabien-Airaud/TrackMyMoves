@@ -22,6 +22,7 @@ const Profile = () => {
 
     // Logged account stored in redux
     const logAcc = useSelector((state) => state.logIn);
+    const apiAccount = useSelector((state) => state.apiAccount);
 
     // Style variables
     const { colors } = useTheme();
@@ -53,7 +54,10 @@ const Profile = () => {
         dispatch(logOutAccount());
 
         fetch(apiUrl + "/logOut", {
-            method: "GET"
+            method: "GET",
+            headers: {
+                Authorization: "token " + apiAccount.token
+            }
         })
             .then(response => {
                 if (response.status === 200) {
