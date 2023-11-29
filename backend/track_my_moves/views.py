@@ -233,6 +233,9 @@ class AccountViewSet(viewsets.ViewSet):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
     def destroy(self, request, pk):
+        current_token = Token.objects.get(user=request.user)
+        current_token.delete()
+        
         account = Account.objects.get(id=pk)
         user = account.user
         account.delete()
