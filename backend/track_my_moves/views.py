@@ -198,6 +198,8 @@ class UserViewSet(viewsets.ViewSet):
 
 
 class AccountViewSet(viewsets.ViewSet):
+    permission_classes = [IsAuthenticated]
+    
     # def list(self, request):
     #     accounts = Account.objects.all()
     #     serializer = AccountSerializer(accounts, many=True)
