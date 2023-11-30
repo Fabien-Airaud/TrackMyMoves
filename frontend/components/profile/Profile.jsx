@@ -99,7 +99,7 @@ const Profile = () => {
 
     return (
         <ScrollView contentContainerStyle={{ alignItems: 'center' }} style={styles.page}>
-            <FirstNameProfile id={apiAccount.account.id} data={apiAccount.account.first_name} />
+            <FirstNameProfile/>
             <LastNameProfile id={apiAccount.account.id} data={apiAccount.account.last_name} />
             <EmailProfile id={apiAccount.account.id} data={apiAccount.account.user.email} />
             <PasswordProfile id={apiAccount.account.id} />
