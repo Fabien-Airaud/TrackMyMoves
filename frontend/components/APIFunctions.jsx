@@ -2,14 +2,14 @@ const apiUrl = process.env.EXPO_PUBLIC_API_URL;
 
 export const dateToStringAPIDate = (date) => {
     let stringAPIDate = "";
-    new Date().getUTCDate;
+
     stringAPIDate += date.getFullYear();
     stringAPIDate += "-";
     stringAPIDate += date.getMonth() + 1;
     stringAPIDate += "-";
     stringAPIDate += date.getDate();
     return stringAPIDate;
-}
+};
 
 export const registerAPI = async (email, password, first_name, last_name, birthdate, height, weight, country) => {
     let helpers = undefined;
@@ -18,7 +18,7 @@ export const registerAPI = async (email, password, first_name, last_name, birthd
         method: "POST",
         headers: {
             Accept: "application/json",
-            "Content-Type": "application/json",
+            "Content-Type": "application/json"
         },
         body: JSON.stringify({
             user: {
@@ -36,7 +36,7 @@ export const registerAPI = async (email, password, first_name, last_name, birthd
 
     if (!response.ok) helpers = await response.json();
     return helpers;
-}
+};
 
 export const logInAPI = async (email, password) => {
     let data = {};
@@ -45,7 +45,7 @@ export const logInAPI = async (email, password) => {
         method: "POST",
         headers: {
             Accept: "application/json",
-            "Content-Type": "application/json",
+            "Content-Type": "application/json"
         },
         body: JSON.stringify({
             email: email,
@@ -56,4 +56,18 @@ export const logInAPI = async (email, password) => {
     if (response.ok) data.ok = await response.json();
     else data.helpers = await response.json();
     return data;
-}
+};
+
+export const retrieveAccountAPI = async (token, id) => {
+    let account = undefined;
+
+    const response = await fetch(apiUrl + "/accounts/" + id, {
+        method: "GET",
+        headers: {
+            Authorization: "token " + token
+        }
+    });
+
+    if (response.ok) account = await response.json();
+    return account;
+};
