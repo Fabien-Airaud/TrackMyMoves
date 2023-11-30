@@ -211,10 +211,12 @@ class AccountViewSet(viewsets.ViewSet):
     #         return Response(serializer.data, status=status.HTTP_201_CREATED)
     #     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
-    # def retrieve(self, request, pk):
-    #     account = Account.objects.get(id=pk)
-    #     serializer = AccountSerializer(account)
-    #     return Response(serializer.data, status=status.HTTP_200_OK)
+    def retrieve(self, request, pk):
+        """Retrieve the current account (ignore id in request)"""
+        
+        account = Account.objects.get(user_id=request.user.id)
+        serializer = AccountSerializer(account)
+        return Response(serializer.data, status=status.HTTP_200_OK)
     
     def update(self, request, pk):
         account = Account.objects.get(id=pk)
