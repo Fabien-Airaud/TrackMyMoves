@@ -45,6 +45,7 @@ const RegisterForm = ({ navigation }) => {
             .then(data => {
                 if (data) setHelpers(data);
                 else {
+                    setHelpers(undefined);
                     navigation.navigate('LogIn');
                     Alert.alert(
                         'Register',
