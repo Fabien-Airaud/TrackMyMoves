@@ -1,5 +1,6 @@
 from rest_framework import serializers
-from rest_framework.validators import UniqueValidator
+import datetime
+
 from .models import Account, Activity, User
 
 class UserSerializer(serializers.ModelSerializer):
@@ -24,6 +25,14 @@ class AccountSerializer(serializers.ModelSerializer):
     class Meta:
         model = Account
         fields = '__all__'
+    
+    def validate_birthdate(self, value):
+        """
+        Check if the birdate is before today
+        """
+        if value < datetime.date.today():
+            raise serializers.ValidationError("you were already born, you will not be born")
+        return value
     
     def create(self, validated_data):
         user_data = validated_data.pop("user")
