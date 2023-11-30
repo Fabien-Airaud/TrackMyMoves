@@ -18,10 +18,10 @@ import { removeAccount } from '../../redux/apiAccountSlice';
 
 const Profile = () => {
     // Api variables
-    const apiUrl = process.env.EXPO_PUBLIC_API_URL
+    // const apiUrl = process.env.EXPO_PUBLIC_API_URL
 
     // Logged account stored in redux
-    const logAcc = useSelector((state) => state.logIn);
+    // const logAcc = useSelector((state) => state.logIn);
     const apiAccount = useSelector((state) => state.apiAccount);
 
     // Style variables
@@ -43,7 +43,7 @@ const Profile = () => {
     // Dispatch account
     const dispatch = useDispatch();
 
-    const removeLogIn = async () => {
+    const logOut = async () => {
         const logInFileURI = FileSystem.documentDirectory + 'logIn.json';
         const fileInfo = await FileSystem.getInfoAsync(logInFileURI);
 
@@ -58,18 +58,14 @@ const Profile = () => {
             }
         })
             .then(response => {
-                if (response.status === 200) {
-                    dispatch(removeAccount());
-                }
-                else {
-                    console.log("Log out failed");
-                }
+                if (response.status === 200) dispatch(removeAccount());
+                else console.log("Log out failed");
             })
             .catch(error => {
                 console.error(error);
             });
 
-        dispatch(logOutAccount());
+        // dispatch(logOutAccount());
     }
 
     const dispatchLogOut = () => {
@@ -77,7 +73,7 @@ const Profile = () => {
             'Log out',
             'Are you sure you want to log out?',
             [
-                { text: 'Log out', onPress: () => removeLogIn() },
+                { text: 'Log out', onPress: () => logOut() },
                 { text: 'Cancel' }
             ],
             { cancelable: true }
@@ -85,12 +81,12 @@ const Profile = () => {
     };
 
     const deleteCurrentAccount = async () => {
-        const dirAccountUri = FileSystem.documentDirectory + logAcc.id;
+        const dirAccountUri = FileSystem.documentDirectory + apiAccount.account.id;
         await FileSystem.deleteAsync(dirAccountUri, { idempotent: true });
 
-        dispatch(deleteAccount({ id: logAcc.id }));
+        // dispatch(deleteAccount({ id: logAcc.id }));
 
-        removeLogIn();
+        logOut();
     }
 
     const dispatchDeleteAccount = () => {
@@ -110,16 +106,16 @@ const Profile = () => {
 
     return (
         <ScrollView contentContainerStyle={{ alignItems: 'center' }} style={styles.page}>
-            <FirstNameProfile id={logAcc.id} data={logAcc.firstName} />
-            <LastNameProfile id={logAcc.id} data={logAcc.lastName} />
-            <EmailProfile id={logAcc.id} data={logAcc.emailAddress} />
-            <PasswordProfile id={logAcc.id} data={logAcc.password} />
-            <BirthdateProfile id={logAcc.id} data={logAcc.birthdate} />
-            <HeightProfile id={logAcc.id} data={logAcc.height} />
-            <WeightProfile id={logAcc.id} data={logAcc.weight} />
-            <CountryProfile id={logAcc.id} data={logAcc.country} />
-            <Button title='Log out' onPress={() => dispatchLogOut()} size='md' radius='sm' color={colors.error} titleStyle={{ fontWeight: 'bold' }} containerStyle={styles.outButton} />
-            <Button title='Delete account' onPress={() => dispatchDeleteAccount()} size='md' radius='sm' color={colors.error} titleStyle={{ fontWeight: 'bold' }} containerStyle={styles.outButton} />
+            <FirstNameProfile id={apiAccount.account.id} data={apiAccount.account.first_name} />
+            <LastNameProfile id={apiAccount.account.id} data={apiAccount.account.last_name} />
+            <EmailProfile id={apiAccount.account.id} data={apiAccount.account.user.email} />
+            <PasswordProfile id={apiAccount.account.id} />
+            <BirthdateProfile id={apiAccount.account.id} data={new Date(apiAccount.account.birthdate)} />
+            <HeightProfile id={apiAccount.account.id} data={"" + apiAccount.account.height} />
+            <WeightProfile id={apiAccount.account.id} data={"" + apiAccount.account.weight} />
+            <CountryProfile id={apiAccount.account.id} data={apiAccount.account.country} />
+            {/* <Button title='Log out' onPress={() => dispatchLogOut()} size='md' radius='sm' color={colors.error} titleStyle={{ fontWeight: 'bold' }} containerStyle={styles.outButton} /> */}
+            {/* <Button title='Delete account' onPress={() => dispatchDeleteAccount()} size='md' radius='sm' color={colors.error} titleStyle={{ fontWeight: 'bold' }} containerStyle={styles.outButton} /> */}
         </ScrollView>
     );
 };
