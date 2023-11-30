@@ -61,7 +61,7 @@ export const logInAPI = async (email, password) => {
 export const retrieveAccountAPI = async (token, id) => {
     let account = undefined;
 
-    const response = await fetch(apiUrl + "/accounts/" + id, {
+    const response = await fetch(apiUrl + "/accounts/" + id + "/", {
         method: "GET",
         headers: {
             Authorization: "token " + token
@@ -83,5 +83,22 @@ export const logOutAPI = async (token) => {
     });
 
     if (!response.ok) message = "Log out failed";
+    return message;
+};
+
+export const deleteAccountAPI = async (token, id) => {
+    let message = undefined;
+
+    const response = await fetch(apiUrl + "/accounts/" + id + "/", {
+        method: "DELETE",
+        headers: {
+            Authorization: "token " + token
+        }
+    });
+
+    if (!response.ok) {
+        json = await response.json();
+        message = json?.message ? json.message : "Delete account failed: " + response.status;
+    }
     return message;
 };
