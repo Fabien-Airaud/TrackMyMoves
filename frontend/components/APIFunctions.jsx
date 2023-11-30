@@ -102,6 +102,24 @@ export const retrieveAccountAPI = async (token, id) => {
     return account;
 };
 
+export const patchAccountAPI = async (token, id, body) => {
+    let data = {};
+
+    const response = await fetch(apiUrl + "/accounts/" + id + "/", {
+        method: "PATCH",
+        headers: {
+            Authorization: "token " + token,
+            Accept: "application/json",
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(body),
+    });
+
+    if (response.ok) data.ok = await response.json();
+    else data.helpers = await response.json();
+    return data;
+};
+
 export const deleteAccountAPI = async (token, id) => {
     let message = undefined;
 
