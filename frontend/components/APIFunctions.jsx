@@ -31,9 +31,29 @@ export const registerAPI = async (email, password, first_name, last_name, birthd
             height: height,
             weight: weight,
             country: country
-        }),
+        })
     });
 
     if (!response.ok) helpers = await response.json();
     return helpers;
+}
+
+export const logInAPI = async (email, password) => {
+    let data = {};
+
+    const response = await fetch(apiUrl + "/logIn", {
+        method: "POST",
+        headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            email: email,
+            password: password
+        }),
+    });
+
+    if (response.ok) data.ok = await response.json();
+    else data.helpers = await response.json();
+    return data;
 }
