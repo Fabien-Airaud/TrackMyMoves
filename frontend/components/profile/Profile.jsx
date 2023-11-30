@@ -51,8 +51,6 @@ const Profile = () => {
             await FileSystem.deleteAsync(logInFileURI).catch(() => console.log('Failed to delete logInFile'));
         }
 
-        dispatch(logOutAccount());
-
         fetch(apiUrl + "/logOut", {
             method: "GET",
             headers: {
@@ -70,6 +68,8 @@ const Profile = () => {
             .catch(error => {
                 console.error(error);
             });
+
+        dispatch(logOutAccount());
     }
 
     const dispatchLogOut = () => {
