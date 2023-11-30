@@ -71,3 +71,17 @@ export const retrieveAccountAPI = async (token, id) => {
     if (response.ok) account = await response.json();
     return account;
 };
+
+export const logOutAPI = async (token) => {
+    let message = undefined;
+
+    const response = await fetch(apiUrl + "/logOut", {
+        method: "GET",
+        headers: {
+            Authorization: "token " + token
+        }
+    });
+
+    if (!response.ok) message = await response.json().message;
+    return message;
+};
