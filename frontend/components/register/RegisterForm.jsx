@@ -84,7 +84,7 @@ const RegisterForm = ({ navigation }) => {
             <Helper visible={helpers?.country != undefined} message={helpers?.country ? helpers?.country[0] : ""} />
 
             <Button title='Register' disabled={disableRegister()} onPress={register} size='md' radius='sm' titleStyle={{ fontWeight: 'bold' }} disabledTitleStyle={{ color: colors.placeholder }} disabledStyle={{ backgroundColor: colors.inputFill }} containerStyle={{ marginHorizontal: '5%', marginTop: '5%' }} />
-            <Helper visible={disableRegister() || helpers} message={(password !== confirmPassword) ? 'password and password confirmation should be the same' : 'all the inputs should be correctly filled.'} justifyContent='center' />
+            <Helper visible={disableRegister()} message={(password !== confirmPassword) ? 'password and password confirmation should be the same' : 'all the inputs should be correctly filled.'} justifyContent='center' />
         </View>
     );
 };
