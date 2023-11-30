@@ -30,7 +30,7 @@ class AccountSerializer(serializers.ModelSerializer):
         """
         Check if the birdate is before today
         """
-        if value < datetime.date.today():
+        if value > datetime.date.today():
             raise serializers.ValidationError("you were already born, you will not be born")
         return value
     
