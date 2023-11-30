@@ -11,6 +11,10 @@ export const dateToStringAPIDate = (date) => {
     return stringAPIDate;
 };
 
+
+/* ----------------------------------------------------------------------------------------------------
+    register
+---------------------------------------------------------------------------------------------------- */
 export const registerAPI = async (email, password, first_name, last_name, birthdate, height, weight, country) => {
     let helpers = undefined;
 
@@ -38,6 +42,10 @@ export const registerAPI = async (email, password, first_name, last_name, birthd
     return helpers;
 };
 
+
+/* ----------------------------------------------------------------------------------------------------
+    logIn
+---------------------------------------------------------------------------------------------------- */
 export const logInAPI = async (email, password) => {
     let data = {};
 
@@ -58,20 +66,10 @@ export const logInAPI = async (email, password) => {
     return data;
 };
 
-export const retrieveAccountAPI = async (token, id) => {
-    let account = undefined;
 
-    const response = await fetch(apiUrl + "/accounts/" + id + "/", {
-        method: "GET",
-        headers: {
-            Authorization: "token " + token
-        }
-    });
-
-    if (response.ok) account = await response.json();
-    return account;
-};
-
+/* ----------------------------------------------------------------------------------------------------
+    logOut
+---------------------------------------------------------------------------------------------------- */
 export const logOutAPI = async (token) => {
     let message = undefined;
 
@@ -84,6 +82,24 @@ export const logOutAPI = async (token) => {
 
     if (!response.ok) message = "Log out failed";
     return message;
+};
+
+
+/* ----------------------------------------------------------------------------------------------------
+    accounts
+---------------------------------------------------------------------------------------------------- */
+export const retrieveAccountAPI = async (token, id) => {
+    let account = undefined;
+
+    const response = await fetch(apiUrl + "/accounts/" + id + "/", {
+        method: "GET",
+        headers: {
+            Authorization: "token " + token
+        }
+    });
+
+    if (response.ok) account = await response.json();
+    return account;
 };
 
 export const deleteAccountAPI = async (token, id) => {
