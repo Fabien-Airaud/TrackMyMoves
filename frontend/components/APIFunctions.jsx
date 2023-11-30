@@ -82,6 +82,6 @@ export const logOutAPI = async (token) => {
         }
     });
 
-    if (!response.ok) message = await response.json().message;
+    if (!response.ok) message = "Log out failed";
     return message;
 };
