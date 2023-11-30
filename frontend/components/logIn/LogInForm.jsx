@@ -59,7 +59,7 @@ const LogInForm = () => {
             </View>
 
             <Button title='Log in' disabled={disableLogIn()} onPress={logIn} size='md' radius='sm' titleStyle={{ fontWeight: 'bold' }} disabledTitleStyle={{ color: colors.placeholder }} disabledStyle={{ backgroundColor: colors.inputFill }} containerStyle={{ marginHorizontal: '5%', marginTop: '5%' }} />
-            <Helper visible={disableLogIn() || helpers} message={helpers ? JSON.stringify(helpers) : 'All the inputs should be correctly filled.'} justifyContent='center' />
+            <Helper visible={disableLogIn() || helpers} message={helpers ? helpers.message : 'All the inputs should be correctly filled.'} justifyContent='center' />
         </View>
     );
 };
