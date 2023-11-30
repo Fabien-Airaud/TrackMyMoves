@@ -2,15 +2,18 @@ import { useTheme } from '@react-navigation/native';
 import { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { IconButton, TextInput } from 'react-native-paper';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
-import { updateFirstName } from '../../redux/accountSlice';
-import { updateLogFirstName } from '../../redux/logInSlice';
+import { changeAccount } from '../../redux/apiAccountSlice';
+import { patchAccountAPI } from '../APIFunctions';
 
-const FirstNameProfile = ({ id, data }) => {
+const FirstNameProfile = () => {
+    // Logged account stored in redux
+    const apiAccount = useSelector((state) => state.apiAccount);
+
     // state variables
     const [edit, setEdit] = useState(false);
-    const [value, setValue] = useState(data);
+    const [value, setValue] = useState(apiAccount.account.first_name);
 
     // Style variables
     const { colors, fontSizes } = useTheme();
@@ -33,18 +36,24 @@ const FirstNameProfile = ({ id, data }) => {
         }
     });
 
+
     // Dispatch account
     const dispatch = useDispatch();
 
-    const dispatchFirstName = () => {
-        if (data !== value) {
-            dispatch(
-                updateFirstName({
-                    id: id,
-                    firstName: value
+    const updateFirstName = () => {
+        if (apiAccount.account.first_name !== value) {
+            patchAccountAPI(apiAccount.token, apiAccount.account.id, { first_name: value })
+                .then(data => {
+                    if (data.ok) {
+                        // setHelpers(undefined);
+                        dispatch(changeAccount(data.ok));
+                    }
+                    else {
+                        console.log(data.helpers);
+                        // setHelpers(data.helpers);
+                    }
                 })
-            );
-            dispatch(updateLogFirstName(value));
+                .catch(console.error);
         }
         setEdit(false);
     };
@@ -64,8 +73,8 @@ const FirstNameProfile = ({ id, data }) => {
             <View style={[styles.view, { paddingHorizontal: 5, width: 3 * fontSizes.sm }]}>
                 {edit ?
                     <>
-                        <IconButton icon='check-bold' onPress={() => dispatchFirstName()} iconColor={colors.text} containerColor={colors.success} size={fontSizes.sm} />
-                        <IconButton icon='close-thick' onPress={() => { setEdit(false); setValue(data); }} iconColor={colors.text} containerColor={colors.error} size={fontSizes.sm} />
+                        <IconButton icon='check-bold' onPress={updateFirstName} iconColor={colors.text} containerColor={colors.success} size={fontSizes.sm} />
+                        <IconButton icon='close-thick' onPress={() => { setEdit(false); setValue(apiAccount.account.first_name); }} iconColor={colors.text} containerColor={colors.error} size={fontSizes.sm} />
                     </>
                     : <IconButton icon='pencil' onPress={() => setEdit(true)} iconColor={colors.text} containerColor={colors.primary} size={fontSizes.sm} />
                 }
