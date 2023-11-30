@@ -26,14 +26,6 @@ class AccountSerializer(serializers.ModelSerializer):
         model = Account
         fields = '__all__'
     
-    def validate_birthdate(self, value):
-        """
-        Check if the birdate is before today
-        """
-        if value > datetime.date.today():
-            raise serializers.ValidationError("you were already born, you will not be born")
-        return value
-    
     def create(self, validated_data):
         user_data = validated_data.pop("user")
         user = User.objects.create_user(**user_data)
