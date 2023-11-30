@@ -1,5 +1,6 @@
 import { useTheme } from '@react-navigation/native';
 import { Button } from '@rneui/themed';
+import * as FileSystem from 'expo-file-system';
 import { useState } from 'react';
 import { Text, View } from 'react-native';
 import { Checkbox, TextInput } from 'react-native-paper';
@@ -35,17 +36,17 @@ const LogInForm = () => {
                 if (data.ok) {
                     setHelpers(undefined);
                     dispatch(newAccount(data.ok));
+
+                    if (rememberMe) {
+                        const logInFileURI = FileSystem.documentDirectory + 'logIn.json';
+                        FileSystem.writeAsStringAsync(logInFileURI, data.ok.token).catch(() => console.log('Failed to create logIn file'));
+                    }
                 }
                 else {
                     setHelpers(data.helpers);
                 }
             })
             .catch(console.error);
-
-        //  if (rememberMe) {
-        //      const logInFileURI = FileSystem.documentDirectory + 'logIn.json';
-        //      await FileSystem.writeAsStringAsync(logInFileURI, account.id).catch(() => console.log('Failed to create logInFile'));
-        //  }
     };
 
     return (
