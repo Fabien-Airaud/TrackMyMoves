@@ -1,25 +1,21 @@
-import { useTheme } from '@react-navigation/native';
+import { useFocusEffect, useTheme } from '@react-navigation/native';
 import { Button } from '@rneui/themed';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Alert, StyleSheet, View } from 'react-native';
 import { TextInput } from 'react-native-paper';
 import { DatePickerInput } from 'react-native-paper-dates';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 import { createAccount } from '../../redux/accountSlice';
-import { dateToStringAPIDate } from '../APIFunctions';
+import { dateToStringAPIDate, registerAPI } from '../APIFunctions';
 import Helper from '../Helper';
 import Input from '../Input';
-import { usedEmail } from './CheckFonctions';
 
 const RegisterForm = ({ navigation }) => {
-    // Api variables
-    const apiUrl = process.env.EXPO_PUBLIC_API_URL
-
     // Input variables
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
-    const [emailAddress, setEmailAddress] = useState('');
+    const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [securedPassword, setSecuredPassword] = useState(true);
     const [confirmPassword, setConfirmPassword] = useState('');
@@ -28,7 +24,7 @@ const RegisterForm = ({ navigation }) => {
     const [height, setHeight] = useState(undefined);
     const [weight, setWeight] = useState(undefined);
     const [country, setCountry] = useState('');
-
+    const [helpers, setHelpers] = useState(undefined);
 
     // Style variables
     const { colors } = useTheme();
@@ -40,69 +36,37 @@ const RegisterForm = ({ navigation }) => {
         }
     });
 
-    // Accounts stored in redux
-    const accounts = useSelector((state) => state.accounts);
 
     // Check function to disable the register button
     const disableRegister = () => {
-        return usedEmail(accounts, emailAddress) || (firstName == '') || (lastName == '') || (emailAddress == '') || (password == '') || (password !== confirmPassword) || (birthdate == undefined) || (height == undefined) || (weight == undefined) || (country == '');
+        return (firstName == '') || (lastName == '') || (email == '') || (password == '') || (password !== confirmPassword) || (birthdate == undefined) || (height == undefined) || (weight == undefined) || (country == '');
     };
 
-    // Dispatch account
-    const dispatch = useDispatch();
+    const helpersVisible = () => {
+        return disableRegister() || helpers;
+    }
 
-    const dispatchAccount = () => {
-        dispatch(
-            createAccount({
-                firstName: firstName,
-                lastName: lastName,
-                emailAddress: emailAddress,
-                password: password,
-                birthdate: birthdate.toISOString(),
-                height: height,
-                weight: weight,
-                country: country
+    const register = () => {
+        registerAPI(email, password, firstName, lastName, birthdate, height, weight, country)
+            .then(data => {
+                if (data) setHelpers(data);
+                else {
+                    setHelpers(undefined);
+                    navigation.navigate('LogIn');
+                    Alert.alert(
+                        'Register',
+                        'Account created, please log in'
+                    );
+                }
             })
-        );
-
-        fetch(apiUrl + "/register", {
-            method: "POST",
-            headers: {
-                Accept: "application/json",
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                user: {
-                    email: emailAddress,
-                    password: password
-                },
-                first_name: firstName,
-                last_name: lastName,
-                birthdate: dateToStringAPIDate(birthdate),
-                height: height,
-                weight: weight,
-                country: country
-            }),
-        })
-            .then(response => response.json())
-            .then(json => {
-                if (json.errors) console.log(JSON.stringify(json.errors)); // Erreur requête
-                else console.log(JSON.stringify(json));
-            })
-            .catch(error => console.error(error));
-
-        navigation.navigate('LogIn');
-        Alert.alert(
-            'Register',
-            'Account created, please log in'
-        );
+            .catch(console.error);
     };
 
     return (
         <View style={{ width: '80%' }}>
             <Input label='First name' placeholder='Enter your first name' onChangeText={text => setFirstName(text)} inputMode='text' />
             <Input label='Last name' placeholder='Enter your last name' onChangeText={text => setLastName(text)} inputMode='text' />
-            <Input label='Email address' placeholder='Enter your email address' onChangeText={text => setEmailAddress(text)} inputMode='email' />
+            <Input label='Email address' placeholder='Enter your email address' onChangeText={text => setEmail(text)} inputMode='email' />
             <Input label='Password' placeholder='Enter your password' secureTextEntry={securedPassword} onChangeText={text => setPassword(text)} inputMode='text' right={<TextInput.Icon icon={securedPassword ? 'eye' : 'eye-off'} onPress={() => setSecuredPassword(!securedPassword)} color={colors.placeholder} />} />
             <Input label='Confirm password' placeholder='Confirm your password' secureTextEntry={securedConfirmPassword} onChangeText={text => setConfirmPassword(text)} inputMode='text' right={<TextInput.Icon icon={securedConfirmPassword ? 'eye' : 'eye-off'} onPress={() => setSecuredConfirmPassword(!securedConfirmPassword)} color={colors.placeholder} />} />
             <DatePickerInput locale='en' label='Birthdate' value={birthdate} onChange={(date) => setBirthdate(date)} validRange={{ endDate: Date.now() }} inputMode='start' textColor={colors.text} theme={{ colors: { primary: colors.primary, onSurfaceVariant: colors.placeholder } }} iconColor={colors.placeholder} style={styles.datePickerInput} />
@@ -110,8 +74,8 @@ const RegisterForm = ({ navigation }) => {
             <Input label='Current weigh (kg)' placeholder='Enter your current weight' onChangeText={number => { (/^\b\d+[.,]?\d*\b$/.test(number) && number < 1000) ? setWeight(number) : setWeight(undefined) }} inputMode='decimal' />
             <Input label='Country' placeholder='Enter your country' onChangeText={text => setCountry(text)} inputMode='text' />
 
-            <Button title='Register' disabled={disableRegister()} onPress={() => dispatchAccount()} size='md' radius='sm' titleStyle={{ fontWeight: 'bold' }} disabledTitleStyle={{ color: colors.placeholder }} disabledStyle={{ backgroundColor: colors.inputFill }} containerStyle={{ marginHorizontal: '5%', marginTop: '5%' }} />
-            <Helper visible={disableRegister()} message={usedEmail(accounts, emailAddress) ? 'Email already in use, please use another or log in' : 'All the inputs should be correctly filled.'} justifyContent='center' />
+            <Button title='Register' disabled={disableRegister()} onPress={register} size='md' radius='sm' titleStyle={{ fontWeight: 'bold' }} disabledTitleStyle={{ color: colors.placeholder }} disabledStyle={{ backgroundColor: colors.inputFill }} containerStyle={{ marginHorizontal: '5%', marginTop: '5%' }} />
+            <Helper visible={helpersVisible()} message={helpers ? JSON.stringify(helpers) : (password !== confirmPassword) ? 'Password and password confirmation should be the same' : 'All the inputs should be correctly filled.'} justifyContent='center' />
         </View>
     );
 };
