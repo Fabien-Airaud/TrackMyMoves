@@ -42,10 +42,6 @@ const RegisterForm = ({ navigation }) => {
         return (firstName == '') || (lastName == '') || (email == '') || (password == '') || (password !== confirmPassword) || (birthdate == undefined) || (height == undefined) || (weight == undefined) || (country == '');
     };
 
-    const helpersVisible = () => {
-        return disableRegister() || helpers;
-    }
-
     const register = () => {
         registerAPI(email, password, firstName, lastName, birthdate, height, weight, country)
             .then(data => {
@@ -74,7 +70,7 @@ const RegisterForm = ({ navigation }) => {
             <Input label='Country' placeholder='Enter your country' onChangeText={text => setCountry(text)} inputMode='text' />
 
             <Button title='Register' disabled={disableRegister()} onPress={register} size='md' radius='sm' titleStyle={{ fontWeight: 'bold' }} disabledTitleStyle={{ color: colors.placeholder }} disabledStyle={{ backgroundColor: colors.inputFill }} containerStyle={{ marginHorizontal: '5%', marginTop: '5%' }} />
-            <Helper visible={helpersVisible()} message={helpers ? JSON.stringify(helpers) : (password !== confirmPassword) ? 'Password and password confirmation should be the same' : 'All the inputs should be correctly filled.'} justifyContent='center' />
+            <Helper visible={disableRegister() || helpers} message={helpers ? JSON.stringify(helpers) : (password !== confirmPassword) ? 'Password and password confirmation should be the same' : 'All the inputs should be correctly filled.'} justifyContent='center' />
         </View>
     );
 };
