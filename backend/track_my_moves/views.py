@@ -143,8 +143,8 @@ def logInAPIViewDeco(request):
     
     users = User.objects.filter(email=logInEmail)
     if users.count() == 0: # wrong email => 0 user found
-        return Response({"email": ["Enter a valid e-mail address."]}, status=status.HTTP_400_BAD_REQUEST)
-    return Response({"password": ["Enter a valid password."]}, status=status.HTTP_400_BAD_REQUEST)
+        return Response({"message": "enter a valid e-mail address."}, status=status.HTTP_400_BAD_REQUEST)
+    return Response({"message": "enter a valid password."}, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view()
 @permission_classes([IsAuthenticated])
@@ -153,7 +153,7 @@ def logOutAPIViewDeco(request):
     
     current_token.delete()
     logout(request)
-    return Response({"message": "Log out successed"}, status=status.HTTP_200_OK)
+    return Response({"message": "log out successed"}, status=status.HTTP_200_OK)
 
 
 class UserViewSet(viewsets.ViewSet):
