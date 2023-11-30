@@ -63,7 +63,7 @@ const RegisterForm = ({ navigation }) => {
             <Input label='Last name' placeholder='Enter your last name' onChangeText={text => setLastName(text)} inputMode='text' />
             <Helper visible={helpers?.last_name != undefined} message={helpers?.last_name ? helpers?.last_name[0] : ""} />
 
-            <Input label='Email address' placeholder='Enter your email address' onChangeText={text => { setEmail(text); setHelpers(undefined) }} inputMode='email' />
+            <Input label='Email address' placeholder='Enter your email address' onChangeText={text => setEmail(text)} inputMode='email' />
             <Helper visible={helpers?.user?.email != undefined} message={helpers?.user?.email ? helpers?.user?.email[0] : ""} />
 
             <Input label='Password' placeholder='Enter your password' secureTextEntry={securedPassword} onChangeText={text => setPassword(text)} inputMode='text' right={<TextInput.Icon icon={securedPassword ? 'eye' : 'eye-off'} onPress={() => setSecuredPassword(!securedPassword)} color={colors.placeholder} />} />
