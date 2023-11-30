@@ -240,9 +240,11 @@ class AccountViewSet(viewsets.ViewSet):
         
         account = Account.objects.get(id=pk)
         user = account.user
-        account.delete()
-        user.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
+        if (not user.is_superuser):
+            account.delete()
+            user.delete()
+            return Response(status=status.HTTP_204_NO_CONTENT)
+        return Response({"message": "as an admin, you can only delete your account through the admin website."}, status=status.HTTP_406_NOT_ACCEPTABLE)
 
 
 class ActivityViewSet(viewsets.ViewSet):
