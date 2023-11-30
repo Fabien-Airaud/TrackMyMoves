@@ -5,7 +5,7 @@ import { Alert, ScrollView, StyleSheet } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { removeAccount } from '../../redux/apiAccountSlice';
-import { logOutAPI } from '../APIFunctions';
+import { logOutAPI, deleteAccountAPI } from '../APIFunctions';
 import BirthdateProfile from './BirthdateProfile';
 import CountryProfile from './CountryProfile';
 import EmailProfile from './EmailProfile';
@@ -35,7 +35,7 @@ const Profile = () => {
         }
     });
 
-    
+
     // Dispatch account
     const dispatch = useDispatch();
 
@@ -63,7 +63,7 @@ const Profile = () => {
             'Log out',
             'Are you sure you want to log out?',
             [
-                { text: 'Log out', onPress: () => logOut() },
+                { text: 'Log out', onPress: logOut },
                 { text: 'Cancel' }
             ],
             { cancelable: true }
@@ -71,12 +71,18 @@ const Profile = () => {
     };
 
     const deleteCurrentAccount = async () => {
-        const dirAccountUri = FileSystem.documentDirectory + apiAccount.account.id;
-        await FileSystem.deleteAsync(dirAccountUri, { idempotent: true });
+        deleteAccountAPI(apiAccount.token, apiAccount.account.id)
+            .then(async message => {
+                if (message) console.log(message);
+                else {
+                    const dirAccountUri = FileSystem.documentDirectory + apiAccount.account.id;
+                    await FileSystem.deleteAsync(dirAccountUri, { idempotent: true });
 
-        // dispatch(deleteAccount({ id: logAcc.id }));
-
-        logOut();
+                    // Remove account in redux store
+                    dispatch(removeAccount());
+                }
+            })
+            .catch(console.error);
     }
 
     const dispatchDeleteAccount = () => {
@@ -84,10 +90,7 @@ const Profile = () => {
             'Delete account',
             'Are you sure you want to delete your account?',
             [
-                {
-                    text: 'Delete',
-                    onPress: async () => await deleteCurrentAccount()
-                },
+                { text: 'Delete', onPress: deleteCurrentAccount },
                 { text: 'Cancel' }
             ],
             { cancelable: true }
@@ -104,8 +107,8 @@ const Profile = () => {
             <HeightProfile id={apiAccount.account.id} data={"" + apiAccount.account.height} />
             <WeightProfile id={apiAccount.account.id} data={"" + apiAccount.account.weight} />
             <CountryProfile id={apiAccount.account.id} data={apiAccount.account.country} />
-            <Button title='Log out' onPress={() => dispatchLogOut()} size='md' radius='sm' color={colors.error} titleStyle={{ fontWeight: 'bold' }} containerStyle={styles.outButton} />
-            {/* <Button title='Delete account' onPress={() => dispatchDeleteAccount()} size='md' radius='sm' color={colors.error} titleStyle={{ fontWeight: 'bold' }} containerStyle={styles.outButton} /> */}
+            <Button title='Log out' onPress={dispatchLogOut} size='md' radius='sm' color={colors.error} titleStyle={{ fontWeight: 'bold' }} containerStyle={styles.outButton} />
+            <Button title='Delete account' onPress={dispatchDeleteAccount} size='md' radius='sm' color={colors.error} titleStyle={{ fontWeight: 'bold' }} containerStyle={styles.outButton} />
         </ScrollView>
     );
 };
