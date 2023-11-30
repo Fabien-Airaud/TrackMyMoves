@@ -72,7 +72,8 @@ const RegisterForm = ({ navigation }) => {
             <Helper visible={helpers?.password} message={helpers?.password[0]} />
             
             <Input label='Confirm password' placeholder='Confirm your password' secureTextEntry={securedConfirmPassword} onChangeText={text => setConfirmPassword(text)} inputMode='text' right={<TextInput.Icon icon={securedConfirmPassword ? 'eye' : 'eye-off'} onPress={() => setSecuredConfirmPassword(!securedConfirmPassword)} color={colors.placeholder} />} />
-            <DatePickerInput locale='en' label='Birthdate' value={birthdate} onChange={(date) => setBirthdate(date)} validRange={{ endDate: Date.now() }} inputMode='start' textColor={colors.text} theme={{ colors: { primary: colors.primary, onSurfaceVariant: colors.placeholder } }} iconColor={colors.placeholder} style={styles.datePickerInput} />
+            
+            <DatePickerInput locale='en' label='Birthdate' value={birthdate} onChange={(date) => setBirthdate(date)} validRange={{ endDate: Date.now() }} hasError={birthdate > new Date()} inputMode='start' textColor={colors.text} theme={{ colors: { primary: colors.primary, onSurfaceVariant: colors.placeholder } }} iconColor={colors.placeholder} style={styles.datePickerInput} />
             <Helper visible={helpers?.birthdate} message={helpers?.birthdate[0]} />
             
             <Input label='Current height (cm)' placeholder='Enter your current height' onChangeText={number => { (/^\b\d{1,3}\b$/.test(number)) ? setHeight(number) : setHeight(undefined) }} inputMode='numeric' />
