@@ -25,6 +25,22 @@ class AccountSerializer(serializers.ModelSerializer):
     class Meta:
         model = Account
         fields = '__all__'
+
+    def validate_height(self, value):
+        """
+        Check that the height is under 3 meters.
+        """
+        if value >= 300:
+            raise serializers.ValidationError("height should be under 3 meters.")
+        return value
+
+    def validate_weight(self, value):
+        """
+        Check that the weight is under 1000 kg.
+        """
+        if value >= 1000:
+            raise serializers.ValidationError("weight should be under 1000kg.")
+        return value
     
     def create(self, validated_data):
         user_data = validated_data.pop("user")
