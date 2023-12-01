@@ -3,8 +3,9 @@ import { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Divider, Menu, TextInput, TouchableRipple } from 'react-native-paper';
 
-const Dropdown = ({ items, value, setValue, leadingIcon = false, width, containerStyle }) => {
-    // Variables
+const Dropdown = ({ items, initialValue = undefined, onChangeValue = () => {}, leadingIcon = false, width, containerStyle }) => {
+    // State variables
+    const [value, setValue] = useState(initialValue);
     const [visible, setVisible] = useState(false);
 
     // Style variables
@@ -35,8 +36,9 @@ const Dropdown = ({ items, value, setValue, leadingIcon = false, width, containe
     };
 
     // Action when item is pressed
-    const pressItem = (itemValue) => {
-        setValue(itemValue)
+    const pressItem = (item) => {
+        setValue(item);
+        onChangeValue(item);
         setVisible(false);
     };
 
@@ -62,14 +64,14 @@ const Dropdown = ({ items, value, setValue, leadingIcon = false, width, containe
             anchorPosition='bottom'
             style={{ width: width ? 215 * width / 100 : 215 }}
             contentStyle={{ backgroundColor: colors.inputFill }}>
-            {items.map((value, index) => {
+            {items.map((item, index) => {
                 if (index == items.length - 1) return (
                     <View key={index}>
-                        <Menu.Item leadingIcon={leadingIcon ? value.leadingIcon : ''} onPress={() => pressItem(value)} title={value.label} theme={{ colors: { onSurface: colors.text, onSurfaceVariant: colors.text } }} />
+                        <Menu.Item leadingIcon={leadingIcon ? item.leadingIcon : ''} onPress={() => pressItem(item)} title={item.label} theme={{ colors: { onSurface: colors.text, onSurfaceVariant: colors.text } }} />
                     </View>);
                 else return (
                     <View key={index}>
-                        <Menu.Item leadingIcon={leadingIcon ? value.leadingIcon : ''} onPress={() => pressItem(value)} title={value.label} theme={{ colors: { onSurface: colors.text, onSurfaceVariant: colors.text } }} />
+                        <Menu.Item leadingIcon={leadingIcon ? item.leadingIcon : ''} onPress={() => pressItem(item)} title={item.label} theme={{ colors: { onSurface: colors.text, onSurfaceVariant: colors.text } }} />
                         <Divider />
                     </View>);
             })}
