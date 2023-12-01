@@ -11,6 +11,13 @@ export const dateToStringAPIDate = (date) => {
     return stringAPIDate;
 };
 
+export const stringAPIDateToDate = (stringAPIDate) => {
+    const splitDate = stringAPIDate.split('-');
+    
+    const date = new Date(splitDate[0], splitDate[1]-1, splitDate[2]);
+    return date;
+};
+
 
 /* ----------------------------------------------------------------------------------------------------
     register
