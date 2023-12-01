@@ -2,18 +2,23 @@ import { useTheme } from '@react-navigation/native';
 import { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { IconButton, TextInput } from 'react-native-paper';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
-import { updatePassword } from '../../redux/accountSlice';
-import { updateLogPassword } from '../../redux/logInSlice';
+import { changeAccount } from '../../redux/apiAccountSlice';
+import { patchAccountAPI } from '../APIFunctions';
+import Helper from '../Helper';
 
-const PasswordProfile = ({ id, data }) => {
+const PasswordProfile = () => {
+    // Logged account stored in redux
+    const apiAccount = useSelector((state) => state.apiAccount);
+
     // state variables
     const [edit, setEdit] = useState(false);
-    const [value, setValue] = useState(data);
+    const [value, setValue] = useState("");
     const [secured, setSecured] = useState(true);
-    const [confirmValue, setConfirmValue] = useState(data);
+    const [confirmValue, setConfirmValue] = useState("");
     const [confirmSecured, setConfirmSecured] = useState(true);
+    const [helpers, setHelpers] = useState(undefined);
 
     // Style variables
     const { colors, fontSizes } = useTheme();
@@ -42,24 +47,27 @@ const PasswordProfile = ({ id, data }) => {
     // Dispatch account
     const dispatch = useDispatch();
 
-    const dispatchPassword = () => {
-        if (data !== value) {
-            if (value === confirmValue) {
-                dispatch(
-                    updatePassword({
-                        id: id,
-                        password: value
+    const updatePassword = () => {
+        if (value === confirmValue) {
+            if (value != "") {
+                patchAccountAPI(apiAccount.token, apiAccount.account.id, { user: { password: value } })
+                    .then(data => {
+                        if (data.ok) {
+                            setHelpers(undefined);
+                            dispatch(changeAccount(data.ok));
+                        }
+                        else {
+                            setHelpers(data.helpers);
+                        }
                     })
-                );
-                dispatch(updateLogPassword(value));
-            } else {
-                alert('Password and confirmation password are different');
-                return ;
+                    .catch(console.error);
             }
-        } else if (value !== confirmValue) {
-            alert('Password and confirmation password are different');
-            setConfirmValue(data);
+            else setHelpers({ user: { password: ["password cannot be empty."] } });
         }
+        else setHelpers({ user: { password: ["password and password confirmation should be the same."] } });
+
+        setSecured(true);
+        setConfirmSecured(true);
         setEdit(false);
     };
 
@@ -68,11 +76,11 @@ const PasswordProfile = ({ id, data }) => {
             <View style={styles.verticalView}>
                 <TextInput
                     label={edit ? 'Password' : ''}
-                    value={value}
+                    value={edit ? value : "a".repeat(16)}
                     secureTextEntry={secured}
                     disabled={!edit}
                     onChangeText={text => setValue(text)}
-                    right={<TextInput.Icon icon={secured ? 'eye' : 'eye-off'} onPress={() => setSecured(!secured)} color={colors.placeholder} />}
+                    right={edit ? <TextInput.Icon icon={secured ? 'eye' : 'eye-off'} onPress={() => setSecured(!secured)} color={colors.placeholder} /> : undefined}
                     inputMode={'text'}
                     textColor={colors.text}
                     theme={{ colors: { primary: colors.primary, onSurfaceVariant: colors.placeholder } }}
@@ -87,14 +95,15 @@ const PasswordProfile = ({ id, data }) => {
                     inputMode={'text'}
                     textColor={colors.text}
                     theme={{ colors: { primary: colors.primary, onSurfaceVariant: colors.placeholder } }}
-                    style={edit ? styles.input : {display: 'none'}}
+                    style={edit ? styles.input : { display: 'none' }}
                 />
+                <Helper visible={helpers && helpers.user && helpers.user.password} message={helpers && helpers.user && helpers.user.password ? helpers.user.password : ''} />
             </View>
             <View style={[styles.view, { paddingHorizontal: 5, width: 3 * fontSizes.sm }]}>
                 {edit ?
                     <>
-                        <IconButton icon='check-bold' onPress={() => dispatchPassword()} iconColor={colors.text} containerColor={colors.success} size={fontSizes.sm} />
-                        <IconButton icon='close-thick' onPress={() => { setEdit(false); setValue(data); setConfirmValue(data) }} iconColor={colors.text} containerColor={colors.error} size={fontSizes.sm} />
+                        <IconButton icon='check-bold' onPress={updatePassword} iconColor={colors.text} containerColor={colors.success} size={fontSizes.sm} />
+                        <IconButton icon='close-thick' onPress={() => { setEdit(false); setValue(""); setConfirmValue("") }} iconColor={colors.text} containerColor={colors.error} size={fontSizes.sm} />
                     </>
                     : <IconButton icon='pencil' onPress={() => setEdit(true)} iconColor={colors.text} containerColor={colors.primary} size={fontSizes.sm} />
                 }
