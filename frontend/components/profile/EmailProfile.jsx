@@ -2,15 +2,20 @@ import { useTheme } from '@react-navigation/native';
 import { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { IconButton, TextInput } from 'react-native-paper';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
-import { updateEmailAddress } from '../../redux/accountSlice';
-import { updateLogEmailAddress } from '../../redux/logInSlice';
+import { changeAccount } from '../../redux/apiAccountSlice';
+import { patchAccountAPI } from '../APIFunctions';
+import Helper from '../Helper';
 
-const EmailProfile = ({ id, data }) => {
+const EmailProfile = () => {
+    // Logged account stored in redux
+    const apiAccount = useSelector((state) => state.apiAccount);
+
     // state variables
     const [edit, setEdit] = useState(false);
-    const [value, setValue] = useState(data);
+    const [value, setValue] = useState(apiAccount.account.user.email);
+    const [helpers, setHelpers] = useState(undefined);
 
     // Style variables
     const { colors, fontSizes } = useTheme();
@@ -20,6 +25,10 @@ const EmailProfile = ({ id, data }) => {
             justifyContent: 'start',
             alignItems: 'center',
             width: '100%',
+        },
+        colView: {
+            alignItems: 'start',
+            width: '100%'
         },
         text: {
             color: colors.text,
@@ -36,40 +45,47 @@ const EmailProfile = ({ id, data }) => {
     // Dispatch account
     const dispatch = useDispatch();
 
-    const dispatchEmail = () => {
-        if (data !== value) {
-            dispatch(
-                updateEmailAddress({
-                    id: id,
-                    emailAddress: value
+    const updateEmail = () => {
+        if (apiAccount.account.user.email !== value) {
+            patchAccountAPI(apiAccount.token, apiAccount.account.id, { user: { email: value } })
+                .then(data => {
+                    if (data.ok) {
+                        setHelpers(undefined);
+                        dispatch(changeAccount(data.ok));
+                    }
+                    else {
+                        setHelpers(data.helpers);
+                    }
                 })
-            );
-            dispatch(updateLogEmailAddress(value));
+                .catch(console.error);
         }
         setEdit(false);
     };
 
     return (
-        <View style={styles.view}>
-            <TextInput
-                label={edit ? 'Email address' : ''}
-                value={value}
-                disabled={!edit}
-                onChangeText={text => setValue(text)}
-                inputMode={'email'}
-                textColor={colors.text}
-                theme={{ colors: { primary: colors.primary, onSurfaceVariant: colors.placeholder } }}
-                style={styles.input}
-            />
-            <View style={[styles.view, { paddingHorizontal: 5, width: 3 * fontSizes.sm }]}>
-                {edit ?
-                    <>
-                        <IconButton icon='check-bold' onPress={() => dispatchEmail()} iconColor={colors.text} containerColor={colors.success} size={fontSizes.sm} />
-                        <IconButton icon='close-thick' onPress={() => { setEdit(false); setValue(data); }} iconColor={colors.text} containerColor={colors.error} size={fontSizes.sm} />
-                    </>
-                    : <IconButton icon='pencil' onPress={() => setEdit(true)} iconColor={colors.text} containerColor={colors.primary} size={fontSizes.sm} />
-                }
+        <View style={styles.colView}>
+            <View style={styles.view}>
+                <TextInput
+                    label={edit ? 'Email address' : ''}
+                    value={value}
+                    disabled={!edit}
+                    onChangeText={text => setValue(text)}
+                    inputMode={'email'}
+                    textColor={colors.text}
+                    theme={{ colors: { primary: colors.primary, onSurfaceVariant: colors.placeholder } }}
+                    style={styles.input}
+                />
+                <View style={[styles.view, { paddingHorizontal: 5, width: 3 * fontSizes.sm }]}>
+                    {edit ?
+                        <>
+                            <IconButton icon='check-bold' onPress={updateEmail} iconColor={colors.text} containerColor={colors.success} size={fontSizes.sm} />
+                            <IconButton icon='close-thick' onPress={() => { setEdit(false); setValue(apiAccount.account.user.email); }} iconColor={colors.text} containerColor={colors.error} size={fontSizes.sm} />
+                        </>
+                        : <IconButton icon='pencil' onPress={() => setEdit(true)} iconColor={colors.text} containerColor={colors.primary} size={fontSizes.sm} />
+                    }
+                </View>
             </View>
+            <Helper visible={helpers && helpers.user && helpers.user.email} message={helpers && helpers.user && helpers.user.email ? helpers.user.email : ''} />
         </View>
     );
 };
