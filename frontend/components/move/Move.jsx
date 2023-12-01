@@ -78,7 +78,7 @@ const Move = () => {
         <View style={styles.page}>
             <Sensors timerStatus={timerStatus} dispatchSensorsInter={dispatchSensorsInterval} />
             <TopMove pageType={pageType} />
-            <CenterMove activityType={undefined} timerStatus={timerStatus} setTimerStatus={setTimerStatus} resetActivity={resetActivity} pageType={pageType} setPageType={setPageType} />
+            <CenterMove timerStatus={timerStatus} setTimerStatus={setTimerStatus} resetActivity={resetActivity} />
             <BottomMove pageType={pageType} timerStatus={timerStatus} dispatchPlayTimer={dispatchPlayTimer} dispatchPauseTimer={dispatchPauseTimer} />
         </View>
     );
