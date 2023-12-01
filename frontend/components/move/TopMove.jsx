@@ -79,8 +79,8 @@ const TopMove = () => {
     } else {
         return (
             <View style={styles.section}>
-                <IconButton icon={activityType.leadingIcon} iconColor={colors.text} size={fontSizes.medButton} />
-                <Text style={styles.activityText}> {activityType.label} </Text>
+                <IconButton icon={apiActivity.activityType.leadingIcon} iconColor={colors.text} size={fontSizes.medButton} />
+                <Text style={styles.activityText}> {apiActivity.activityType.label} </Text>
             </View>
         );
     };
