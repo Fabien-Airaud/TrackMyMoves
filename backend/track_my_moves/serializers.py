@@ -1,7 +1,6 @@
 from rest_framework import serializers
-import datetime
 
-from .models import Account, Activity, User
+from .models import Account, ActivityType, Activity, User
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -64,6 +63,14 @@ class AccountSerializer(serializers.ModelSerializer):
         instance.country = validated_data.get("country", instance.country)
         instance.save()
         return instance
+
+class ActivityTypeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ActivityType
+        fields = '__all__'
+    
+    def create(self, validated_data):
+        return ActivityType.objects.create(**validated_data)
 
 class ActivitySerializer(serializers.ModelSerializer):
     class Meta:
