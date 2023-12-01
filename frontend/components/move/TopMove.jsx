@@ -45,16 +45,15 @@ const TopMove = ({ activityType, setActivityType, pageType }) => {
 
             // declare the async data fetching function
             const getData = async () => {
-                // get the activity types
+                // get the activity types et set it
                 const activityTypes = await listActivityTypeAPI(apiAccount.token);
-
-                // set state with the result if `isSubscribed` is true
-                if (isSubscribed) {
-                    setList(activityTypes);
-                }
+                setList(activityTypes);
+                
             }
-
-            getData().catch(console.error); // make sure to catch any error
+            if (isSubscribed) {
+                // use function if `isSubscribed` is true
+                getData().catch(console.error); // make sure to catch any error
+            }
 
             // cancel any future `setData`
             return () => isSubscribed = false;
