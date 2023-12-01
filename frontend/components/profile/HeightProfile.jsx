@@ -14,7 +14,7 @@ const HeightProfile = () => {
 
     // state variables
     const [edit, setEdit] = useState(false);
-    const [value, setValue] = useState(""+apiAccount.account.height);
+    const [value, setValue] = useState("" + apiAccount.account.height);
     const [helpers, setHelpers] = useState(undefined);
 
     // Style variables
@@ -47,7 +47,7 @@ const HeightProfile = () => {
     const dispatch = useDispatch();
 
     const updateHeight = () => {
-        if (""+apiAccount.account.height !== value) {
+        if ("" + apiAccount.account.height !== value) {
             patchAccountAPI(apiAccount.token, apiAccount.account.id, { height: value })
                 .then(data => {
                     if (data.ok) {
@@ -62,21 +62,6 @@ const HeightProfile = () => {
         }
         setEdit(false);
     };
-
-    // const dispatchHeight = () => {
-    //     if (/^\b\d{1,3}\b$/.test(value) && data !== value) {
-    //         dispatch(
-    //             updateHeight({
-    //                 id: id,
-    //                 height: value
-    //             })
-    //         );
-    //         dispatch(updateLogHeight(value));
-    //     } else {
-    //         setValue(data);
-    //     }
-    //     setEdit(false);
-    // };
 
     return (
         <View style={styles.colView}>
@@ -95,7 +80,7 @@ const HeightProfile = () => {
                     {edit ?
                         <>
                             <IconButton icon='check-bold' onPress={updateHeight} iconColor={colors.text} containerColor={colors.success} size={fontSizes.sm} />
-                            <IconButton icon='close-thick' onPress={() => { setEdit(false); setValue(""+apiAccount.account.height); }} iconColor={colors.text} containerColor={colors.error} size={fontSizes.sm} />
+                            <IconButton icon='close-thick' onPress={() => { setEdit(false); setValue("" + apiAccount.account.height); }} iconColor={colors.text} containerColor={colors.error} size={fontSizes.sm} />
                         </>
                         : <IconButton icon='pencil' onPress={() => setEdit(true)} iconColor={colors.text} containerColor={colors.primary} size={fontSizes.sm} />
                     }
