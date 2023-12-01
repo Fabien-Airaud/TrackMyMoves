@@ -7,7 +7,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { ActivityState, changeActivityType } from '../../redux/apiActivitySlice';
 import { listActivityTypeAPI } from '../APIFunctions';
 import Dropdown from '../Dropdown';
-import { MovePageType } from './Move';
 
 const TopMove = () => {
     // Logged account stored in redux
