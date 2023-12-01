@@ -50,11 +50,10 @@ class AccountSerializer(serializers.ModelSerializer):
     def update(self, instance, validated_data):
         if "user" in validated_data:
             user_data = validated_data.pop("user")
-            user = instance.user
+            userSerializer = UserSerializer(instance.user, data=user_data, partial=True)
             
-            user.email = user_data.get("email", user.email)
-            user.password = user_data.get("password", user.password)
-            user.save()
+            userSerializer.save()
+            instance.user = userSerializer
         
         instance.first_name = validated_data.get("first_name", instance.first_name)
         instance.last_name = validated_data.get("last_name", instance.last_name)
@@ -62,7 +61,6 @@ class AccountSerializer(serializers.ModelSerializer):
         instance.height = validated_data.get("height", instance.height)
         instance.weight = validated_data.get("weight", instance.weight)
         instance.country = validated_data.get("country", instance.country)
-        
         instance.save()
         return instance
 
