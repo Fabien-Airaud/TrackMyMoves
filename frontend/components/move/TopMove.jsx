@@ -62,7 +62,6 @@ const TopMove = () => {
     );
 
 
-    // Dispatch account
     const dispatch = useDispatch();
 
     const dispatchActivityType = (activityType) => {
