@@ -46,6 +46,24 @@ class AccountSerializer(serializers.ModelSerializer):
         user_data = validated_data.pop("user")
         user = User.objects.create_user(**user_data)
         return Account.objects.create(**validated_data, user=user)
+    
+    def update(self, instance, validated_data):
+        if "user" in validated_data:
+            user_data = validated_data.pop("user")
+            user = instance.user
+            user.email = user_data("email", user.email)
+            user.password = user_data("password", user.password)
+            user.save()
+        
+        instance.first_name = validated_data.get("first_name", instance.first_name)
+        instance.last_name = validated_data.get("last_name", instance.last_name)
+        instance.birthdate = validated_data.get("birthdate", instance.birthdate)
+        instance.height = validated_data.get("height", instance.height)
+        instance.weight = validated_data.get("weight", instance.weight)
+        instance.country = validated_data.get("country", instance.country)
+        
+        instance.save()
+        return instance
 
 class ActivitySerializer(serializers.ModelSerializer):
     class Meta:
