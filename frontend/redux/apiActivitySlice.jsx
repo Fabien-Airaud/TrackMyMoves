@@ -4,7 +4,8 @@ import { createSlice } from '@reduxjs/toolkit';
 export const ActivityState = Object.freeze({
     starting: 1,
     ongoing: 2,
-    stopped: 3
+    paused: 3,
+    stopped: 4
 });
 
 export const apiActivitySlice = createSlice({
