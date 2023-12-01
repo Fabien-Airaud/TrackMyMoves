@@ -4,12 +4,12 @@ import { StyleSheet, Text, View } from 'react-native';
 import { IconButton } from 'react-native-paper';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { changeActivityType } from '../../redux/apiActivitySlice';
+import { ActivityState, changeActivityType } from '../../redux/apiActivitySlice';
 import { listActivityTypeAPI } from '../APIFunctions';
 import Dropdown from '../Dropdown';
 import { MovePageType } from './Move';
 
-const TopMove = ({ pageType }) => {
+const TopMove = () => {
     // Logged account stored in redux
     const apiAccount = useSelector((state) => state.apiAccount);
     const apiActivity = useSelector((state) => state.apiActivity);
@@ -71,7 +71,7 @@ const TopMove = ({ pageType }) => {
     };
 
 
-    if (pageType === MovePageType.start) {
+    if (apiActivity.currentState === ActivityState.starting) {
         return (
             <View style={styles.section}>
                 <Text style={styles.warningText}> Please note, the type of activity can no longer be modified after the activity has started </Text>
