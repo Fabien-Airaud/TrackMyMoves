@@ -143,3 +143,21 @@ export const deleteAccountAPI = async (token, id) => {
     }
     return message;
 };
+
+
+/* ----------------------------------------------------------------------------------------------------
+    activityTypes
+---------------------------------------------------------------------------------------------------- */
+export const listActivityTypeAPI = async (token) => {
+    let activityTypes = undefined;
+
+    const response = await fetch(apiUrl + "/activityTypes/", {
+        method: "GET",
+        headers: {
+            Authorization: "token " + token
+        }
+    });
+
+    if (response.ok) activityTypes = await response.json();
+    return activityTypes;
+};
