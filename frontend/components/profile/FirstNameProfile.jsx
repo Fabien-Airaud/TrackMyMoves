@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { changeAccount } from '../../redux/apiAccountSlice';
 import { patchAccountAPI } from '../APIFunctions';
+import Helper from '../Helper';
 
 const FirstNameProfile = () => {
     // Logged account stored in redux
@@ -14,6 +15,7 @@ const FirstNameProfile = () => {
     // state variables
     const [edit, setEdit] = useState(false);
     const [value, setValue] = useState(apiAccount.account.first_name);
+    const [helpers, setHelpers] = useState(undefined);
 
     // Style variables
     const { colors, fontSizes } = useTheme();
@@ -22,7 +24,11 @@ const FirstNameProfile = () => {
             flexDirection: 'row',
             justifyContent: 'start',
             alignItems: 'center',
-            width: '100%',
+            width: '100%'
+        },
+        colView: {
+            alignItems: 'start',
+            width: '100%'
         },
         text: {
             color: colors.text,
@@ -45,12 +51,11 @@ const FirstNameProfile = () => {
             patchAccountAPI(apiAccount.token, apiAccount.account.id, { first_name: value })
                 .then(data => {
                     if (data.ok) {
-                        // setHelpers(undefined);
+                        setHelpers(undefined);
                         dispatch(changeAccount(data.ok));
                     }
                     else {
-                        console.log(data.helpers);
-                        // setHelpers(data.helpers);
+                        setHelpers(data.helpers);
                     }
                 })
                 .catch(console.error);
@@ -59,26 +64,29 @@ const FirstNameProfile = () => {
     };
 
     return (
-        <View style={styles.view}>
-            <TextInput
-                label={edit ? 'First name' : ''}
-                value={value}
-                disabled={!edit}
-                onChangeText={text => setValue(text)}
-                inputMode={'text'}
-                textColor={colors.text}
-                theme={{ colors: { primary: colors.primary, onSurfaceVariant: colors.placeholder } }}
-                style={styles.input}
-            />
-            <View style={[styles.view, { paddingHorizontal: 5, width: 3 * fontSizes.sm }]}>
-                {edit ?
-                    <>
-                        <IconButton icon='check-bold' onPress={updateFirstName} iconColor={colors.text} containerColor={colors.success} size={fontSizes.sm} />
-                        <IconButton icon='close-thick' onPress={() => { setEdit(false); setValue(apiAccount.account.first_name); }} iconColor={colors.text} containerColor={colors.error} size={fontSizes.sm} />
-                    </>
-                    : <IconButton icon='pencil' onPress={() => setEdit(true)} iconColor={colors.text} containerColor={colors.primary} size={fontSizes.sm} />
-                }
+        <View style={styles.colView}>
+            <View style={styles.view}>
+                <TextInput
+                    label={edit ? 'First name' : ''}
+                    value={value}
+                    disabled={!edit}
+                    onChangeText={text => setValue(text)}
+                    inputMode={'text'}
+                    textColor={colors.text}
+                    theme={{ colors: { primary: colors.primary, onSurfaceVariant: colors.placeholder } }}
+                    style={styles.input}
+                />
+                <View style={[styles.view, { paddingHorizontal: 5, width: 3 * fontSizes.sm }]}>
+                    {edit ?
+                        <>
+                            <IconButton icon='check-bold' onPress={updateFirstName} iconColor={colors.text} containerColor={colors.success} size={fontSizes.sm} />
+                            <IconButton icon='close-thick' onPress={() => { setEdit(false); setValue(apiAccount.account.first_name); }} iconColor={colors.text} containerColor={colors.error} size={fontSizes.sm} />
+                        </>
+                        : <IconButton icon='pencil' onPress={() => setEdit(true)} iconColor={colors.text} containerColor={colors.primary} size={fontSizes.sm} />
+                    }
+                </View>
             </View>
+            <Helper visible={helpers && helpers.first_name} message={helpers && helpers.first_name ? helpers.first_name : ''} />
         </View>
     );
 };
