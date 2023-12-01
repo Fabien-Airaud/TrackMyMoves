@@ -51,8 +51,9 @@ class AccountSerializer(serializers.ModelSerializer):
         if "user" in validated_data:
             user_data = validated_data.pop("user")
             user = instance.user
-            user.email = user_data("email", user.email)
-            user.password = user_data("password", user.password)
+            
+            user.email = user_data.get("email", user.email)
+            user.password = user_data.get("password", user.password)
             user.save()
         
         instance.first_name = validated_data.get("first_name", instance.first_name)
