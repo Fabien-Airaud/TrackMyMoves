@@ -9,12 +9,12 @@ import { listActivityTypeAPI } from '../APIFunctions';
 import Dropdown from '../Dropdown';
 
 const TopMove = () => {
-    // Logged account stored in redux
+    // Logged account and current activity stored in redux
     const apiAccount = useSelector((state) => state.apiAccount);
     const apiActivity = useSelector((state) => state.apiActivity);
 
     // State variables
-    const [list, setList] = useState([]);
+    const [list, setList] = useState([]); // List of activity types
 
     // Style variables
     const { colors, fontSizes } = useTheme();
