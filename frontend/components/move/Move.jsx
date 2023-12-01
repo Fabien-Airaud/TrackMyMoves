@@ -2,11 +2,11 @@ import { useState } from 'react';
 import { StyleSheet, View } from "react-native";
 import { useDispatch } from 'react-redux';
 
-import { pauseInterval, playInterval, addSensorsInterval } from '../../redux/currentActivitySlice';
+import { addSensorsInterval, pauseInterval, playInterval } from '../../redux/currentActivitySlice';
 import BottomMove from './BottomMove';
 import CenterMove from './CenterMove';
-import TopMove from './TopMove';
 import Sensors from './Sensors';
+import TopMove from './TopMove';
 
 // Type of move page to display
 export const MovePageType = Object.freeze({
@@ -24,7 +24,6 @@ export const TimerStatus = Object.freeze({
 
 const Move = () => {
     // State variables
-    const [activityType, setActivityType] = useState(undefined);
     const [pageType, setPageType] = useState(MovePageType.start);
     const [timerStatus, setTimerStatus] = useState(TimerStatus.reset);
 
@@ -40,7 +39,6 @@ const Move = () => {
 
     const resetActivity = () => {
         setPageType(MovePageType.start);
-        setActivityType(undefined);
     }
 
     const dispatch = useDispatch();
@@ -79,8 +77,8 @@ const Move = () => {
     return (
         <View style={styles.page}>
             <Sensors timerStatus={timerStatus} dispatchSensorsInter={dispatchSensorsInterval} />
-            <TopMove activityType={activityType} setActivityType={setActivityType} pageType={pageType} />
-            <CenterMove activityType={activityType?.value} timerStatus={timerStatus} setTimerStatus={setTimerStatus} resetActivity={resetActivity} pageType={pageType} setPageType={setPageType} />
+            <TopMove pageType={pageType} />
+            <CenterMove activityType={undefined} timerStatus={timerStatus} setTimerStatus={setTimerStatus} resetActivity={resetActivity} pageType={pageType} setPageType={setPageType} />
             <BottomMove pageType={pageType} timerStatus={timerStatus} dispatchPlayTimer={dispatchPlayTimer} dispatchPauseTimer={dispatchPauseTimer} />
         </View>
     );
