@@ -14,15 +14,22 @@ export const apiActivitySlice = createSlice({
     },
     reducers: {
         changeActivityType: (state, action) => {
-            state.activityType = action.payload.activityType
-            console.log("Change activityType: " + JSON.stringify(state))
+            state.activityType = action.payload.activityType;
+            console.log("Change activityType: " + JSON.stringify(state));
+        },
+        newActivity: (state, action) => {
+            state.currentState = ActivityState.ongoing;
+            state.userId = action.payload.userId;
+            state.startDate = new Date().toISOString();
+            console.log("New activity: " + JSON.stringify(state));
         }
     }
 });
 
 
 export const {
-    changeActivityType
+    changeActivityType,
+    newActivity
 } = apiActivitySlice.actions;
 
 export default apiActivitySlice.reducer;
