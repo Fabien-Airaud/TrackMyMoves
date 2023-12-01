@@ -10,9 +10,10 @@ from rest_framework.authtoken.models import Token
 from rest_framework.permissions import IsAuthenticated
 
 from .models.account import Account
+from .models.activity_type import ActivityType
 from .models.activity import Activity, ActivityTypes
 from .models.user import User
-from .serializers import AccountSerializer, ActivitySerializer, UserSerializer
+from .serializers import AccountSerializer, ActivityTypeSerializer, ActivitySerializer, UserSerializer
 
 ####################################################################################################
 #   Partie application
@@ -245,6 +246,46 @@ class AccountViewSet(viewsets.ViewSet):
             user.delete()
             return Response(status=status.HTTP_204_NO_CONTENT)
         return Response({"message": "as an admin, you can only delete your account through the admin website."}, status=status.HTTP_406_NOT_ACCEPTABLE)
+
+
+class ActivityTypeViewSet(viewsets.ViewSet):
+    def list(self, request):
+        activityTypes = ActivityType.objects.all()
+        serializer = ActivityTypeSerializer(activityTypes, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    
+    def create(self, request):
+        serializer = ActivityTypeSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+    def retrieve(self, request, pk):
+        activityType = ActivityType.objects.get(id=pk)
+        serializer = ActivityTypeSerializer(activityType)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    
+    def update(self, request, pk):
+        activityType = ActivityType.objects.get(id=pk)
+        serializer = ActivityTypeSerializer(activityType, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+    def partial_update(self, request, pk):
+        activityType = ActivityType.objects.get(id=pk)
+        serializer = ActivityTypeSerializer(activityType, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+    def destroy(self, request, pk):
+        activityType = ActivityType.objects.get(id=pk)
+        activityType.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
 
 class ActivityViewSet(viewsets.ViewSet):
