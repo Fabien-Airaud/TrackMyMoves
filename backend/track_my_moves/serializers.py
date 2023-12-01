@@ -53,7 +53,7 @@ class AccountSerializer(serializers.ModelSerializer):
             userSerializer = UserSerializer(instance.user, data=user_data, partial=True)
             if userSerializer.is_valid():
                 userSerializer.save()
-                instance.user = userSerializer
+                instance.user = userSerializer.data
         
         instance.first_name = validated_data.get("first_name", instance.first_name)
         instance.last_name = validated_data.get("last_name", instance.last_name)
