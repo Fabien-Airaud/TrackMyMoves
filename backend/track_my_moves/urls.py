@@ -4,7 +4,7 @@ from drf_yasg import openapi
 from drf_yasg.views import get_schema_view
 
 from .views import home, logIn, logOut, usersAdmin, usersAdminStats
-from .views import AccountViewSet, ActivityViewSet, UserViewSet
+from .views import AccountViewSet, ActivityTypeViewSet, ActivityViewSet, UserViewSet
 from .views import registerAPIViewDeco, logInAPIViewDeco, logOutAPIViewDeco
 
 schema_view = get_schema_view(
@@ -18,6 +18,7 @@ schema_view = get_schema_view(
 
 router = routers.DefaultRouter()
 router.register(r'accounts', AccountViewSet, basename='account')
+router.register(r'activityTypes', ActivityTypeViewSet, basename='activityType')
 router.register(r'activities', ActivityViewSet, basename='activity')
 router.register(r'users', UserViewSet, basename='user')
 
