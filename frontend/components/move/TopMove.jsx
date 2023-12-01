@@ -2,16 +2,17 @@ import { useFocusEffect, useTheme } from '@react-navigation/native';
 import { useCallback, useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { IconButton } from 'react-native-paper';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
-import Dropdown from '../Dropdown';
-import ActivityTypes from './ActivityTypes';
-import { MovePageType } from './Move';
+import { changeActivityType } from '../../redux/apiActivitySlice';
 import { listActivityTypeAPI } from '../APIFunctions';
+import Dropdown from '../Dropdown';
+import { MovePageType } from './Move';
 
-const TopMove = ({ activityType, setActivityType, pageType }) => {
+const TopMove = ({ pageType }) => {
     // Logged account stored in redux
     const apiAccount = useSelector((state) => state.apiAccount);
+    const apiActivity = useSelector((state) => state.apiActivity);
 
     // State variables
     const [list, setList] = useState([]);
@@ -39,6 +40,7 @@ const TopMove = ({ activityType, setActivityType, pageType }) => {
         }
     });
 
+
     useFocusEffect(
         useCallback(() => {
             let isSubscribed = true;
@@ -48,8 +50,8 @@ const TopMove = ({ activityType, setActivityType, pageType }) => {
                 // get the activity types et set it
                 const activityTypes = await listActivityTypeAPI(apiAccount.token);
                 setList(activityTypes);
-                
             }
+
             if (isSubscribed) {
                 // use function if `isSubscribed` is true
                 getData().catch(console.error); // make sure to catch any error
@@ -60,11 +62,20 @@ const TopMove = ({ activityType, setActivityType, pageType }) => {
         }, [])
     );
 
+
+    // Dispatch account
+    const dispatch = useDispatch();
+
+    const dispatchActivityType = (activityType) => {
+        if (apiActivity.activityType !== activityType) dispatch(changeActivityType({ activityType: activityType }));
+    };
+
+
     if (pageType === MovePageType.start) {
         return (
             <View style={styles.section}>
                 <Text style={styles.warningText}> Please note, the type of activity can no longer be modified after the activity has started </Text>
-                <Dropdown items={list} value={activityType} setValue={setActivityType} leadingIcon={true} width={120} containerStyle={styles.container} />
+                <Dropdown items={list} onChangeValue={dispatchActivityType} leadingIcon={true} width={120} containerStyle={styles.container} />
             </View>
         );
     } else {
