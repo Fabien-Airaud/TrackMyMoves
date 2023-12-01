@@ -50,10 +50,11 @@ class AccountSerializer(serializers.ModelSerializer):
     def update(self, instance, validated_data):
         if "user" in validated_data:
             user_data = validated_data.pop("user")
-            userSerializer = UserSerializer(instance.user, data=user_data, partial=True)
-            if userSerializer.is_valid():
-                userSerializer.save()
-                instance.user = userSerializer.data
+            user = instance.user
+            user.email = user_data.get('email', user.email)
+            if 'password' in user_data:
+                user.set_password(user_data.get('password'))
+            user.save()
         
         instance.first_name = validated_data.get("first_name", instance.first_name)
         instance.last_name = validated_data.get("last_name", instance.last_name)
