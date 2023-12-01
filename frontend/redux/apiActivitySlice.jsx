@@ -1,8 +1,17 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+// Possible states for the activity
+export const ActivityState = Object.freeze({
+    starting: 1,
+    ongoing: 2,
+    stopped: 3
+});
+
 export const apiActivitySlice = createSlice({
     name: 'apiActivity',
-    initialState: {},
+    initialState: {
+        currentState: ActivityState.starting
+    },
     reducers: {
         changeActivityType: (state, action) => {
             state.activityType = action.payload.activityType
