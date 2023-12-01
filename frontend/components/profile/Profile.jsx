@@ -25,7 +25,7 @@ const Profile = () => {
         page: {
             minHeight: '100%',
             width: '100%',
-            padding: '5%',
+            paddingHorizontal: '5%',
             backgroundColor: colors.background
         },
         outButton: {
@@ -108,7 +108,7 @@ const Profile = () => {
             <WeightProfile id={apiAccount.account.id} data={"" + apiAccount.account.weight} />
             <CountryProfile id={apiAccount.account.id} data={apiAccount.account.country} />
             <Button title='Log out' onPress={dispatchLogOut} size='md' radius='sm' color={colors.error} titleStyle={{ fontWeight: 'bold' }} containerStyle={styles.outButton} />
-            <Button title='Delete account' onPress={dispatchDeleteAccount} size='md' radius='sm' color={colors.error} titleStyle={{ fontWeight: 'bold' }} containerStyle={styles.outButton} />
+            <Button title='Delete account' onPress={dispatchDeleteAccount} size='md' radius='sm' color={colors.error} titleStyle={{ fontWeight: 'bold' }} containerStyle={[styles.outButton, {marginBottom: '2%'}]} />
         </ScrollView>
     );
 };
