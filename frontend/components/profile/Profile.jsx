@@ -5,7 +5,7 @@ import { Alert, ScrollView, StyleSheet } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { removeAccount } from '../../redux/apiAccountSlice';
-import { logOutAPI, deleteAccountAPI } from '../APIFunctions';
+import { deleteAccountAPI, logOutAPI } from '../APIFunctions';
 import BirthdateProfile from './BirthdateProfile';
 import CountryProfile from './CountryProfile';
 import EmailProfile from './EmailProfile';
@@ -99,16 +99,16 @@ const Profile = () => {
 
     return (
         <ScrollView contentContainerStyle={{ alignItems: 'center' }} style={styles.page}>
-            <FirstNameProfile/>
-            <LastNameProfile id={apiAccount.account.id} data={apiAccount.account.last_name} />
-            <EmailProfile id={apiAccount.account.id} data={apiAccount.account.user.email} />
-            <PasswordProfile id={apiAccount.account.id} />
-            <BirthdateProfile id={apiAccount.account.id} data={new Date(apiAccount.account.birthdate)} />
-            <HeightProfile id={apiAccount.account.id} data={"" + apiAccount.account.height} />
-            <WeightProfile id={apiAccount.account.id} data={"" + apiAccount.account.weight} />
-            <CountryProfile id={apiAccount.account.id} data={apiAccount.account.country} />
+            <FirstNameProfile />
+            <LastNameProfile />
+            <EmailProfile />
+            <PasswordProfile />
+            <BirthdateProfile />
+            <HeightProfile />
+            <WeightProfile />
+            <CountryProfile />
             <Button title='Log out' onPress={dispatchLogOut} size='md' radius='sm' color={colors.error} titleStyle={{ fontWeight: 'bold' }} containerStyle={styles.outButton} />
-            <Button title='Delete account' onPress={dispatchDeleteAccount} size='md' radius='sm' color={colors.error} titleStyle={{ fontWeight: 'bold' }} containerStyle={[styles.outButton, {marginBottom: '2%'}]} />
+            <Button title='Delete account' onPress={dispatchDeleteAccount} size='md' radius='sm' color={colors.error} titleStyle={{ fontWeight: 'bold' }} containerStyle={[styles.outButton, { marginBottom: '2%' }]} />
         </ScrollView>
     );
 };
