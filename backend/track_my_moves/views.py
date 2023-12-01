@@ -11,7 +11,7 @@ from rest_framework.permissions import IsAuthenticated
 
 from .models.account import Account
 from .models.activity_type import ActivityType
-from .models.activity import Activity, ActivityTypes
+from .models.activity import Activity
 from .models.user import User
 from .serializers import AccountSerializer, ActivityTypeSerializer, ActivitySerializer, UserSerializer
 
@@ -63,10 +63,10 @@ def usersAdmin(request):
 def getActivitiesCount(activities):
     activitiesCount = []
     
-    for activityType in ActivityTypes.values:
-        count = activities.filter(activity_type=activityType).count()
+    for activityType in ActivityType.objects.all():
+        count = activities.filter(activity_type_id=activityType.id).count()
         if count > 0:
-            activitiesCount.append([activityType.replace('_', ' '), count])
+            activitiesCount.append([activityType.label, count])
     
     return activitiesCount
 
