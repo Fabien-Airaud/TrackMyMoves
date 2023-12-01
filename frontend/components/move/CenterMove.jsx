@@ -4,11 +4,16 @@ import { Alert, StyleSheet, Text, View } from "react-native";
 import { IconButton } from 'react-native-paper';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { createActivity, deleteActivity, stopActivity } from '../../redux/currentActivitySlice';
+import { ActivityState, newActivity } from '../../redux/apiActivitySlice';
+import { deleteActivity, stopActivity } from '../../redux/currentActivitySlice';
 import { saveActivity } from './ActivityFilesFunctions';
-import { MovePageType, TimerStatus } from './Move';
+import { TimerStatus } from './Move';
 
-const CenterMove = ({ activityType, timerStatus, setTimerStatus, pageType, setPageType, resetActivity }) => {
+const CenterMove = ({ timerStatus, setTimerStatus, resetActivity }) => {
+    // Logged account and current activity stored in redux
+    const apiAccount = useSelector((state) => state.apiAccount);
+    const apiActivity = useSelector((state) => state.apiActivity);
+
     // Style variables
     const { colors, fontSizes } = useTheme();
     const styles = StyleSheet.create({
@@ -43,27 +48,12 @@ const CenterMove = ({ activityType, timerStatus, setTimerStatus, pageType, setPa
         }
     });
 
-    // Logged account stored in redux
-    const logAcc = useSelector((state) => state.logIn);
-    // Current activity stored in redux
-    const activity = useSelector((state) => state.currentActivity);
 
     const dispatch = useDispatch();
 
-    // Create a new activity when start button pressed and change to stop move page
+    // Create a new activity when start button pressed
     const dispatchNewActivity = () => {
-        const startDate = new Date();
-
-        dispatch(
-            createActivity({
-                accountId: logAcc.id,
-                activityType: activityType,
-                startDate: startDate.toISOString()
-            })
-        );
-
-        setTimerStatus(TimerStatus.play); // start the timer after activity created
-        setPageType(MovePageType.stop);
+        dispatch(newActivity({userId: apiAccount.account.user.id}));
     };
 
     // Change between pause and play
@@ -106,16 +96,16 @@ const CenterMove = ({ activityType, timerStatus, setTimerStatus, pageType, setPa
         dispatchDelActivity();
     };
 
-    switch (pageType) {
-        case MovePageType.start:
+    switch (apiActivity.currentState) {
+        case ActivityState.starting:
             return (
                 <View style={styles.section}>
-                    <IconButton disabled={activityType == undefined} onPress={dispatchNewActivity} icon='play-circle-outline' iconColor={colors.primary} size={fontSizes.bigButton} theme={{ colors: { onSurfaceDisabled: colors.placeholder } }} />
+                    <IconButton disabled={apiActivity.activityType == undefined} onPress={dispatchNewActivity} icon='play-circle-outline' iconColor={colors.primary} size={fontSizes.bigButton} theme={{ colors: { onSurfaceDisabled: colors.placeholder } }} />
                     <Text style={styles.textButton}> Start </Text>
                 </View>
             );
 
-        case MovePageType.stop:
+        case ActivityState.ongoing:
             return (
                 <View style={[styles.section, { flexDirection: 'row' }]}>
                     <View style={styles.subsection}>
@@ -129,7 +119,7 @@ const CenterMove = ({ activityType, timerStatus, setTimerStatus, pageType, setPa
                 </View>
             );
 
-        case MovePageType.save:
+        case ActivityState.stopped:
             return (
                 <View style={styles.section}>
                     <Text style={styles.text}> Do you want to save or delete the activity ? </Text>
