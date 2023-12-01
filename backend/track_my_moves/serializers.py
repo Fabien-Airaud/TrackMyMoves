@@ -51,9 +51,9 @@ class AccountSerializer(serializers.ModelSerializer):
         if "user" in validated_data:
             user_data = validated_data.pop("user")
             userSerializer = UserSerializer(instance.user, data=user_data, partial=True)
-            
-            userSerializer.save()
-            instance.user = userSerializer
+            if userSerializer.is_valid():
+                userSerializer.save()
+                instance.user = userSerializer
         
         instance.first_name = validated_data.get("first_name", instance.first_name)
         instance.last_name = validated_data.get("last_name", instance.last_name)
