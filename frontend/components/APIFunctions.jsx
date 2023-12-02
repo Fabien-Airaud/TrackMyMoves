@@ -65,7 +65,7 @@ export const logInAPI = async (email, password) => {
         body: JSON.stringify({
             email: email,
             password: password
-        }),
+        })
     });
 
     if (response.ok) data.ok = await response.json();
@@ -119,7 +119,7 @@ export const patchAccountAPI = async (token, id, body) => {
             Accept: "application/json",
             "Content-Type": "application/json"
         },
-        body: JSON.stringify(body),
+        body: JSON.stringify(body)
     });
 
     if (response.ok) data.ok = await response.json();
@@ -160,4 +160,30 @@ export const listActivityTypeAPI = async (token) => {
 
     if (response.ok) activityTypes = await response.json();
     return activityTypes;
+};
+
+
+/* ----------------------------------------------------------------------------------------------------
+    activities
+---------------------------------------------------------------------------------------------------- */
+export const createActivityAPI = async (token, activity) => {
+    let helpers = undefined;
+
+    const response = await fetch(apiUrl + "/activities/", {
+        method: "POST",
+        headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            Authorization: "token " + token
+        },
+        body: JSON.stringify({
+            user: activity.userId,
+            activity_type: activity.activityType.id,
+            start_date: activity.startDate,
+            end_date: activity.endDate
+        })
+    });
+
+    if (!response.ok) helpers = await response.json();
+    return helpers;
 };
