@@ -4,12 +4,9 @@ import { Alert, StyleSheet, Text, View } from "react-native";
 import { IconButton } from 'react-native-paper';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { ActivityState, changeCurrentState, newActivity, stopActivity } from '../../redux/apiActivitySlice';
-import { deleteActivity } from '../../redux/currentActivitySlice';
-import { saveActivity } from './ActivityFilesFunctions';
-import { TimerStatus } from './Move';
+import { ActivityState, changeCurrentState, newActivity, stopActivity, deleteActivity } from '../../redux/apiActivitySlice';
 
-const CenterMove = ({ timerStatus, setTimerStatus, resetActivity }) => {
+const CenterMove = () => {
     // Logged account and current activity stored in redux
     const apiAccount = useSelector((state) => state.apiAccount);
     const apiActivity = useSelector((state) => state.apiActivity);
@@ -67,15 +64,9 @@ const CenterMove = ({ timerStatus, setTimerStatus, resetActivity }) => {
         dispatch(stopActivity());
     };
 
-    // Delete the current activity and reset activity
-    const dispatchDelActivity = () => {
-        // Remove activity from current activity state
-        dispatch(
-            deleteActivity()
-        );
-
-        resetActivity();
-        setTimerStatus(TimerStatus.reset);
+    // Delete activity
+    const dispatchDeleteActivity = () => {
+        dispatch(deleteActivity());
     }
 
     // Create a new activity when start button pressed
@@ -86,8 +77,8 @@ const CenterMove = ({ timerStatus, setTimerStatus, resetActivity }) => {
                 'Your current activity is saved'),
             () => alert('An error occured while saving the activity'));
 
-        // Add activity to activities state
-        dispatchDelActivity();
+        // Delete activity in redux store
+        dispatchDeleteActivity();
     };
 
     switch (apiActivity.currentState) {
@@ -105,7 +96,7 @@ const CenterMove = ({ timerStatus, setTimerStatus, resetActivity }) => {
                     <Text style={styles.text}> Do you want to save or delete the activity ? </Text>
                     <View style={styles.buttons}>
                         <Button title='Save' onPress={dispatchSaveActivity} size='md' radius='sm' color={colors.primary} titleStyle={{ fontWeight: 'bold' }} containerStyle={{ width: '40%' }} />
-                        <Button title='Delete' onPress={dispatchDelActivity} size='md' radius='sm' color={colors.error} titleStyle={{ fontWeight: 'bold' }} containerStyle={{ width: '40%' }} />
+                        <Button title='Delete' onPress={dispatchDeleteActivity} size='md' radius='sm' color={colors.error} titleStyle={{ fontWeight: 'bold' }} containerStyle={{ width: '40%' }} />
                     </View>
                 </View>
             );
