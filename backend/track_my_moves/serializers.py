@@ -92,7 +92,7 @@ class ActivityIntervalSerializer(serializers.ModelSerializer):
         return ActivityInterval.objects.create(**validated_data)
 
 class ActivitySerializer(serializers.ModelSerializer):
-    intervals = ActivityIntervalSerializer(many=True)
+    # intervals = ActivityIntervalSerializer(many=True)
 
     class Meta:
         model = Activity
@@ -107,8 +107,8 @@ class ActivitySerializer(serializers.ModelSerializer):
             raise serializers.ValidationError("start_datetime should be before end_datetime.")
         return data
     
-    # def create(self, validated_data):
-    #     return Activity.objects.create(**validated_data)
+    def create(self, validated_data):
+        return Activity.objects.create(**validated_data)
 
     # def create(self, validated_data):
     #     intervals_data = validated_data.pop("intervals")
