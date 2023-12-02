@@ -4,7 +4,7 @@ import { Alert, StyleSheet, Text, View } from "react-native";
 import { IconButton } from 'react-native-paper';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { ActivityState, newActivity } from '../../redux/apiActivitySlice';
+import { ActivityState, newActivity, changeCurrentState } from '../../redux/apiActivitySlice';
 import { deleteActivity, stopActivity } from '../../redux/currentActivitySlice';
 import { saveActivity } from './ActivityFilesFunctions';
 import { TimerStatus } from './Move';
@@ -56,9 +56,10 @@ const CenterMove = ({ timerStatus, setTimerStatus, resetActivity }) => {
         dispatch(newActivity({userId: apiAccount.account.user.id}));
     };
 
-    // Change between pause and play
-    const pausePlayActivity = () => {
-        (timerStatus === TimerStatus.play) ? setTimerStatus(TimerStatus.pause) : setTimerStatus(TimerStatus.play);
+    // Switch between paused and ongoing states
+    const dispatchChangeCurrentState = () => {
+        const newState = (apiActivity.currentState === ActivityState.ongoing) ? ActivityState.paused : ActivityState.ongoing;
+        dispatch(changeCurrentState({currentState: newState}));
     }
 
     // Change endDate of the current activity
@@ -105,20 +106,6 @@ const CenterMove = ({ timerStatus, setTimerStatus, resetActivity }) => {
                 </View>
             );
 
-        case ActivityState.ongoing:
-            return (
-                <View style={[styles.section, { flexDirection: 'row' }]}>
-                    <View style={styles.subsection}>
-                        <IconButton onPress={pausePlayActivity} icon={(timerStatus === TimerStatus.play) ? 'pause-circle-outline' : 'play-circle-outline'} iconColor={colors.primary} size={fontSizes.bigButton} theme={{ colors: { onSurfaceDisabled: colors.placeholder } }} />
-                        <Text style={styles.textButton}> {(timerStatus === TimerStatus.play) ? 'Pause' : 'Play'} </Text>
-                    </View>
-                    <View style={styles.subsection}>
-                        <IconButton onPress={dispatchStopActivity} icon='stop-circle-outline' iconColor={colors.primary} size={fontSizes.bigButton} theme={{ colors: { onSurfaceDisabled: colors.placeholder } }} />
-                        <Text style={styles.textButton}> Stop </Text>
-                    </View>
-                </View>
-            );
-
         case ActivityState.stopped:
             return (
                 <View style={styles.section}>
@@ -131,7 +118,18 @@ const CenterMove = ({ timerStatus, setTimerStatus, resetActivity }) => {
             );
 
         default:
-            break;
+            return (
+                <View style={[styles.section, { flexDirection: 'row' }]}>
+                    <View style={styles.subsection}>
+                        <IconButton onPress={dispatchChangeCurrentState} icon={(apiActivity.currentState === ActivityState.ongoing) ? 'pause-circle-outline' : 'play-circle-outline'} iconColor={colors.primary} size={fontSizes.bigButton} theme={{ colors: { onSurfaceDisabled: colors.placeholder } }} />
+                        <Text style={styles.textButton}> {(apiActivity.currentState === ActivityState.ongoing) ? 'Pause' : 'Play'} </Text>
+                    </View>
+                    <View style={styles.subsection}>
+                        <IconButton onPress={dispatchStopActivity} icon='stop-circle-outline' iconColor={colors.primary} size={fontSizes.bigButton} theme={{ colors: { onSurfaceDisabled: colors.placeholder } }} />
+                        <Text style={styles.textButton}> Stop </Text>
+                    </View>
+                </View>
+            );
     };
 };
 
