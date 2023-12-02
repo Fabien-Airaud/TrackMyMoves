@@ -108,7 +108,9 @@ class ActivitySerializer(serializers.ModelSerializer):
         return data
     
     def create(self, validated_data):
-        return Activity.objects.create(**validated_data)
+        user_id = validated_data.pop("user")
+        user = User.objects.get(user_id)
+        return Activity.objects.create(**validated_data, user=user)
 
     # def create(self, validated_data):
     #     intervals_data = validated_data.pop("intervals")
