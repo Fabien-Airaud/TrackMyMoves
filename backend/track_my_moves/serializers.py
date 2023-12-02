@@ -110,15 +110,15 @@ class ActivitySerializer(serializers.ModelSerializer):
     # def create(self, validated_data):
     #     return Activity.objects.create(**validated_data)
 
-    def create(self, validated_data):
-        intervals_data = validated_data.pop("intervals")
-        activity = Activity.objects.create(**validated_data)
+    # def create(self, validated_data):
+    #     intervals_data = validated_data.pop("intervals")
+    #     activity = Activity.objects.create(**validated_data)
         
-        intervals = []
-        for interval_data in intervals_data:
-            interval_data.activity = activity.id
-            interval = ActivityInterval.objects.create(**interval_data)
-            intervals.append(interval)
+    #     intervals = []
+    #     for interval_data in intervals_data:
+    #         interval_data.activity = activity.id
+    #         interval = ActivityInterval.objects.create(**interval_data)
+    #         intervals.append(interval)
         
-        activity.intervals = intervals
-        return activity
+    #     activity.intervals = intervals
+    #     return activity
