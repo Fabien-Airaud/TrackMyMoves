@@ -8,6 +8,7 @@ import { ActivityState } from '../../redux/apiActivitySlice';
 const Timer = ({ activityState, dispatchPlayTimer, dispatchPauseTimer }) => {
     // Timer variables
     const [time, setTime] = useState(0);
+    const [paused, setPaused] = useState(false);
 
     // Style variables
     const { colors, fontSizes } = useTheme();
@@ -33,14 +34,19 @@ const Timer = ({ activityState, dispatchPlayTimer, dispatchPauseTimer }) => {
         // Implementing the setInterval method
         let timerId;
         if (activityState === ActivityState.ongoing) {
+            setPaused(false);
             if (dispatchPlayTimer) dispatchPlayTimer(time); 
 
             timerId = setInterval(() => {
                 setTime((time) => time + 20);
             }, 20);
         } else {
-            if ((activityState === ActivityState.paused || activityState === ActivityState.stopped) && dispatchPauseTimer) dispatchPauseTimer(time); 
-            clearInterval(timerId);
+            if (dispatchPauseTimer && (activityState === ActivityState.paused || activityState === ActivityState.stopped)) {
+                if (!paused) { // if not already paused
+                    dispatchPauseTimer(time);
+                    setPaused(true);
+                }
+            }
 
             if (activityState === ActivityState.starting) resetTimer();
         }
