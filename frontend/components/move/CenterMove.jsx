@@ -5,6 +5,7 @@ import { IconButton } from 'react-native-paper';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { ActivityState, changeCurrentState, newActivity, stopActivity, deleteActivity } from '../../redux/apiActivitySlice';
+import { createActivityAPI } from '../APIFunctions';
 
 const CenterMove = () => {
     // Logged account and current activity stored in redux
@@ -70,15 +71,20 @@ const CenterMove = () => {
     }
 
     // Create a new activity when start button pressed
-    const dispatchSaveActivity = async () => {
-        await saveActivity(activity).then(
-            () => Alert.alert(
-                'Activity saved',
-                'Your current activity is saved'),
-            () => alert('An error occured while saving the activity'));
+    const dispatchSaveActivity = () => {
+        createActivityAPI(apiAccount.token, apiActivity)
+            .then(helpers => {
+                if (helpers) alert(JSON.stringify(helpers));
+                else {
+                    Alert.alert(
+                        'Activity saved',
+                        'Your current activity is saved');
 
-        // Delete activity in redux store
-        dispatchDeleteActivity();
+                    // Delete activity in redux store
+                    dispatchDeleteActivity();
+                }
+            })
+            .catch(console.error);
     };
 
     switch (apiActivity.currentState) {
