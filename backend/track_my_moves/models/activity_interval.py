@@ -5,11 +5,11 @@ class ActivityInterval(models.Model):
     class Meta:
         constraints = [
             models.CheckConstraint(
-                name="start_datetime_less_than_end_datetime",
+                name="activity_interval_start_datetime_less_than_end_datetime",
                 check=models.Q(start_datetime__lt=models.F("end_datetime"))
             ),
             models.CheckConstraint(
-                name="start_time_less_than_end_time",
+                name="activity_interval_start_time_less_than_end_time",
                 check=models.Q(start_time__lt=models.F("end_time"))
             )
         ]

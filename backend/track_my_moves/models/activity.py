@@ -8,7 +8,7 @@ class Activity(models.Model):
     class Meta:
         constraints = [
             models.CheckConstraint(
-                name="start_datetime_less_than_end_datetime",
+                name="activity_start_datetime_less_than_end_datetime",
                 check=models.Q(start_datetime__lt=models.F("end_datetime"))
             )
         ]
