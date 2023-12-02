@@ -180,7 +180,8 @@ export const createActivityAPI = async (token, activity) => {
             user: activity.user,
             activity_type: activity.activity_type.id,
             start_datetime: activity.start_datetime,
-            end_datetime: activity.end_datetime
+            end_datetime: activity.end_datetime,
+            intervals: activity.intervals
         })
     });
 
