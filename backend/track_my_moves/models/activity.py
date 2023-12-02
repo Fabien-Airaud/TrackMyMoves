@@ -9,7 +9,7 @@ class Activity(models.Model):
         constraints = [
             models.CheckConstraint(
                 name="start_datetime_less_than_end_datetime",
-                check=models.Q(start_datetime__lt=models.F("end_datetime")),
+                check=models.Q(start_datetime__lt=models.F("end_datetime"))
             )
         ]
     
@@ -24,3 +24,31 @@ class Activity(models.Model):
     
     # intervals: []
     # sensors_intervals: []
+    
+# intervals : [{interval},{interval}]
+# interval: {
+#     id: ,
+#     activity_id: ,
+#     start_datetime: ,
+#     start_time: ,
+#     sensors_intervals: [{sensors_interval},{sensors_interval}],
+#     position_intervals: [{position_interval},{position_interval}],
+#     end_datetime: ,
+#     end_time: 
+# }
+# sensors_interval: {
+#     id: ,
+#     interval_id: ,
+#     time: ,
+#     accel_x: ,
+#     accel_y: ,
+#     accel_z: ,
+#     gyros_x: ,
+#     gyros_y: ,
+#     gyros_z: ,
+# }
+# position_interval: {
+#     id: ,
+#     interval_id: ,
+#     data: 
+# }

@@ -6,11 +6,11 @@ class ActivityInterval(models.Model):
         constraints = [
             models.CheckConstraint(
                 name="start_datetime_less_than_end_datetime",
-                check=models.Q(start_datetime__lt=models.F("end_datetime")),
+                check=models.Q(start_datetime__lt=models.F("end_datetime"))
             ),
             models.CheckConstraint(
                 name="start_time_less_than_end_time",
-                check=models.Q(start_time__lt=models.F("end_time")),
+                check=models.Q(start_time__lt=models.F("end_time"))
             )
         ]
     
@@ -23,3 +23,13 @@ class ActivityInterval(models.Model):
     def save(self, *args, **kwargs):
         self.full_clean()
         return super(ActivityInterval, self).save(*args, **kwargs)
+
+# activity_interval: {
+#     id: ,
+#     activity_id: ,
+#     start_datetime: ,
+#     start_time: ,
+#     sensors_intervals: [{sensors_interval},{sensors_interval}],
+#     position_intervals: [{position_interval},{position_interval}],
+#     end_datetime: ,
+#     end_time: 

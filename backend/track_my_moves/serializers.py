@@ -78,6 +78,16 @@ class ActivityIntervalSerializer(serializers.ModelSerializer):
         fields = '__all__'
         read_only_fields = ['activity']
     
+    def validate(self, data):
+        """
+        Check that start_datetime is before end_datetime and check the same for times.
+        """
+        if data['start_datetime'] > data['end_datetime']:
+            raise serializers.ValidationError("start_datetime should be before end_datetime.")
+        if data['start_time'] > data['end_time']:
+            raise serializers.ValidationError("start_time should be less than end_time.")
+        return data
+    
     def create(self, validated_data):
         return ActivityInterval.objects.create(**validated_data)
 
@@ -86,6 +96,14 @@ class ActivitySerializer(serializers.ModelSerializer):
         model = Activity
         fields = '__all__'
         read_only_fields = ['user']
+    
+    def validate(self, data):
+        """
+        Check that start_datetime is before end_datetime.
+        """
+        if data['start_datetime'] > data['end_datetime']:
+            raise serializers.ValidationError("start_datetime should be before end_datetime.")
+        return data
     
     def create(self, validated_data):
         return Activity.objects.create(**validated_data)
