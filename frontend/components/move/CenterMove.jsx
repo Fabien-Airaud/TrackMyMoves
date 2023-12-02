@@ -4,8 +4,8 @@ import { Alert, StyleSheet, Text, View } from "react-native";
 import { IconButton } from 'react-native-paper';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { ActivityState, newActivity, changeCurrentState } from '../../redux/apiActivitySlice';
-import { deleteActivity, stopActivity } from '../../redux/currentActivitySlice';
+import { ActivityState, changeCurrentState, newActivity, stopActivity } from '../../redux/apiActivitySlice';
+import { deleteActivity } from '../../redux/currentActivitySlice';
 import { saveActivity } from './ActivityFilesFunctions';
 import { TimerStatus } from './Move';
 
@@ -53,25 +53,18 @@ const CenterMove = ({ timerStatus, setTimerStatus, resetActivity }) => {
 
     // Create a new activity when start button pressed
     const dispatchNewActivity = () => {
-        dispatch(newActivity({userId: apiAccount.account.user.id}));
+        dispatch(newActivity({ userId: apiAccount.account.user.id }));
     };
 
     // Switch between paused and ongoing states
     const dispatchChangeCurrentState = () => {
         const newState = (apiActivity.currentState === ActivityState.ongoing) ? ActivityState.paused : ActivityState.ongoing;
-        dispatch(changeCurrentState({currentState: newState}));
+        dispatch(changeCurrentState({ currentState: newState }));
     }
 
-    // Change endDate of the current activity
+    // Stop activity when stop button pressed
     const dispatchStopActivity = () => {
-        const endDate = new Date();
-        setTimerStatus(TimerStatus.pause); // stop the timer before activity ended
-
-        dispatch(
-            stopActivity({ endDate: endDate.toISOString() })
-        );
-
-        setPageType(MovePageType.save);
+        dispatch(stopActivity());
     };
 
     // Delete the current activity and reset activity
