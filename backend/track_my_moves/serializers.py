@@ -76,7 +76,7 @@ class ActivityIntervalSerializer(serializers.ModelSerializer):
     class Meta:
         model = ActivityInterval
         fields = '__all__'
-        read_only_fields = ['activity']
+        read_only_fields = ['activity_id']
     
     def validate(self, data):
         """
