@@ -67,7 +67,15 @@ const CenterMove = () => {
 
     // Delete activity
     const dispatchDeleteActivity = () => {
-        dispatch(deleteActivity());
+        Alert.alert(
+            'Delete activity',
+            'Are you sure you want to delete the activity?',
+            [
+                { text: 'Delete', onPress: () => dispatch(deleteActivity()) },
+                { text: 'Cancel' }
+            ],
+            { cancelable: true }
+        );
     }
 
     // Create a new activity when start button pressed
