@@ -90,7 +90,7 @@ const CenterMove = () => {
                         'Your current activity is saved');
 
                     // Delete activity in redux store
-                    dispatchDeleteActivity();
+                    dispatch(deleteActivity());
                 }
             })
             .catch(console.error);
