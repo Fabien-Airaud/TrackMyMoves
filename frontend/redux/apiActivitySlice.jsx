@@ -19,9 +19,15 @@ export const apiActivitySlice = createSlice({
             console.log("Change activityType: " + JSON.stringify(state));
         },
         newActivity: (state, action) => {
+            const start = new Date().toISOString();
+            const interval = {
+                start_datetime: start
+            }
+
             state.current_state = ActivityState.ongoing;
             state.user = action.payload.userId;
-            state.start_datetime = new Date().toISOString();
+            state.start_datetime = start;
+            state.intervals = [interval];
             console.log("New activity: " + JSON.stringify(state));
         },
         changeCurrentState: (state, action) => {
