@@ -21,7 +21,7 @@ export const apiActivitySlice = createSlice({
         newActivity: (state, action) => {
             state.currentState = ActivityState.ongoing;
             state.userId = action.payload.userId;
-            state.startDate = new Date().toISOString();
+            state.startDatetime = new Date().toISOString();
             console.log("New activity: " + JSON.stringify(state));
         },
         changeCurrentState: (state, action) => {
@@ -30,7 +30,7 @@ export const apiActivitySlice = createSlice({
         },
         stopActivity: (state) => {
             state.currentState = ActivityState.stopped;
-            state.endDate = new Date().toISOString();
+            state.endDatetime = new Date().toISOString();
             console.log("Stop activity: " + JSON.stringify(state));
         },
         deleteActivity: () => {
