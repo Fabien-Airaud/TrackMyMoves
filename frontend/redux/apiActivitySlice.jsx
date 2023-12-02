@@ -23,6 +23,10 @@ export const apiActivitySlice = createSlice({
             state.userId = action.payload.userId;
             state.startDate = new Date().toISOString();
             console.log("New activity: " + JSON.stringify(state));
+        },
+        changeCurrentState: (state, action) => {
+            state.currentState = action.payload.currentState;
+            console.log("Change current state: " + JSON.stringify(state));
         }
     }
 });
@@ -30,7 +34,8 @@ export const apiActivitySlice = createSlice({
 
 export const {
     changeActivityType,
-    newActivity
+    newActivity,
+    changeCurrentState
 } = apiActivitySlice.actions;
 
 export default apiActivitySlice.reducer;
