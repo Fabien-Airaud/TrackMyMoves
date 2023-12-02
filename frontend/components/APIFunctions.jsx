@@ -179,8 +179,8 @@ export const createActivityAPI = async (token, activity) => {
         body: JSON.stringify({
             user: activity.userId,
             activity_type: activity.activityType.id,
-            start_date: activity.startDate,
-            end_date: activity.endDate
+            start_datetime: activity.startDatetime,
+            end_datetime: activity.endDatetime
         })
     });
 
