@@ -92,7 +92,7 @@ class ActivityIntervalSerializer(serializers.ModelSerializer):
         return ActivityInterval.objects.create(**validated_data)
 
 class ActivitySerializer(serializers.ModelSerializer):
-    intervals = serializers.ListSerializer(child=ActivityIntervalSerializer())
+    intervals = ActivityIntervalSerializer(many=True)
 
     class Meta:
         model = Activity
@@ -114,9 +114,11 @@ class ActivitySerializer(serializers.ModelSerializer):
         intervals_data = validated_data.pop("intervals")
         activity = Activity.objects.create(**validated_data)
         
+        intervals = []
         for interval_data in intervals_data:
             interval_data.activity = activity.id
             interval = ActivityInterval.objects.create(**interval_data)
-            activity.intervals.append(interval)
+            intervals.append(interval)
         
+        activity.intervals = intervals
         return activity
