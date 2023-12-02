@@ -62,6 +62,20 @@ export const apiActivitySlice = createSlice({
             return {
                 current_state: ActivityState.starting
             };
+        },
+        playTimerInterval: (state, action) => {
+            const interval = state.intervals.pop();
+            interval.start_time = action.payload.playTime;
+        
+            state.intervals.push(interval);
+            console.log("Play time interval: " + JSON.stringify(interval));
+        },
+        pauseTimerInterval: (state, action) => {
+            const interval = state.intervals.pop();
+            if (interval.end_time == undefined) interval.end_time = action.payload.pauseTime;
+        
+            state.intervals.push(interval);
+            console.log("Pause time interval: " + JSON.stringify(interval));
         }
     }
 });
@@ -73,7 +87,9 @@ export const {
     playActivity,
     pauseActivity,
     stopActivity,
-    deleteActivity
+    deleteActivity,
+    playTimerInterval,
+    pauseTimerInterval
 } = apiActivitySlice.actions;
 
 export default apiActivitySlice.reducer;
