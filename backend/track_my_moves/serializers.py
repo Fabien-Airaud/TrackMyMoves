@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import Account, ActivityType, Activity, User
+from .models import User, Account, ActivityType, ActivityInterval, Activity
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -72,11 +72,20 @@ class ActivityTypeSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         return ActivityType.objects.create(**validated_data)
 
+class ActivityIntervalSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ActivityInterval
+        fields = '__all__'
+        read_only_fields = ['activity']
+    
+    def create(self, validated_data):
+        return ActivityInterval.objects.create(**validated_data)
+
 class ActivitySerializer(serializers.ModelSerializer):
     class Meta:
         model = Activity
         fields = '__all__'
-        read_only_fields = ['user_id']
+        read_only_fields = ['user']
     
     def create(self, validated_data):
         return Activity.objects.create(**validated_data)
