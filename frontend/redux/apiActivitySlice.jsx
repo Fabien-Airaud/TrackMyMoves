@@ -32,6 +32,12 @@ export const apiActivitySlice = createSlice({
             state.currentState = ActivityState.stopped;
             state.endDate = new Date().toISOString();
             console.log("Stop activity: " + JSON.stringify(state));
+        },
+        deleteActivity: () => {
+            console.log("Delete activity");
+            return {
+                currentState: ActivityState.starting
+            };
         }
     }
 });
@@ -41,7 +47,8 @@ export const {
     changeActivityType,
     newActivity,
     changeCurrentState,
-    stopActivity
+    stopActivity,
+    deleteActivity
 } = apiActivitySlice.actions;
 
 export default apiActivitySlice.reducer;
