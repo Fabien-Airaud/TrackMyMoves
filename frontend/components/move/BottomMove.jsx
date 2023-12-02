@@ -1,8 +1,12 @@
 import { StyleSheet, View } from "react-native";
+import { useSelector } from 'react-redux';
 
 import Timer from './Timer';
 
-const BottomMove = ({ pageType, timerStatus, dispatchPlayTimer, dispatchPauseTimer }) => {
+const BottomMove = () => {
+    // Current activity stored in redux
+    const apiActivity = useSelector((state) => state.apiActivity);
+
     // Style variables
     const styles = StyleSheet.create({
         section: {
@@ -15,7 +19,7 @@ const BottomMove = ({ pageType, timerStatus, dispatchPlayTimer, dispatchPauseTim
 
     return (
         <View style={styles.section}>
-            <Timer status={timerStatus} dispatchPlayTimer={dispatchPlayTimer} dispatchPauseTimer={dispatchPauseTimer} />
+            <Timer activityState={apiActivity.current_state} dispatchPlayTimer={(timer) => console.log(timer)} dispatchPauseTimer={(timer) => console.log(timer)} />
         </View>
     );
 };
