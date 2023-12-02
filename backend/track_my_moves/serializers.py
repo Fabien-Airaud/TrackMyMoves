@@ -97,7 +97,7 @@ class ActivitySerializer(serializers.ModelSerializer):
     class Meta:
         model = Activity
         fields = '__all__'
-        read_only_fields = ['user']
+        # read_only_fields = ['user']
     
     def validate(self, data):
         """
@@ -108,8 +108,7 @@ class ActivitySerializer(serializers.ModelSerializer):
         return data
     
     def create(self, validated_data):
-        user = validated_data.pop("user")
-        return Activity.objects.create(**validated_data, user=user)
+        return Activity.objects.create(**validated_data)
 
     # def create(self, validated_data):
     #     intervals_data = validated_data.pop("intervals")
