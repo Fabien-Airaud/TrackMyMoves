@@ -97,7 +97,7 @@ class ActivitySerializer(serializers.ModelSerializer):
     class Meta:
         model = Activity
         fields = '__all__'
-        # read_only_fields = ['user']
+        read_only_fields = ['user_id']
     
     def validate(self, data):
         """
