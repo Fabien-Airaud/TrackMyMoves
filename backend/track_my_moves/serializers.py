@@ -91,7 +91,7 @@ class ActivityIntervalSerializer(serializers.ModelSerializer):
         return ActivityInterval.objects.create(**validated_data)
 
 class ActivitySerializer(serializers.ModelSerializer):
-    # intervals = ActivityIntervalSerializer(many=True)
+    intervals = ActivityIntervalSerializer(many=True)
 
     class Meta:
         model = Activity
