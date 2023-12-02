@@ -56,7 +56,7 @@ const CenterMove = () => {
 
     // Switch between paused and ongoing states
     const dispatchChangeCurrentState = () => {
-        const newState = (apiActivity.currentState === ActivityState.ongoing) ? ActivityState.paused : ActivityState.ongoing;
+        const newState = (apiActivity.current_state === ActivityState.ongoing) ? ActivityState.paused : ActivityState.ongoing;
         dispatch(changeCurrentState({ currentState: newState }));
     }
 
@@ -95,11 +95,11 @@ const CenterMove = () => {
             .catch(console.error);
     };
 
-    switch (apiActivity.currentState) {
+    switch (apiActivity.current_state) {
         case ActivityState.starting:
             return (
                 <View style={styles.section}>
-                    <IconButton disabled={apiActivity.activityType == undefined} onPress={dispatchNewActivity} icon='play-circle-outline' iconColor={colors.primary} size={fontSizes.bigButton} theme={{ colors: { onSurfaceDisabled: colors.placeholder } }} />
+                    <IconButton disabled={apiActivity.activity_type == undefined} onPress={dispatchNewActivity} icon='play-circle-outline' iconColor={colors.primary} size={fontSizes.bigButton} theme={{ colors: { onSurfaceDisabled: colors.placeholder } }} />
                     <Text style={styles.textButton}> Start </Text>
                 </View>
             );
@@ -119,8 +119,8 @@ const CenterMove = () => {
             return (
                 <View style={[styles.section, { flexDirection: 'row' }]}>
                     <View style={styles.subsection}>
-                        <IconButton onPress={dispatchChangeCurrentState} icon={(apiActivity.currentState === ActivityState.ongoing) ? 'pause-circle-outline' : 'play-circle-outline'} iconColor={colors.primary} size={fontSizes.bigButton} theme={{ colors: { onSurfaceDisabled: colors.placeholder } }} />
-                        <Text style={styles.textButton}> {(apiActivity.currentState === ActivityState.ongoing) ? 'Pause' : 'Play'} </Text>
+                        <IconButton onPress={dispatchChangeCurrentState} icon={(apiActivity.current_state === ActivityState.ongoing) ? 'pause-circle-outline' : 'play-circle-outline'} iconColor={colors.primary} size={fontSizes.bigButton} theme={{ colors: { onSurfaceDisabled: colors.placeholder } }} />
+                        <Text style={styles.textButton}> {(apiActivity.current_state === ActivityState.ongoing) ? 'Pause' : 'Play'} </Text>
                     </View>
                     <View style={styles.subsection}>
                         <IconButton onPress={dispatchStopActivity} icon='stop-circle-outline' iconColor={colors.primary} size={fontSizes.bigButton} theme={{ colors: { onSurfaceDisabled: colors.placeholder } }} />

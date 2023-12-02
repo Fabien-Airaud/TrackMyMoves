@@ -177,10 +177,10 @@ export const createActivityAPI = async (token, activity) => {
             Authorization: "token " + token
         },
         body: JSON.stringify({
-            user: activity.userId,
-            activity_type: activity.activityType.id,
-            start_datetime: activity.startDatetime,
-            end_datetime: activity.endDatetime
+            user: activity.user,
+            activity_type: activity.activity_type.id,
+            start_datetime: activity.start_datetime,
+            end_datetime: activity.end_datetime
         })
     });
 

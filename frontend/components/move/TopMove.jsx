@@ -65,11 +65,11 @@ const TopMove = () => {
     const dispatch = useDispatch();
 
     const dispatchActivityType = (activityType) => {
-        if (apiActivity.activityType !== activityType) dispatch(changeActivityType({ activityType: activityType }));
+        if (apiActivity.activity_type !== activityType) dispatch(changeActivityType({ activityType: activityType }));
     };
 
 
-    if (apiActivity.currentState === ActivityState.starting) {
+    if (apiActivity.current_state === ActivityState.starting) {
         return (
             <View style={styles.section}>
                 <Text style={styles.warningText}> Please note, the type of activity can no longer be modified after the activity has started </Text>
@@ -79,8 +79,8 @@ const TopMove = () => {
     } else {
         return (
             <View style={styles.section}>
-                <IconButton icon={apiActivity.activityType.leadingIcon} iconColor={colors.text} size={fontSizes.medButton} />
-                <Text style={styles.activityText}> {apiActivity.activityType.label} </Text>
+                <IconButton icon={apiActivity.activity_type.leadingIcon} iconColor={colors.text} size={fontSizes.medButton} />
+                <Text style={styles.activityText}> {apiActivity.activity_type.label} </Text>
             </View>
         );
     };
