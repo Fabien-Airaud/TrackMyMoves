@@ -30,13 +30,31 @@ export const apiActivitySlice = createSlice({
             state.intervals = [interval];
             console.log("New activity: " + JSON.stringify(state));
         },
-        changeCurrentState: (state, action) => {
-            state.current_state = action.payload.currentState;
-            console.log("Change current state: " + JSON.stringify(state));
+        playActivity: (state) => {
+            const interval = {
+                start_datetime: new Date().toISOString()
+            }
+
+            state.current_state = ActivityState.ongoing;
+            state.intervals.push(interval);
+            console.log("Play activity: " + JSON.stringify(state.intervals));
+        },
+        pauseActivity: (state) => {
+            const interval = state.intervals.pop();
+            interval.end_datetime = new Date().toISOString();
+
+            state.current_state = ActivityState.paused;
+            state.intervals.push(interval);
+            console.log("Pause activity: " + JSON.stringify(state.intervals));
         },
         stopActivity: (state) => {
+            const end = new Date().toISOString();
+            const interval = state.intervals.pop();
+            if (interval.end_datetime == undefined) interval.end_datetime = end;
+
             state.current_state = ActivityState.stopped;
-            state.end_datetime = new Date().toISOString();
+            state.intervals.push(interval);
+            state.end_datetime = end;
             console.log("Stop activity: " + JSON.stringify(state));
         },
         deleteActivity: () => {
@@ -52,7 +70,8 @@ export const apiActivitySlice = createSlice({
 export const {
     changeActivityType,
     newActivity,
-    changeCurrentState,
+    playActivity,
+    pauseActivity,
     stopActivity,
     deleteActivity
 } = apiActivitySlice.actions;

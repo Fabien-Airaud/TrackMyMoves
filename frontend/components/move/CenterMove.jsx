@@ -4,7 +4,7 @@ import { Alert, StyleSheet, Text, View } from "react-native";
 import { IconButton } from 'react-native-paper';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { ActivityState, changeCurrentState, newActivity, stopActivity, deleteActivity } from '../../redux/apiActivitySlice';
+import { ActivityState, playActivity, pauseActivity, newActivity, stopActivity, deleteActivity } from '../../redux/apiActivitySlice';
 import { createActivityAPI } from '../APIFunctions';
 
 const CenterMove = () => {
@@ -55,9 +55,10 @@ const CenterMove = () => {
     };
 
     // Switch between paused and ongoing states
-    const dispatchChangeCurrentState = () => {
-        const newState = (apiActivity.current_state === ActivityState.ongoing) ? ActivityState.paused : ActivityState.ongoing;
-        dispatch(changeCurrentState({ currentState: newState }));
+    const dispatchPlayPauseActivity = () => {
+        (apiActivity.current_state === ActivityState.ongoing)
+        ? dispatch(pauseActivity()) // is ongoing -> pause
+        : dispatch(playActivity()); // is pause -> play
     }
 
     // Stop activity when stop button pressed
@@ -119,7 +120,7 @@ const CenterMove = () => {
             return (
                 <View style={[styles.section, { flexDirection: 'row' }]}>
                     <View style={styles.subsection}>
-                        <IconButton onPress={dispatchChangeCurrentState} icon={(apiActivity.current_state === ActivityState.ongoing) ? 'pause-circle-outline' : 'play-circle-outline'} iconColor={colors.primary} size={fontSizes.bigButton} theme={{ colors: { onSurfaceDisabled: colors.placeholder } }} />
+                        <IconButton onPress={dispatchPlayPauseActivity} icon={(apiActivity.current_state === ActivityState.ongoing) ? 'pause-circle-outline' : 'play-circle-outline'} iconColor={colors.primary} size={fontSizes.bigButton} theme={{ colors: { onSurfaceDisabled: colors.placeholder } }} />
                         <Text style={styles.textButton}> {(apiActivity.current_state === ActivityState.ongoing) ? 'Pause' : 'Play'} </Text>
                     </View>
                     <View style={styles.subsection}>
