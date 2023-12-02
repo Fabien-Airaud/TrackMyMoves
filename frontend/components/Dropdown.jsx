@@ -67,11 +67,11 @@ const Dropdown = ({ items, initialValue = undefined, onChangeValue = () => {}, l
             {items.map((item, index) => {
                 if (index == items.length - 1) return (
                     <View key={index}>
-                        <Menu.Item leadingIcon={leadingIcon ? item.leadingIcon : ''} onPress={() => pressItem(item)} title={item.label} theme={{ colors: { onSurface: colors.text, onSurfaceVariant: colors.text } }} />
+                        <Menu.Item leadingIcon={leadingIcon ? item.leading_icon : ''} onPress={() => pressItem(item)} title={item.label} theme={{ colors: { onSurface: colors.text, onSurfaceVariant: colors.text } }} />
                     </View>);
                 else return (
                     <View key={index}>
-                        <Menu.Item leadingIcon={leadingIcon ? item.leadingIcon : ''} onPress={() => pressItem(item)} title={item.label} theme={{ colors: { onSurface: colors.text, onSurfaceVariant: colors.text } }} />
+                        <Menu.Item leadingIcon={leadingIcon ? item.leading_icon : ''} onPress={() => pressItem(item)} title={item.label} theme={{ colors: { onSurface: colors.text, onSurfaceVariant: colors.text } }} />
                         <Divider />
                     </View>);
             })}
