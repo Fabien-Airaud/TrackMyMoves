@@ -38,7 +38,7 @@ class AccountAdmin(admin.ModelAdmin):
 class ActivityAdmin(admin.ModelAdmin):
     list_display = ["activity_type", "user", "start_datetime", "end_datetime"]
     list_filter = ["activity_type", "user"]
-    ordering = ["start_datetime", "user", "activity_type", "end_datetime"]
+    ordering = ["start_datetime", "user", "activity_type"]
 
 class ActivityTypeAdmin(admin.ModelAdmin):
     list_display = ["label", "value", "leading_icon"]
@@ -47,8 +47,8 @@ class ActivityTypeAdmin(admin.ModelAdmin):
 
 class ActivityIntervalAdmin(admin.ModelAdmin):
     list_display = ["start_datetime", "activity", "start_time", "end_time", "end_datetime"]
-    list_filter = ["activity", "start_time", "end_time"]
-    ordering = ["start_datetime", "activity", "start_time", "end_time", "end_datetime"]
+    list_filter = ["activity"]
+    ordering = ["start_datetime", "activity", "start_time"]
 
 class SensorsIntervalAdmin(admin.ModelAdmin):
     list_display = ["interval", "time", "accel_x", "accel_y", "accel_z", "gyros_x", "gyros_y", "gyros_z"]
