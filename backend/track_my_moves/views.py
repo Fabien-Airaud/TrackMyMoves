@@ -320,7 +320,7 @@ class ActivityViewSet(viewsets.ViewSet):
             # all intervals added without error
             if (addIntervals_errors == {}):
                 intervals = ActivityInterval.objects.filter(activity=activity_serializer.data["id"])
-                intervals_serializer = ActivityIntervalSerializer(data=intervals, many=True)
+                intervals_serializer = ActivityIntervalSerializer(intervals, many=True)
                 return Response({**activity_serializer.data, intervals: intervals_serializer.data}, status=status.HTTP_201_CREATED)
             
             return Response(addIntervals_errors, status=status.HTTP_400_BAD_REQUEST)
