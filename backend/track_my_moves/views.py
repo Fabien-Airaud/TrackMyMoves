@@ -4,7 +4,6 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import user_passes_test
 from django.urls import reverse
 from rest_framework import status, viewsets
-from rest_framework.renderers import JSONRenderer
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.authtoken.models import Token
@@ -297,7 +296,7 @@ def addIntervalsToActivity(intervals_data, activity_id):
             serializer.save()
         else:
             return serializer.errors
-    return True
+    return {}
 
 class ActivityViewSet(viewsets.ViewSet):
     permission_classes = [IsAuthenticated]
@@ -311,13 +310,21 @@ class ActivityViewSet(viewsets.ViewSet):
     def create(self, request):
         intervals_data = request.data.pop("intervals")
         
-        serializer = ActivitySerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save();
+        activity_serializer = ActivitySerializer(data=request.data)
+        if activity_serializer.is_valid():
+            activity_serializer.save();
             
-            add = addIntervalsToActivity(intervals_data, serializer.data["id"]);
-            return Response({"activity": serializer.data, "intervals_data": intervals_data, "add": add}, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            # Add all intervals with the new activity_id
+            addIntervals_errors = addIntervalsToActivity(intervals_data, activity_serializer.data["id"]);
+            
+            # all intervals added without error
+            if (addIntervals_errors == {}):
+                intervals = ActivityInterval.objects.filter(activity=activity_serializer.data["id"])
+                intervals_serializer = ActivityIntervalSerializer(data=intervals, many=True)
+                return Response({**activity_serializer.data, intervals: intervals_serializer.data}, status=status.HTTP_201_CREATED)
+            
+            return Response(addIntervals_errors, status=status.HTTP_400_BAD_REQUEST)
+        return Response(activity_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
     def retrieve(self, request, pk):
         activity = Activity.objects.get(id=pk)
