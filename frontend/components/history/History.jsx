@@ -1,6 +1,7 @@
 import { useFocusEffect, useTheme } from '@react-navigation/native';
+import { Button } from '@rneui/themed';
 import { useCallback, useState } from 'react';
-import { ScrollView, StyleSheet, Text } from 'react-native';
+import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { useSelector } from 'react-redux';
 
 import ActivityList from './ActivityList';
@@ -17,6 +18,10 @@ const History = ({ navigation }) => {
             minHeight: '100%',
             width: '100%',
             backgroundColor: colors.background
+        },
+        noActivityView: {
+            alignItems: "center",
+            marginVertical: "5%"
         },
         text: {
             textAlign: 'center',
@@ -54,7 +59,10 @@ const History = ({ navigation }) => {
     return (
         <ScrollView style={styles.page}>
             {(list.length === 0)
-                ? <Text style={styles.text}>You can go to move page to create your first activity</Text>
+                ? <View style={styles.noActivityView}>
+                    <Text style={styles.text}>You can go to move page to create your first activity</Text>
+                    <Button title="Move page" onPress={() => navigation.navigate("Move")} size='lg' radius='sm' titleStyle={{ fontWeight: 'bold' }} color={colors.primary} containerStyle={{ margin: '5%', width: '30%' }} />
+                </View>
                 : <ActivityList list={list} navigation={navigation} />
             }
         </ScrollView>
