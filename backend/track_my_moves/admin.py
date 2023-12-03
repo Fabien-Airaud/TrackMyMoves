@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 
 from .forms import UserCreationForm, UserChangeForm
-from .models import User, Account, Activity, ActivityType, ActivityInterval
+from .models import User, Account, Activity, ActivityType, ActivityInterval, SensorsInterval
 
 
 class UserAdmin(UserAdmin):
@@ -36,3 +36,4 @@ admin.site.register(Account)
 admin.site.register(Activity)
 admin.site.register(ActivityType)
 admin.site.register(ActivityInterval)
+admin.site.register(SensorsInterval)
