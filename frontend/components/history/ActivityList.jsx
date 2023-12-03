@@ -26,7 +26,7 @@ const ActivityList = ({ list, navigation }) => {
         }
     });
 
-    const dispatchDeleteActivity = async (activityId) => {
+    const deleteActivity = async (activityId) => {
         Alert.alert(
             'Delete activity',
             'Are you sure you want to delete this activity?',
@@ -82,7 +82,7 @@ const ActivityList = ({ list, navigation }) => {
                             rightContent={() => (
                                 <Button
                                     title='Delete'
-                                    onPress={() => dispatchDeleteActivity(activity.id)}
+                                    onPress={() => deleteActivity(activity.id)}
                                     icon={{ name: 'delete', color: 'white' }}
                                     color={colors.error} titleStyle={{ fontWeight: 'bold' }}
                                     buttonStyle={{ minHeight: '100%' }}
