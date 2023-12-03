@@ -314,9 +314,8 @@ class ActivityViewSet(viewsets.ViewSet):
         
         serializer = ActivitySerializer(data=request.data)
         if serializer.is_valid():
-            serializer.save();
+            activity = serializer.save();
             
-            activity = serializer.data;
             add = addIntervalsToActivity(intervals_data, activity.id);
             return Response({"activity": activity, "intervals_data": intervals_data, "add": add}, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
