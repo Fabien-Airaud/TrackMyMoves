@@ -291,9 +291,7 @@ class ActivityTypeViewSet(viewsets.ViewSet):
 
 def addIntervalsToActivity(intervals_data, activity_id):
     for interval_data in intervals_data:
-        interval_data.activity = activity_id
-        
-        serializer = ActivityIntervalSerializer(data=interval_data)
+        serializer = ActivityIntervalSerializer(data={**interval_data, "activity": activity_id})
         if serializer.is_valid():
             serializer.save()
         else:
