@@ -181,6 +181,24 @@ export const listActivityAPI = async (token) => {
     return activities;
 };
 
+export const groupedActivityListAPI = async (token) => {
+    const activityTypes = await listActivityTypeAPI(token);
+    const activities = await listActivityAPI(token);
+    let group = [];
+
+    for (let activityType of activityTypes) {
+        const list = activities.filter(value => value.activity_type === activityType.id);
+
+        if (list.length > 0) {
+            group.push({
+                ...activityType,
+                activities: list
+            });
+        }
+    }
+    return group;
+};
+
 export const createActivityAPI = async (token, activity) => {
     let helpers = undefined;
 
