@@ -289,6 +289,7 @@ class ActivityTypeViewSet(viewsets.ViewSet):
         activityType.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
+
 def addSensorsToInterval(sensors_data, interval_id):
     for sensor_data in sensors_data:
         serializer = SensorsIntervalSerializer(data={**sensor_data, "interval": interval_id})
@@ -316,6 +317,18 @@ def addIntervalsToActivity(intervals_data, activity_id):
             return {"interval": interval_serializer.errors}
     return {}
 
+def getSerializedActivityIntervals(activity_id):
+    intervals_data = []
+    intervals = ActivityInterval.objects.filter(activity=activity_id)
+    intervals_serializer = ActivityIntervalSerializer(intervals, many=True)
+    
+    for interval in intervals_serializer.data:
+        sensors = SensorsInterval.objects.filter(interval=interval["id"])
+        sensors_serializer = SensorsIntervalSerializer(sensors, many=True)
+        intervals_data.append({**interval, "sensors_intervals": sensors_serializer.data})
+    
+    return intervals_data
+
 class ActivityViewSet(viewsets.ViewSet):
     permission_classes = [IsAuthenticated]
     
@@ -337,9 +350,8 @@ class ActivityViewSet(viewsets.ViewSet):
             
             # all intervals added without error
             if (addIntervals_errors == {}):
-                intervals = ActivityInterval.objects.filter(activity=activity_serializer.data["id"])
-                intervals_serializer = ActivityIntervalSerializer(intervals, many=True)
-                return Response({**activity_serializer.data, "intervals": intervals_serializer.data}, status=status.HTTP_201_CREATED)
+                serialized_intervals = getSerializedActivityIntervals(activity_serializer.data["id"])
+                return Response({**activity_serializer.data, "intervals": serialized_intervals}, status=status.HTTP_201_CREATED)
             
             return Response(addIntervals_errors, status=status.HTTP_400_BAD_REQUEST)
         return Response(activity_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
