@@ -226,3 +226,20 @@ export const createActivityAPI = async (token, activity) => {
     }
     return helpers;
 };
+
+export const deleteActivityAPI = async (token, activity_id) => {
+    let message = undefined;
+
+    const response = await fetch(apiUrl + "/activities/" + activity_id + "/", {
+        method: "DELETE",
+        headers: {
+            Authorization: "token " + token
+        }
+    });
+
+    if (!response.ok) {
+        json = await response.json();
+        message = json?.message ? json.message : "Delete activity failed: " + response.status;
+    }
+    return message;
+};
