@@ -21,8 +21,9 @@ export const apiActivitySlice = createSlice({
         newActivity: (state, action) => {
             const start = new Date().toISOString();
             const interval = {
-                start_datetime: start
-            }
+                start_datetime: start,
+                sensors_intervals: []
+            };
 
             state.current_state = ActivityState.ongoing;
             state.user = action.payload.userId;
@@ -32,8 +33,9 @@ export const apiActivitySlice = createSlice({
         },
         playActivity: (state) => {
             const interval = {
-                start_datetime: new Date().toISOString()
-            }
+                start_datetime: new Date().toISOString(),
+                sensors_intervals: []
+            };
 
             state.current_state = ActivityState.ongoing;
             state.intervals.push(interval);
