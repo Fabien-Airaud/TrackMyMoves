@@ -38,8 +38,8 @@ const Timer = ({ activityState, dispatchPlayTimer, dispatchPauseTimer }) => {
             if (dispatchPlayTimer) dispatchPlayTimer(time); 
 
             timerId = setInterval(() => {
-                setTime((time) => time + 20);
-            }, 20);
+                setTime((time) => time + 1000);
+            }, 1000);
         } else {
             if (dispatchPauseTimer && (activityState === ActivityState.paused || activityState === ActivityState.stopped)) {
                 if (!paused) { // if not already paused
