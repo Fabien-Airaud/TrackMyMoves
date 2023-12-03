@@ -6,6 +6,7 @@ def getAIActivityType():
 
 class Activity(models.Model):
     class Meta:
+        verbose_name_plural = "News",
         constraints = [
             models.CheckConstraint(
                 name="activity_start_datetime_less_than_end_datetime",
