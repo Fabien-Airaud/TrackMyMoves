@@ -22,6 +22,7 @@ export const apiActivitySlice = createSlice({
             const start = new Date().toISOString();
             const interval = {
                 start_datetime: start,
+                start_time: 0,
                 sensors_intervals: []
             };
 
@@ -32,18 +33,22 @@ export const apiActivitySlice = createSlice({
             console.log("New activity: " + JSON.stringify(state));
         },
         playActivity: (state) => {
+            const last_interval = state.intervals.pop();
             const interval = {
                 start_datetime: new Date().toISOString(),
+                start_time: last_interval.end_time,
                 sensors_intervals: []
             };
 
             state.current_state = ActivityState.ongoing;
+            state.intervals.push(last_interval);
             state.intervals.push(interval);
             console.log("Play activity: " + JSON.stringify(state.intervals));
         },
         pauseActivity: (state) => {
             const interval = state.intervals.pop();
             interval.end_datetime = new Date().toISOString();
+            interval.end_time = interval.start_time + (new Date(interval.end_datetime) - new Date(interval.start_datetime));
 
             state.current_state = ActivityState.paused;
             state.intervals.push(interval);
@@ -52,7 +57,10 @@ export const apiActivitySlice = createSlice({
         stopActivity: (state) => {
             const end = new Date().toISOString();
             const interval = state.intervals.pop();
-            if (interval.end_datetime == undefined) interval.end_datetime = end;
+            if (interval.end_datetime == undefined) {
+                interval.end_datetime = end;
+                interval.end_time = interval.start_time + (new Date(interval.end_datetime) - new Date(interval.start_datetime));
+            }
 
             state.current_state = ActivityState.stopped;
             state.intervals.push(interval);
@@ -64,20 +72,6 @@ export const apiActivitySlice = createSlice({
             return {
                 current_state: ActivityState.starting
             };
-        },
-        playTimerInterval: (state, action) => {
-            const interval = state.intervals.pop();
-            interval.start_time = action.payload.playTime;
-        
-            state.intervals.push(interval);
-            console.log("Play time interval: " + JSON.stringify(interval));
-        },
-        pauseTimerInterval: (state, action) => {
-            const interval = state.intervals.pop();
-            if (interval.end_time == undefined) interval.end_time = action.payload.pauseTime;
-        
-            state.intervals.push(interval);
-            console.log("Pause time interval: " + JSON.stringify(interval));
         },
         addSensorsInterval: (state, action) => {
             const interval = state.intervals.pop();
@@ -97,8 +91,6 @@ export const {
     pauseActivity,
     stopActivity,
     deleteActivity,
-    playTimerInterval,
-    pauseTimerInterval,
     addSensorsInterval
 } = apiActivitySlice.actions;
 
