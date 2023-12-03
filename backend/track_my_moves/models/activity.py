@@ -21,9 +21,9 @@ class Activity(models.Model):
     def save(self, *args, **kwargs):
         self.full_clean()
         return super(Activity, self).save(*args, **kwargs)
-    
-    # intervals: []
-    # sensors_intervals: []
+
+    def __str__(self):
+        return f"{self.user} {self.activity_type} activity"
     
 # intervals : [{interval},{interval}]
 # interval: {
