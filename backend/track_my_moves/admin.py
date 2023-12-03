@@ -38,7 +38,6 @@ class AccountAdmin(admin.ModelAdmin):
 class ActivityAdmin(admin.ModelAdmin):
     list_display = ["activity_type", "user", "start_datetime", "end_datetime"]
     list_filter = ["activity_type", "user"]
-    search_fields = ["activity_type", "start_datetime", "end_datetime"]
     ordering = ["start_datetime", "user", "activity_type", "end_datetime"]
 
 
