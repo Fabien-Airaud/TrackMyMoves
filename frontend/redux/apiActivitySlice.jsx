@@ -65,6 +65,7 @@ export const apiActivitySlice = createSlice({
             state.current_state = ActivityState.stopped;
             state.intervals.push(interval);
             state.end_datetime = end;
+            state.total_time = interval.end_time;
             console.log("Stop activity: " + JSON.stringify(state));
         },
         deleteActivity: () => {
