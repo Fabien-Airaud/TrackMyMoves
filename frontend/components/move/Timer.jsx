@@ -2,8 +2,8 @@ import { useTheme } from '@react-navigation/native';
 import { useEffect, useState } from 'react';
 import { StyleSheet, Text, View } from "react-native";
 
-import { formatTime } from './FormatTime';
 import { ActivityState } from '../../redux/apiActivitySlice';
+import { formatTime } from './FormatTime';
 
 const Timer = ({ activityState }) => {
     // Timer variables
