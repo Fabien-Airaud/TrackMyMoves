@@ -299,12 +299,9 @@ def addSensorsToInterval(sensors_data, interval_id):
     return {}
 
 def addIntervalsToActivity(intervals_data, activity_id):
-    if "sensors_intervals" in intervals_data:
-        sensors_data = intervals_data.pop("sensors_intervals")
-    else:
-        sensors_data = []
-    
     for interval_data in intervals_data:
+        sensors_data = interval_data.pop("sensors_intervals")
+        
         interval_serializer = ActivityIntervalSerializer(data={**interval_data, "activity": activity_id})
         if interval_serializer.is_valid():
             interval_serializer.save()
