@@ -333,12 +333,14 @@ class ActivityViewSet(viewsets.ViewSet):
     permission_classes = [IsAuthenticated]
     
     def list(self, request):
+        """Send all user activities, without intervals"""
         user = request.user
         activities = Activity.objects.filter(user_id=user.id)
         serializer = ActivitySerializer(activities, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
     
     def create(self, request):
+        """Create activity with its intervals"""
         intervals_data = request.data.pop("intervals")
         
         activity_serializer = ActivitySerializer(data=request.data)
@@ -357,9 +359,12 @@ class ActivityViewSet(viewsets.ViewSet):
         return Response(activity_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
     def retrieve(self, request, pk):
+        """Send activity with its intervals"""
         activity = Activity.objects.get(id=pk)
-        serializer = ActivitySerializer(activity)
-        return Response(serializer.data, status=status.HTTP_200_OK)
+        
+        activity_serializer = ActivitySerializer(activity)
+        serialized_intervals = getSerializedActivityIntervals(pk)
+        return Response({**activity_serializer.data, "intervals": serialized_intervals}, status=status.HTTP_200_OK)
     
     def update(self, request, pk):
         activity = Activity.objects.get(id=pk)
