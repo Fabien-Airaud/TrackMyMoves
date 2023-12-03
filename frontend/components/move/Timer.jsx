@@ -5,10 +5,10 @@ import { StyleSheet, Text, View } from "react-native";
 import { formatTime } from './FormatTime';
 import { ActivityState } from '../../redux/apiActivitySlice';
 
-const Timer = ({ activityState, dispatchPlayTimer, dispatchPauseTimer }) => {
+const Timer = ({ activityState }) => {
     // Timer variables
     const [time, setTime] = useState(0);
-    const [paused, setPaused] = useState(false);
+    // const [paused, setPaused] = useState(false);
 
     // Style variables
     const { colors, fontSizes } = useTheme();
@@ -33,23 +33,13 @@ const Timer = ({ activityState, dispatchPlayTimer, dispatchPauseTimer }) => {
     useEffect(() => {
         // Implementing the setInterval method
         let timerId;
-        if (activityState === ActivityState.ongoing) {
-            setPaused(false);
-            if (dispatchPlayTimer) dispatchPlayTimer(time); 
 
+        if (activityState === ActivityState.ongoing) {
             timerId = setInterval(() => {
                 setTime((time) => time + 1000);
             }, 1000);
-        } else {
-            if (dispatchPauseTimer && (activityState === ActivityState.paused || activityState === ActivityState.stopped)) {
-                if (!paused) { // if not already paused
-                    dispatchPauseTimer(time);
-                    setPaused(true);
-                }
-            }
-
-            if (activityState === ActivityState.starting) resetTimer();
         }
+        else if (activityState === ActivityState.starting) resetTimer();
 
         return () => clearInterval(timerId);
     }, [activityState])
