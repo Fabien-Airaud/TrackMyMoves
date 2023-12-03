@@ -31,9 +31,9 @@ class UserAdmin(UserAdmin):
     ordering = ["email"]
 
 class AccountAdmin(admin.ModelAdmin):
-    list_display = '__all__'
-    list_filter = '__all__'
-    search_fields = ["first_name", "last_name", "birthdate", "country"]
+    list_display = ["first_name", "last_name", "user", "birthdate", "country", "height", "weight"]
+    list_filter = ["first_name", "last_name", "birthdate", "country"]
+    search_fields = ["first_name", "last_name", "user", "country"]
     ordering = ["first_name", "last_name", "birthdate", "country"]
 
 
