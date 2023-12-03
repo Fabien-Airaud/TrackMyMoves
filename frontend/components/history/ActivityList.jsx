@@ -30,8 +30,8 @@ const ActivityList = ({ list, navigation }) => {
                 {
                     text: 'Delete',
                     onPress: async () => {
-                        await deleteLocalActivity(accountId, activityType, activityId);
-                        navigation.reset({ index: 0, routes: [{ name: 'History' }] }); // Refresh history page to update list
+                        // await deleteLocalActivity(accountId, activityType, activityId);
+                        // navigation.reset({ index: 0, routes: [{ name: 'History' }] }); // Refresh history page to update list
                     }
                 },
                 { text: 'Cancel' }
@@ -40,12 +40,12 @@ const ActivityList = ({ list, navigation }) => {
         );
     }
 
-    return list.map((value, index) => {
+    return list.map((value) => {
         if (value.activities.length > 0) return (
             <Accordion
-                key={index}
+                key={value.id}
                 content={<>
-                    <IconButton icon={value.leadingIcon} iconColor={colors.text} />
+                    <IconButton icon={value.leading_icon} iconColor={colors.text} />
                     <ListItem.Content>
                         <ListItem.Title style={styles.title}> {value.label} </ListItem.Title>
                     </ListItem.Content>
@@ -53,13 +53,11 @@ const ActivityList = ({ list, navigation }) => {
                 icon={<IconButton icon='chevron-down' iconColor={colors.text} />}
                 bottomDivider={true}
                 children={value.activities.map((activity, num) => {
-                    // Get elapsed time (in the last interval) in string formatted
-                    const lastInterval = activity.intervals[activity.intervals.length - 1];
-                    const time = formatTime(lastInterval.endTime, false);
+                    // Get total time in string formatted
+                    const totalTime = formatTime(activity.total_time, false);
 
                     // Get start date in string
-                    const startDate = new Date(activity.startDate);
-                    const dateString = startDate.toLocaleString();
+                    const dateString = new Date(activity.start_datetime).toLocaleString();
 
                     return (
                         <ListItem.Swipeable
@@ -85,7 +83,7 @@ const ActivityList = ({ list, navigation }) => {
                             containerStyle={styles.listItem}
                             bottomDivider={true}>
                             <ListItem.Content>
-                                <ListItem.Title style={styles.title}> {`${value.label} - ${time}`} </ListItem.Title>
+                                <ListItem.Title style={styles.title}> {`${value.label} - ${totalTime}`} </ListItem.Title>
                                 <ListItem.Subtitle style={styles.subtitle}> {dateString} </ListItem.Subtitle>
                             </ListItem.Content>
                             <ListItem.Chevron color={colors.text} />

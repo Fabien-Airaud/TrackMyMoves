@@ -5,11 +5,14 @@ import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { useSelector } from 'react-redux';
 
 import ActivityList from './ActivityList';
-import { getActivityTypes } from './HistoryFunctions';
+import { groupedActivityListAPI } from '../APIFunctions';
 
 const History = ({ navigation }) => {
+    // Logged account stored in redux
+    const apiAccount = useSelector((state) => state.apiAccount);
+
     // State variables
-    const [list, setList] = useState([]);
+    const [list, setList] = useState([]); // List of activities
 
     // Style variables
     const { colors, fontSizes } = useTheme();
@@ -31,25 +34,22 @@ const History = ({ navigation }) => {
         }
     });
 
-    // Logged account stored in redux
-    const logAcc = useSelector((state) => state.logIn);
-
     useFocusEffect(
         useCallback(() => {
             let isSubscribed = true;
 
             // declare the async data fetching function
             const getData = async () => {
-                // get the activity types
-                const activityTypes = await getActivityTypes(logAcc.id);
-
-                // set state with the result if `isSubscribed` is true
-                if (isSubscribed) {
-                    setList(activityTypes);
-                }
+                // get all the activities of the current account
+                const activities = await groupedActivityListAPI(apiAccount.token);
+                console.log(JSON.stringify(activities));
+                setList(activities);
             }
 
-            getData().catch(console.error); // make sure to catch any error
+            if (isSubscribed) {
+                // use function if `isSubscribed` is true
+                getData().catch(console.error); // make sure to catch any error
+            }
 
             // cancel any future `setData`
             return () => isSubscribed = false;
