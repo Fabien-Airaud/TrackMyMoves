@@ -2,6 +2,14 @@ from django.db import models
 
 
 class SensorsInterval(models.Model):
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=['interval', 'time'],
+                name="unique_sensors_interval_for_time_in_activity_interval"
+            )
+        ]
+    
     interval = models.ForeignKey("ActivityInterval", on_delete=models.CASCADE)
     time = models.PositiveIntegerField()
     accel_x = models.FloatField()
