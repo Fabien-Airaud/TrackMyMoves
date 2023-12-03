@@ -227,10 +227,10 @@ export const createActivityAPI = async (token, activity) => {
     return helpers;
 };
 
-export const deleteActivityAPI = async (token, activity_id) => {
+export const deleteActivityAPI = async (token, id) => {
     let message = undefined;
 
-    const response = await fetch(apiUrl + "/activities/" + activity_id + "/", {
+    const response = await fetch(apiUrl + "/activities/" + id + "/", {
         method: "DELETE",
         headers: {
             Authorization: "token " + token
