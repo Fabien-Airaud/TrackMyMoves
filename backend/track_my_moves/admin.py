@@ -40,10 +40,15 @@ class ActivityAdmin(admin.ModelAdmin):
     list_filter = ["activity_type", "user"]
     ordering = ["start_datetime", "user", "activity_type", "end_datetime"]
 
+class ActivityTypeAdmin(admin.ModelAdmin):
+    list_display = ["label", "value", "leading_icon"]
+    list_filter = ["leading_icon"]
+    ordering = ["label", "leading_icon", "value"]
+
 
 admin.site.register(User, UserAdmin)
 admin.site.register(Account, AccountAdmin)
 admin.site.register(Activity, ActivityAdmin)
-admin.site.register(ActivityType)
+admin.site.register(ActivityType, ActivityTypeAdmin)
 admin.site.register(ActivityInterval)
 admin.site.register(SensorsInterval)
