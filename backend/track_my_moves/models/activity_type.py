@@ -8,3 +8,6 @@ class ActivityType(models.Model):
     def save(self, *args, **kwargs):
         self.full_clean()
         return super(ActivityType, self).save(*args, **kwargs)
+
+    def __str__(self):
+        return f"{self.label}"
