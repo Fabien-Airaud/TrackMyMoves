@@ -2,12 +2,16 @@ import { useTheme } from '@react-navigation/native';
 import { Button, ListItem } from '@rneui/themed';
 import { Alert, StyleSheet } from 'react-native';
 import { IconButton } from 'react-native-paper';
+import { useSelector } from 'react-redux';
 
 import { formatTime } from '../move/FormatTime';
 import Accordion from './Accordion';
-import { deleteLocalActivity } from './HistoryFunctions';
+import { deleteActivityAPI } from '../APIFunctions';
 
 const ActivityList = ({ list, navigation }) => {
+    // Logged account stored in redux
+    const apiAccount = useSelector((state) => state.apiAccount);
+
     // Style variables
     const { colors } = useTheme();
     const styles = StyleSheet.create({
@@ -22,7 +26,7 @@ const ActivityList = ({ list, navigation }) => {
         }
     });
 
-    const dispatchDeleteActivity = async (accountId, activityType, activityId) => {
+    const dispatchDeleteActivity = async (activityId) => {
         Alert.alert(
             'Delete activity',
             'Are you sure you want to delete this activity?',
@@ -30,8 +34,12 @@ const ActivityList = ({ list, navigation }) => {
                 {
                     text: 'Delete',
                     onPress: async () => {
-                        // await deleteLocalActivity(accountId, activityType, activityId);
-                        // navigation.reset({ index: 0, routes: [{ name: 'History' }] }); // Refresh history page to update list
+                        await deleteActivityAPI(apiAccount.token, activityId)
+                            .then(message => {
+                                if (message != undefined) alert(JSON.stringify(message));
+                            })
+                            .catch(console.error);
+                        navigation.reset({ index: 0, routes: [{ name: 'History' }] }); // Refresh history page to update list
                     }
                 },
                 { text: 'Cancel' }
@@ -74,7 +82,7 @@ const ActivityList = ({ list, navigation }) => {
                             rightContent={() => (
                                 <Button
                                     title='Delete'
-                                    onPress={() => dispatchDeleteActivity(activity.accountId, activity.activityType, activity.id)}
+                                    onPress={() => dispatchDeleteActivity(activity.id)}
                                     icon={{ name: 'delete', color: 'white' }}
                                     color={colors.error} titleStyle={{ fontWeight: 'bold' }}
                                     buttonStyle={{ minHeight: '100%' }}
