@@ -214,6 +214,7 @@ export const createActivityAPI = async (token, activity) => {
             activity_type: activity.activity_type.id,
             start_datetime: activity.start_datetime,
             end_datetime: activity.end_datetime,
+            total_time: activity.total_time,
             intervals: activity.intervals
         })
     });
