@@ -4,6 +4,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import user_passes_test
 from django.urls import reverse
 from rest_framework import status, viewsets
+from rest_framework.renderers import JSONRenderer
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.authtoken.models import Token
@@ -312,8 +313,8 @@ class ActivityViewSet(viewsets.ViewSet):
         
         serializer = ActivitySerializer(data=request.data)
         if serializer.is_valid():
-            activity = serializer.save();
-            
+            serializer.save();
+            activity = JSONRenderer.render(serializer.data)
             add = addIntervalsToActivity(intervals_data, activity.id);
             return Response({"activity": activity, "intervals_data": intervals_data, "add": add}, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
