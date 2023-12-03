@@ -50,10 +50,15 @@ class ActivityIntervalAdmin(admin.ModelAdmin):
     list_filter = ["activity", "start_time", "end_time"]
     ordering = ["start_datetime", "activity", "start_time", "end_time", "end_datetime"]
 
+class SensorsIntervalAdmin(admin.ModelAdmin):
+    list_display = ["interval", "time", "accel_x", "accel_y", "accel_z", "gyros_x", "gyros_y", "gyros_z"]
+    list_filter = ["interval", "time"]
+    ordering = ["interval", "time"]
+
 
 admin.site.register(User, UserAdmin)
 admin.site.register(Account, AccountAdmin)
 admin.site.register(Activity, ActivityAdmin)
 admin.site.register(ActivityType, ActivityTypeAdmin)
 admin.site.register(ActivityInterval, ActivityIntervalAdmin)
-admin.site.register(SensorsInterval)
+admin.site.register(SensorsInterval, SensorsIntervalAdmin)
