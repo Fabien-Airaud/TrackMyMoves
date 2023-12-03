@@ -1,8 +1,7 @@
 import { StyleSheet, View } from "react-native";
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 import Timer from './Timer';
-import { playTimerInterval, pauseTimerInterval } from "../../redux/apiActivitySlice";
 
 const BottomMove = () => {
     // Current activity stored in redux
@@ -18,22 +17,9 @@ const BottomMove = () => {
         }
     });
 
-
-    const dispatch = useDispatch();
-
-    // Add a play time to activity interval
-    const dispatchPlayTimerInterval = (playTime) => {
-        dispatch(playTimerInterval({ playTime: playTime }));
-    };
-
-    // Add a pause time to activity interval
-    const dispatchPauseTimerInterval = (pauseTime) => {
-        dispatch(pauseTimerInterval({ pauseTime: pauseTime }));
-    };
-
     return (
         <View style={styles.section}>
-            <Timer activityState={apiActivity.current_state} dispatchPlayTimer={dispatchPlayTimerInterval} dispatchPauseTimer={dispatchPauseTimerInterval} />
+            <Timer activityState={apiActivity.current_state} />
         </View>
     );
 };
