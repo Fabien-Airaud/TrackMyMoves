@@ -1,102 +1,125 @@
 import { Accelerometer, Gyroscope } from 'expo-sensors';
 import { useEffect, useState } from 'react';
-import * as Location from 'expo-location';
+// import * as Location from 'expo-location';
+import { useDispatch, useSelector } from 'react-redux';
 
-import { TimerStatus } from './Move';
+import { ActivityState, addSensorsInterval } from '../../redux/apiActivitySlice';
 
-const Sensors = ({ timerStatus, dispatchSensorsInter }) => {
-    const [sensorsInter, setSensorsInter] = useState({
-        startDate: '',
-        accelerometer: [],
-        gyroscope: [],
-        location: []
-    });
-    const [addLocation, setAddLocation] = useState(false);
+const SENSORS_TIME_INTERVAL = 200;
 
-    Accelerometer.setUpdateInterval(1000);
-    Gyroscope.setUpdateInterval(1000);
+const Sensors = () => {
+    // Current activity stored in redux
+    const apiActivity = useSelector((state) => state.apiActivity);
 
-    // Add a data in accelerometer interval using the setter
+    // State variables
+    const [paused, setPaused] = useState(false);
+    const [accelIntervals, setAccelIntervals] = useState([]);
+    const [gyrosIntervals, setGyrosIntervals] = useState([]);
+
+    Accelerometer.setUpdateInterval(SENSORS_TIME_INTERVAL);
+    Gyroscope.setUpdateInterval(SENSORS_TIME_INTERVAL);
+
+
+    const dispatch = useDispatch();
+
+    // Add accelerometer data in sensors interval using the setter
     const addAccelData = (accelData) => {
-        return setSensorsInter(prevData => ({
-            ...prevData,
-            accelerometer: prevData.accelerometer ? [...prevData.accelerometer, accelData] : []
-        }))
+        let accelInter = accelIntervals;
+        accelInter.push({
+            accel_x: accelData.x,
+            accel_y: accelData.y,
+            accel_z: accelData.z
+        });
+        setAccelIntervals(accelInter);
     };
 
-    // Add a data in gyroscope interval using the setter
+    // Add hyroscope data in sensors interval using the setter
     const addGyrosData = (gyrosData) => {
-        return setSensorsInter(prevData => ({
-            ...prevData,
-            gyroscope: prevData.gyroscope ? [...prevData.gyroscope, gyrosData] : []
-        }))
+        let gyrosInter = gyrosIntervals;
+        gyrosInter.push({
+            gyros_x: gyrosData.x,
+            gyros_y: gyrosData.y,
+            gyros_z: gyrosData.z
+        });
+        setGyrosIntervals(gyrosInter);
     };
 
     // Add a data in location interval using the setter
-    const addLocationData = (position) => {
-        return setSensorsInter(prevData => ({
-            ...prevData,
-            location: prevData.location ? [...prevData.location, position] : []
-        }))
-    };
+    // const addLocationData = (position) => {
+    //     return setSensorsInter(prevData => ({
+    //         ...prevData,
+    //         location: prevData.location ? [...prevData.location, position] : []
+    //     }))
+    // };
 
     const subscribe = () => {
         Accelerometer.addListener(addAccelData);
         Gyroscope.addListener(addGyrosData);
-        setAddLocation(true);
+        // setAddLocation(true);
     };
 
     const unsubscribe = () => {
         Accelerometer.removeAllListeners();
         Gyroscope.removeAllListeners();
-        setAddLocation(false);
+        // setAddLocation(false);
     };
 
-    // Subscribe and add start date in interval
-    const startInterval = () => {
+    // Subscribe and create sensors interval
+    const playInterval = () => {
+        setPaused(false);
         subscribe();
+    }
 
-        // Init sensors interval with start date
-        const startDate = new Date();
-        setSensorsInter({
-            startDate: startDate.toISOString(),
-            accelerometer: [],
-            gyroscope: [],
-            location: []
-        });
+    const dispatchAddSensorsInterval = () => {
+        let sensorsIntervals = [];
+
+        for (let i=0; i<accelIntervals.length && i<gyrosIntervals.length; i++) {
+            sensorsIntervals.push({
+                time: (i+1) * SENSORS_TIME_INTERVAL,
+                ...accelIntervals[i],
+                ...gyrosIntervals[i]
+            });
+        }
+
+        dispatch(addSensorsInterval({ sensorsIntervals: sensorsIntervals }));
     }
 
     // Send interval to the store and unsubscribe
-    const endInterval = () => {
-        dispatchSensorsInter(sensorsInter);
+    const pauseInterval = () => {
+        dispatchAddSensorsInterval();
         unsubscribe();
+        setPaused(true);
+        setAccelIntervals([]);
+        setGyrosIntervals([]);
     }
 
-    useEffect(() => {
-        (async () => {
-            let { granted } = await Location.requestForegroundPermissionsAsync();
-            if (!granted) {
-                alert('Permission to access location was denied');
-                return;
-            }
+    // useEffect(() => {
+    //     (async () => {
+    //         let { granted } = await Location.requestForegroundPermissionsAsync();
+    //         if (!granted) {
+    //             alert('Permission to access location was denied');
+    //             return;
+    //         }
 
-            let subscription;
-            if (addLocation) {
-                subscription = await Location.watchPositionAsync({
-                    timeInterval: 1000
-                }, (position) => {
-                    addLocationData(position);
-                });
-            } else if (addLocation && subscription) {
-                subscription.remove();
-            }
-        })();
-    }, [addLocation]);
+    //         let subscription;
+    //         if (addLocation) {
+    //             subscription = await Location.watchPositionAsync({
+    //                 timeInterval: 100
+    //             }, (position) => {
+    //                 addLocationData(position);
+    //             });
+    //         } else if (addLocation && subscription) {
+    //             subscription.remove();
+    //         }
+    //     })();
+    // }, [addLocation]);
 
     useEffect(() => {
-        if (timerStatus === TimerStatus.play) startInterval(); // when play button pressed
-        else if (timerStatus === TimerStatus.pause) endInterval(); // when pause or stop button pressed
-    }, [timerStatus]);
+        if (apiActivity.current_state === ActivityState.ongoing) playInterval(); // when play button pressed
+        else if (apiActivity.current_state === ActivityState.paused || apiActivity.current_state === ActivityState.stopped) {// when pause or stop button pressed
+            if (!paused) pauseInterval(); // If not already sent
+        }
+    }, [apiActivity.current_state]);
 };
 
 export default Sensors;
