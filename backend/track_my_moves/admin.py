@@ -30,9 +30,15 @@ class UserAdmin(UserAdmin):
     search_fields = ["email"]
     ordering = ["email"]
 
+class AccountAdmin(admin.ModelAdmin):
+    list_display = '__all__'
+    list_filter = '__all__'
+    search_fields = ["first_name", "last_name", "birthdate", "country"]
+    ordering = ["first_name", "last_name", "birthdate", "country"]
+
 
 admin.site.register(User, UserAdmin)
-admin.site.register(Account)
+admin.site.register(Account, AccountAdmin)
 admin.site.register(Activity)
 admin.site.register(ActivityType)
 admin.site.register(ActivityInterval)
