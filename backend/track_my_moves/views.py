@@ -11,9 +11,10 @@ from rest_framework.permissions import IsAuthenticated
 
 from .models.account import Account
 from .models.activity_type import ActivityType
+from .models.activity_interval import ActivityInterval
 from .models.activity import Activity
 from .models.user import User
-from .serializers import AccountSerializer, ActivityTypeSerializer, ActivitySerializer, UserSerializer
+from .serializers import AccountSerializer, ActivityTypeSerializer, ActivityIntervalSerializer, ActivitySerializer, UserSerializer
 
 ####################################################################################################
 #   Partie application
@@ -288,6 +289,16 @@ class ActivityTypeViewSet(viewsets.ViewSet):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
+def addIntervalsToActivity(intervals_data, activity_id):
+    for interval_data in intervals_data:
+        interval_data.activity = activity_id
+        
+        serializer = ActivityIntervalSerializer(data=interval_data)
+        if serializer.is_valid():
+            serializer.save()
+
+    return ActivityInterval.objects.filter(activity=activity_id)
+
 class ActivityViewSet(viewsets.ViewSet):
     permission_classes = [IsAuthenticated]
     
@@ -298,9 +309,14 @@ class ActivityViewSet(viewsets.ViewSet):
         return Response(serializer.data, status=status.HTTP_200_OK)
     
     def create(self, request):
+        intervals_data = request.data.pop("intervals")
+        
         serializer = ActivitySerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
+            
+            activity = serializer.data
+            activity.intervals = addIntervalsToActivity(intervals_data, activity.id)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
