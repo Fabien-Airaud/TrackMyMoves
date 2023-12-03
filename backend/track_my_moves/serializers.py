@@ -109,6 +109,8 @@ class ActivitySerializer(serializers.ModelSerializer):
         """
         if data['start_datetime'] > data['end_datetime']:
             raise serializers.ValidationError("start_datetime should be before end_datetime.")
+        if data['end_datetime'] - data['start_datetime'] < data['total_time']:
+            raise serializers.ValidationError("total_time should be inferior than elapsed time.")
         return data
     
     def create(self, validated_data):

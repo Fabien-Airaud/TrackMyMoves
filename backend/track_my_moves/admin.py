@@ -36,9 +36,9 @@ class AccountAdmin(admin.ModelAdmin):
     ordering = ["first_name", "last_name", "birthdate", "country"]
 
 class ActivityAdmin(admin.ModelAdmin):
-    list_display = ["activity_type", "user", "start_datetime", "end_datetime"]
+    list_display = ["activity_type", "user", "total_time", "start_datetime", "end_datetime"]
     list_filter = ["activity_type", "user"]
-    ordering = ["start_datetime", "user", "activity_type"]
+    ordering = ["start_datetime", "user", "activity_type", "total_time"]
 
 class ActivityTypeAdmin(admin.ModelAdmin):
     list_display = ["label", "value", "leading_icon"]

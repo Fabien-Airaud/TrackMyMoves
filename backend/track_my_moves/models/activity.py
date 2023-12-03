@@ -18,6 +18,7 @@ class Activity(models.Model):
     activity_type = models.ForeignKey("ActivityType", default=getAIActivityType, on_delete=models.SET_DEFAULT)
     start_datetime = models.DateTimeField(auto_now=False, auto_now_add=False)
     end_datetime = models.DateTimeField(auto_now=False, auto_now_add=False)
+    total_time = models.PositiveIntegerField()
     
     def save(self, *args, **kwargs):
         self.full_clean()
