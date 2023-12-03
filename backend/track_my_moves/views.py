@@ -316,11 +316,7 @@ class ActivityViewSet(viewsets.ViewSet):
         if serializer.is_valid():
             serializer.save()
             activity_id = serializer.data.id
-            
-            errors = addIntervalsToActivity(intervals_data, activity_id)
-            if (errors != {}):
-                return Response(errors, status=status.HTTP_400_BAD_REQUEST)
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
+            return Response({"activity": serializer.data, "activity_id": activity_id, "intervals_data": intervals_data}, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
     def retrieve(self, request, pk):
