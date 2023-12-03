@@ -11,10 +11,11 @@ from rest_framework.permissions import IsAuthenticated
 
 from .models.account import Account
 from .models.activity_type import ActivityType
+from .models.sensors_interval import SensorsInterval
 from .models.activity_interval import ActivityInterval
 from .models.activity import Activity
 from .models.user import User
-from .serializers import AccountSerializer, ActivityTypeSerializer, ActivityIntervalSerializer, ActivitySerializer, UserSerializer
+from .serializers import UserSerializer, AccountSerializer, ActivityTypeSerializer, SensorsIntervalSerializer, ActivityIntervalSerializer, ActivitySerializer
 
 ####################################################################################################
 #   Partie application
@@ -288,14 +289,31 @@ class ActivityTypeViewSet(viewsets.ViewSet):
         activityType.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
-
-def addIntervalsToActivity(intervals_data, activity_id):
-    for interval_data in intervals_data:
-        serializer = ActivityIntervalSerializer(data={**interval_data, "activity": activity_id})
+def addSensorsToInterval(sensors_data, interval_id):
+    for sensor_data in sensors_data:
+        serializer = SensorsIntervalSerializer(data={**sensor_data, "interval": interval_id})
         if serializer.is_valid():
             serializer.save()
         else:
             return serializer.errors
+    return {}
+
+def addIntervalsToActivity(intervals_data, activity_id):
+    sensors_data = intervals_data.pop("sensors_intervals")
+    
+    for interval_data in intervals_data:
+        interval_serializer = ActivityIntervalSerializer(data={**interval_data, "activity": activity_id})
+        if interval_serializer.is_valid():
+            interval_serializer.save()
+            
+            # Add all sensors intervals with the new interval_id
+            addSensors_errors = addSensorsToInterval(sensors_data, interval_serializer.data["id"]);
+            
+            # Sensors have an error when adding
+            if (addSensors_errors != {}):
+                return {"sensors_interval": addSensors_errors}
+        else:
+            return {"interval": interval_serializer.errors}
     return {}
 
 class ActivityViewSet(viewsets.ViewSet):
