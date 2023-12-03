@@ -23,6 +23,9 @@ class SensorsInterval(models.Model):
         self.full_clean()
         return super(SensorsInterval, self).save(*args, **kwargs)
 
+    def __str__(self):
+        return f"Sensors data at {self.time} for {self.interval}"
+
 # sensors_interval: {
 #     id: ,
 #     interval_id: ,
