@@ -28,7 +28,7 @@ class UserAdmin(UserAdmin):
         ),
     ]
     search_fields = ["email"]
-    ordering = ["email"]
+    ordering = ["email", "is_superuser", "is_active", "last_login", "date_joined"]
 
 class AccountAdmin(admin.ModelAdmin):
     list_display = ["first_name", "last_name", "user", "birthdate", "country", "height", "weight"]
