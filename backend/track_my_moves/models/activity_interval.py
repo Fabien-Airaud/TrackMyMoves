@@ -24,6 +24,9 @@ class ActivityInterval(models.Model):
         self.full_clean()
         return super(ActivityInterval, self).save(*args, **kwargs)
 
+    def __str__(self):
+        return f"{self.activity} {self.start_time}-{self.end_time}"
+
 # activity_interval: {
 #     id: ,
 #     activity_id: ,
