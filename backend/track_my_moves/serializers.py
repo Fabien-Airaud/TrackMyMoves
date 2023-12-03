@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import User, Account, ActivityType, ActivityInterval, Activity
+from .models import User, Account, ActivityType, SensorsInterval, ActivityInterval, Activity
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -71,6 +71,14 @@ class ActivityTypeSerializer(serializers.ModelSerializer):
     
     def create(self, validated_data):
         return ActivityType.objects.create(**validated_data)
+
+class SensorsIntervalSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = SensorsInterval
+        fields = '__all__'
+    
+    def create(self, validated_data):
+        return SensorsInterval.objects.create(**validated_data)
 
 class ActivityIntervalSerializer(serializers.ModelSerializer):
     class Meta:
