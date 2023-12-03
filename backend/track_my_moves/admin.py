@@ -35,10 +35,16 @@ class AccountAdmin(admin.ModelAdmin):
     list_filter = ["country"]
     ordering = ["first_name", "last_name", "birthdate", "country"]
 
+class ActivityAdmin(admin.ModelAdmin):
+    list_display = ["activity_type", "user", "start_datetime", "end_datetime"]
+    list_filter = ["activity_type", "user"]
+    search_fields = ["activity_type", "start_datetime", "end_datetime"]
+    ordering = ["start_datetime", "user", "activity_type", "end_datetime"]
+
 
 admin.site.register(User, UserAdmin)
 admin.site.register(Account, AccountAdmin)
-admin.site.register(Activity)
+admin.site.register(Activity, ActivityAdmin)
 admin.site.register(ActivityType)
 admin.site.register(ActivityInterval)
 admin.site.register(SensorsInterval)
