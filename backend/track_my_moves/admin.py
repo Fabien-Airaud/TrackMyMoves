@@ -9,8 +9,8 @@ class UserAdmin(UserAdmin):
     add_form = UserCreationForm
     form = UserChangeForm
     model = User
-    list_display = ["email", "is_superuser", "is_active"]
-    list_filter = ["email", "is_superuser", "is_active"]
+    list_display = ["email", "is_superuser", "is_active", "last_login", "date_joined"]
+    list_filter = ["email", "is_superuser", "is_active", "last_login", "date_joined"]
     fieldsets = [
         (None, {"fields": ["email", "password"]}),
         ("Permissions", {"fields": ["is_superuser", "is_active", "groups", "user_permissions"]}),
