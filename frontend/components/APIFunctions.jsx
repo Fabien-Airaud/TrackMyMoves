@@ -186,5 +186,9 @@ export const createActivityAPI = async (token, activity) => {
     });
 
     if (!response.ok) helpers = await response.json();
+    else {
+        data = await response.json();
+        console.log(JSON.stringify(data));
+    }
     return helpers;
 };
