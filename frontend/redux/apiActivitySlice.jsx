@@ -78,6 +78,13 @@ export const apiActivitySlice = createSlice({
         
             state.intervals.push(interval);
             console.log("Pause time interval: " + JSON.stringify(interval));
+        },
+        addSensorsInterval: (state, action) => {
+            const interval = state.intervals.pop();
+            interval.sensors_intervals = action.payload.sensorsIntervals
+        
+            state.intervals.push(interval);
+            console.log("Add sensors intervals: " + JSON.stringify(interval));
         }
     }
 });
@@ -91,7 +98,8 @@ export const {
     stopActivity,
     deleteActivity,
     playTimerInterval,
-    pauseTimerInterval
+    pauseTimerInterval,
+    addSensorsInterval
 } = apiActivitySlice.actions;
 
 export default apiActivitySlice.reducer;
