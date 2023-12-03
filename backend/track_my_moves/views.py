@@ -296,8 +296,9 @@ def addIntervalsToActivity(intervals_data, activity_id):
         serializer = ActivityIntervalSerializer(data=interval_data)
         if serializer.is_valid():
             serializer.save()
-
-    return ActivityInterval.objects.filter(activity=activity_id)
+        else:
+            return serializer.errors
+    return {}
 
 class ActivityViewSet(viewsets.ViewSet):
     permission_classes = [IsAuthenticated]
@@ -314,9 +315,11 @@ class ActivityViewSet(viewsets.ViewSet):
         serializer = ActivitySerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
+            activity_id = serializer.data.id
             
-            activity = serializer.data
-            activity.intervals = addIntervalsToActivity(intervals_data, activity.id)
+            errors = addIntervalsToActivity(intervals_data, activity_id)
+            if (errors != {}):
+                return Response(errors, status=status.HTTP_400_BAD_REQUEST)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
