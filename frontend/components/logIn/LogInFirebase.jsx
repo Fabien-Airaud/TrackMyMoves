@@ -5,6 +5,7 @@ import { useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { TextInput } from 'react-native-paper';
 
+import { auth } from '../../firebaseConfig';
 import Helper from '../Helper';
 import Input from '../Input';
 
@@ -13,7 +14,7 @@ const LogInFirebase = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [securedPassword, setSecuredPassword] = useState(true);
-    // const [helpers, setHelpers] = useState(undefined);
+    const [helpers, setHelpers] = useState(undefined);
 
     // Style variables
     const { colors, fontSizes } = useTheme();
@@ -36,10 +37,14 @@ const LogInFirebase = () => {
         signInWithEmailAndPassword(auth, email, password)
             .then((userCredential) => {
                 // Signed in 
+                setHelpers(undefined);
                 const user = userCredential.user;
-                console.log("Registered: " + JSON.stringify(user));
+                console.log("Logged in: " + JSON.stringify(user));
             })
-            .catch(console.error);
+            .catch((error) => {
+                setHelpers(error.code);
+                console.log(JSON.stringify(error.message));
+            });
     };
 
     return (
@@ -50,7 +55,7 @@ const LogInFirebase = () => {
             <Input label='Password' placeholder='Enter your password' secureTextEntry={securedPassword} onChangeText={text => setPassword(text)} inputMode='text' right={<TextInput.Icon icon={securedPassword ? 'eye' : 'eye-off'} onPress={() => setSecuredPassword(!securedPassword)} color={colors.placeholder} />} />
 
             <Button title='Log in with Firebase' disabled={disableLogIn()} onPress={logIn} size='md' radius='sm' titleStyle={{ fontWeight: 'bold' }} disabledTitleStyle={{ color: colors.placeholder }} disabledStyle={{ backgroundColor: colors.inputFill }} containerStyle={{ marginHorizontal: '5%', marginTop: '5%' }} />
-            <Helper visible={disableLogIn()} message={'All the inputs should be correctly filled.'} justifyContent='center' />
+            <Helper visible={disableLogIn() || helpers} message={helpers ? helpers : 'All the inputs should be correctly filled.'} justifyContent='center' />
         </View>
     );
 };
