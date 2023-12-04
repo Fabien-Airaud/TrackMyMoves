@@ -6,12 +6,12 @@ import ActivityIntervals from '../history/ActivityIntervals';
 
 const Tab = createMaterialTopTabNavigator();
 
-const ActivityInformationsTopTab = ({ activity }) => {
+const ActivityInformationsTopTab = () => {
   return (
     <Tab.Navigator>
-      <Tab.Screen name="General" component={ActivityGeneral} initialParams={activity} />
-      <Tab.Screen name="Intervals" component={ActivityIntervals} initialParams={activity} />
-      <Tab.Screen name="Charts" component={ActivityCharts} initialParams={activity} />
+      <Tab.Screen name="General" component={ActivityGeneral} />
+      <Tab.Screen name="Intervals" component={ActivityIntervals} />
+      <Tab.Screen name="Charts" component={ActivityCharts} />
     </Tab.Navigator>
   );
 };

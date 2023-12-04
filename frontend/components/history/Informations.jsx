@@ -3,7 +3,7 @@ import { StyleSheet, View } from 'react-native';
 
 import ActivityInformationsTopTab from '../navigation/ActivityInformationsTopTab';
 
-const Informations = ({ navigation, route: { params: { activity } } }) => {
+const Informations = () => {
     // Style variables
     const { colors, fontSizes } = useTheme();
     const styles = StyleSheet.create({
@@ -22,8 +22,7 @@ const Informations = ({ navigation, route: { params: { activity } } }) => {
 
     return (
         <View style={styles.page}>
-            {/* <Text style={styles.text}>Activity informations</Text> */}
-            <ActivityInformationsTopTab activity={activity} />
+            <ActivityInformationsTopTab />
         </View>
     );
 };
