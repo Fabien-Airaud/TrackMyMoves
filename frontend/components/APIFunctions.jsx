@@ -162,6 +162,20 @@ export const listActivityTypeAPI = async (token) => {
     return activityTypes;
 };
 
+export const retrieveActivityTypeAPI = async (token, id) => {
+    let activityType = undefined;
+
+    const response = await fetch(apiUrl + "/activityTypes/" + id + "/", {
+        method: "GET",
+        headers: {
+            Authorization: "token " + token
+        }
+    });
+
+    if (response.ok) activityType = await response.json();
+    return activityType;
+};
+
 
 /* ----------------------------------------------------------------------------------------------------
     activities
