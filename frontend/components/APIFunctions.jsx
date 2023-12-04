@@ -227,6 +227,14 @@ export const retrieveActivityAPI = async (token, id) => {
     return activity;
 };
 
+export const getActivityWithActivityTypeAPI = async (token, id) => {
+    const activity = await retrieveActivityAPI(token, id);
+    const activityType = await retrieveActivityTypeAPI(token, activity.activity_type);
+    
+    activity.activity_type = activityType;
+    return activity;
+};
+
 export const createActivityAPI = async (token, activity) => {
     let helpers = undefined;
 
