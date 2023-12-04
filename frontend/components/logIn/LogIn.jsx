@@ -22,7 +22,7 @@ const LogIn = ({ navigation }) => {
 
     return (
         <ScrollView contentContainerStyle={{alignItems: 'center'}} style={styles.page} >
-            <LogInForm navigation={navigation} />
+            <LogInForm />
             <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
                 <Text style={styles.text}> Haven't registered yet ? </Text>
                 <Button title='Register' type='clear' onPress={() => navigation.navigate('Register')} titleStyle={{ fontSize: fontSizes.sm, color: colors.primary }} />
