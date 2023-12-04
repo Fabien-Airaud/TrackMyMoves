@@ -1,7 +1,8 @@
 import { useTheme } from '@react-navigation/native';
-import { StyleSheet, Text, ScrollView, View } from 'react-native';
 import { Button } from '@rneui/themed';
+import { ScrollView, StyleSheet, Text, View } from 'react-native';
 
+import RegisterFirebase from './RegisterFirebase';
 import RegisterForm from './RegisterForm';
 
 const Register = ({ navigation }) => {
@@ -11,7 +12,6 @@ const Register = ({ navigation }) => {
         page: {
             minHeight: '100%',
             width: '100%',
-            padding: '5%',
             backgroundColor: colors.background
         },
         text: {
@@ -21,12 +21,13 @@ const Register = ({ navigation }) => {
     });
 
     return (
-        <ScrollView contentContainerStyle={{alignItems: 'center'}} style={styles.page} >
+        <ScrollView contentContainerStyle={{ alignItems: 'center' }} style={styles.page} >
             <RegisterForm navigation={navigation} />
             <View style={{ margin: '5%', flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
                 <Text style={styles.text}> Already registered ? </Text>
                 <Button title='Log in' type='clear' onPress={() => navigation.navigate('LogIn')} titleStyle={{ fontSize: fontSizes.sm, color: colors.primary }} />
             </View>
+            <RegisterFirebase />
         </ScrollView>
     );
 };
