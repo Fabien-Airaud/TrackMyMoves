@@ -2,11 +2,12 @@ import { useTheme } from '@react-navigation/native';
 import { Button, ListItem } from '@rneui/themed';
 import { Alert, StyleSheet } from 'react-native';
 import { IconButton } from 'react-native-paper';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { formatTime } from '../move/FormatTime';
 import Accordion from './Accordion';
-import { deleteActivityAPI } from '../APIFunctions';
+import { getActivityWithActivityTypeAPI, deleteActivityAPI } from '../APIFunctions';
+import { changeActivityInfos } from '../../redux/apiActivityInfosSlice';
 
 const ActivityList = ({ list, navigation }) => {
     // Logged account stored in redux
@@ -26,6 +27,21 @@ const ActivityList = ({ list, navigation }) => {
         }
     });
 
+
+    const dispatch = useDispatch();
+
+    const dispatchChangeActivityInfos = async (activityId) => {
+        getActivityWithActivityTypeAPI(apiAccount.token, activityId)
+            .then(activity => {
+                if (activity) {
+                    dispatch(changeActivityInfos(activity));
+                    console.log(JSON.stringify(activity));
+                    // navigation.navigate("Informations");
+                }
+            })
+            .catch(console.error);
+    };
+
     const deleteActivity = async (activityId) => {
         Alert.alert(
             'Delete activity',
@@ -34,7 +50,7 @@ const ActivityList = ({ list, navigation }) => {
                 {
                     text: 'Delete',
                     onPress: async () => {
-                        await deleteActivityAPI(apiAccount.token, activityId)
+                        deleteActivityAPI(apiAccount.token, activityId)
                             .then(message => {
                                 if (message != undefined) alert(JSON.stringify(message));
                             })
@@ -46,7 +62,7 @@ const ActivityList = ({ list, navigation }) => {
             ],
             { cancelable: true }
         );
-    }
+    };
 
     return list.map((value) => {
         if (value.activities.length > 0) return (
@@ -73,7 +89,7 @@ const ActivityList = ({ list, navigation }) => {
                             leftContent={() => (
                                 <Button
                                     title='Infos'
-                                    onPress={() => { navigation.navigate("Informations", { activity: activity }) }}
+                                    onPress={() => dispatchChangeActivityInfos(activity.id)}
                                     icon={{ name: 'info', color: 'white' }}
                                     titleStyle={{ fontWeight: 'bold' }}
                                     buttonStyle={{ minHeight: '100%' }}
