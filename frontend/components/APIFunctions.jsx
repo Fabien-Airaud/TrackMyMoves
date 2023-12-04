@@ -213,6 +213,20 @@ export const groupedActivityListAPI = async (token) => {
     return group;
 };
 
+export const retrieveActivityAPI = async (token, id) => {
+    let activity = undefined;
+
+    const response = await fetch(apiUrl + "/activities/" + id + "/", {
+        method: "GET",
+        headers: {
+            Authorization: "token " + token
+        }
+    });
+
+    if (response.ok) activity = await response.json();
+    return activity;
+};
+
 export const createActivityAPI = async (token, activity) => {
     let helpers = undefined;
 
