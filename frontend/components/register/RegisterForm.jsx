@@ -57,7 +57,7 @@ const RegisterForm = ({ navigation }) => {
     };
 
     return (
-        <View style={{ width: '80%', marginTop: '2%' }}>
+        <View style={{ width: '80%', marginTop: '5%' }}>
             <Input label='First name' placeholder='Enter your first name' onChangeText={text => setFirstName(text)} inputMode='text' />
             <Helper visible={helpers?.first_name != undefined} message={helpers?.first_name ? helpers?.first_name[0] : ""} />
 

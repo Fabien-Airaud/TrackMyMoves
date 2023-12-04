@@ -5,7 +5,6 @@ import { useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { TextInput } from 'react-native-paper';
 
-// import Helper from '../Helper';
 import { auth } from '../../firebaseConfig';
 import Helper from '../Helper';
 import Input from '../Input';
@@ -42,13 +41,13 @@ const RegisterFirebase = ({ navigation }) => {
             .then((userCredential) => {
                 // Signed up
                 const user = userCredential.user;
-                console.log("Registered: " + user);
+                console.log("Registered: " + JSON.stringify(user));
             })
             .catch(console.error);
     };
 
     return (
-        <View style={{ width: '80%', marginVertical: "2%" }}>
+        <View style={{ width: '80%', marginVertical: "5%" }}>
             <Text style={styles.title}>Register with Firebase</Text>
 
             <Input label='Email address' placeholder='Enter your email address' onChangeText={text => setEmail(text)} inputMode='email' />
