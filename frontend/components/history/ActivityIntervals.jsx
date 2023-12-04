@@ -2,10 +2,14 @@ import { useTheme } from '@react-navigation/native';
 import { useEffect, useState } from 'react';
 import { ScrollView, StyleSheet } from 'react-native';
 import { DataTable } from 'react-native-paper';
+import { useSelector } from 'react-redux';
 
 import { formatTime } from '../move/FormatTime';
 
-const ActivityIntervals = ({ navigation, route: { params: { intervals } } }) => {
+const ActivityIntervals = () => {
+    // Activity infos stored in redux
+    const intervals = useSelector((state) => state.apiActivityInfos.intervals);
+
     // State variables
     const [page, setPage] = useState(0);
     const numberOfItemsPerPageList = [5, 10];
@@ -46,12 +50,12 @@ const ActivityIntervals = ({ navigation, route: { params: { intervals } } }) => 
                 </DataTable.Header>
 
                 {intervals.slice(from, to).map((interval, index) => {
-                    // Get times in string formatted
-                    const time = formatTime(interval.endTime - interval.startTime, false);
-                    const totalTime = formatTime(interval.endTime, false);
-
                     // Get start date in string
-                    const startDate = new Date(interval.startDate).toLocaleTimeString();
+                    const startDate = new Date(interval.start_datetime).toLocaleTimeString();
+
+                    // Get times in string formatted
+                    const time = formatTime(interval.end_time - interval.start_time, false);
+                    const totalTime = formatTime(interval.end_time, false);
 
                     return (
                         <DataTable.Row key={index}>
