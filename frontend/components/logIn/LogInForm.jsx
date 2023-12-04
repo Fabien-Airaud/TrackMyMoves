@@ -50,7 +50,7 @@ const LogInForm = () => {
     };
 
     return (
-        <View style={{ width: '80%' }}>
+        <View style={{ width: '80%', marginTop: '5%' }}>
             <Input label='Email address' placeholder='Enter your email address' onChangeText={text => setEmail(text)} inputMode='email' />
             <Input label='Password' placeholder='Enter your password' secureTextEntry={securedPassword} onChangeText={text => setPassword(text)} inputMode='text' right={<TextInput.Icon icon={securedPassword ? 'eye' : 'eye-off'} onPress={() => setSecuredPassword(!securedPassword)} color={colors.placeholder} />} />
 
