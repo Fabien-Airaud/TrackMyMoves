@@ -4,10 +4,10 @@ import { Alert, StyleSheet } from 'react-native';
 import { IconButton } from 'react-native-paper';
 import { useDispatch, useSelector } from 'react-redux';
 
+import { changeActivityInfos } from '../../redux/apiActivityInfosSlice';
+import { deleteActivityAPI, getActivityWithActivityTypeAPI } from '../APIFunctions';
 import { formatTime } from '../move/FormatTime';
 import Accordion from './Accordion';
-import { getActivityWithActivityTypeAPI, deleteActivityAPI } from '../APIFunctions';
-import { changeActivityInfos } from '../../redux/apiActivityInfosSlice';
 
 const ActivityList = ({ list, navigation }) => {
     // Logged account stored in redux
@@ -33,10 +33,9 @@ const ActivityList = ({ list, navigation }) => {
     const dispatchChangeActivityInfos = async (activityId) => {
         getActivityWithActivityTypeAPI(apiAccount.token, activityId)
             .then(activity => {
-                if (activity) {
+                if (activity != undefined) {
                     dispatch(changeActivityInfos(activity));
-                    console.log(JSON.stringify(activity));
-                    // navigation.navigate("Informations");
+                    navigation.navigate("Informations");
                 }
             })
             .catch(console.error);
