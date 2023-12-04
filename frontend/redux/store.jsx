@@ -5,6 +5,7 @@ import apiAccountSlice from './apiAccountSlice';
 import apiActivitySlice from './apiActivitySlice';
 import currentActivitySlice from './currentActivitySlice';
 import logInReducer from './logInSlice';
+import apiActivityInfosSlice from './apiActivityInfosSlice';
 
 export default configureStore({
 	reducer: {
@@ -12,6 +13,7 @@ export default configureStore({
 		logIn: logInReducer,
 		currentActivity: currentActivitySlice,
 		apiAccount: apiAccountSlice,
-		apiActivity: apiActivitySlice
+		apiActivity: apiActivitySlice,
+		apiActivityInfos: apiActivityInfosSlice
 	}
 });
