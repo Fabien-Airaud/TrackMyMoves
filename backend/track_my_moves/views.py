@@ -162,7 +162,7 @@ def logOutAPIViewDeco(request):
 
 class UserViewSet(viewsets.ViewSet):
     
-    @swagger_auto_schema(request_body=UserSerializer(many=True))
+    @swagger_auto_schema(responses={200: UserSerializer(many=True)})
     def list(self, request):
         users = User.objects.all()
         serializer = UserSerializer(users, many=True)
