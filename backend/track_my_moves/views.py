@@ -237,7 +237,7 @@ class AccountViewSet(viewsets.ViewSet):
             return Response(serializer.data, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
-    @swagger_auto_schema(security=[{'Bearer': []}], request_body=AccountSerializer(partial_update=True), responses={401: "Error: Unauthorized"})
+    @swagger_auto_schema(security=[{'Bearer': []}], request_body=AccountSerializer(partial=True), responses={401: "Error: Unauthorized"})
     def partial_update(self, request, pk):
         account = Account.objects.get(id=pk)
         serializer = AccountSerializer(account, data=request.data, partial=True)
@@ -291,7 +291,7 @@ class ActivityTypeViewSet(viewsets.ViewSet):
             return Response(serializer.data, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
-    @swagger_auto_schema(request_body=ActivityTypeSerializer(partial_update=True))
+    @swagger_auto_schema(request_body=ActivityTypeSerializer(partial=True))
     def partial_update(self, request, pk):
         activityType = ActivityType.objects.get(id=pk)
         serializer = ActivityTypeSerializer(activityType, data=request.data, partial=True)
@@ -394,7 +394,7 @@ class ActivityViewSet(viewsets.ViewSet):
             return Response(serializer.data, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
-    @swagger_auto_schema(security=[{'Bearer': []}], request_body=ActivitySerializer(partial_update=True), responses={401: "Error: Unauthorized"})
+    @swagger_auto_schema(security=[{'Bearer': []}], request_body=ActivitySerializer(partial=True), responses={401: "Error: Unauthorized"})
     def partial_update(self, request, pk):
         activity = Activity.objects.get(id=pk)
         serializer = ActivitySerializer(activity, data=request.data, partial=True)
