@@ -261,6 +261,7 @@ class ActivityTypeViewSet(viewsets.ViewSet):
         serializer = ActivityTypeSerializer(activityTypes, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
     
+    @swagger_auto_schema(request_body=ActivityTypeSerializer())
     def create(self, request):
         serializer = ActivityTypeSerializer(data=request.data)
         if serializer.is_valid():
