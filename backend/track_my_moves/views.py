@@ -356,7 +356,7 @@ class ActivityViewSet(viewsets.ViewSet):
         serializer = ActivitySerializer(activities, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
     
-    @swagger_auto_schema(security=[{'Bearer': []}], request_body=AccountSerializer(), responses={401: "Error: Unauthorized"})
+    @swagger_auto_schema(security=[{'Bearer': []}], request_body=ActivitySerializer(), responses={401: "Error: Unauthorized"})
     def create(self, request):
         """Create activity with its intervals"""
         intervals_data = request.data.pop("intervals")
@@ -385,7 +385,7 @@ class ActivityViewSet(viewsets.ViewSet):
         serialized_intervals = getSerializedActivityIntervals(pk)
         return Response({**activity_serializer.data, "intervals": serialized_intervals}, status=status.HTTP_200_OK)
     
-    @swagger_auto_schema(security=[{'Bearer': []}], request_body=AccountSerializer(), responses={401: "Error: Unauthorized"})
+    @swagger_auto_schema(security=[{'Bearer': []}], request_body=ActivitySerializer(), responses={401: "Error: Unauthorized"})
     def update(self, request, pk):
         activity = Activity.objects.get(id=pk)
         serializer = ActivitySerializer(activity, data=request.data)
@@ -394,7 +394,7 @@ class ActivityViewSet(viewsets.ViewSet):
             return Response(serializer.data, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
-    @swagger_auto_schema(security=[{'Bearer': []}], request_body=AccountSerializer(), responses={401: "Error: Unauthorized"})
+    @swagger_auto_schema(security=[{'Bearer': []}], request_body=ActivitySerializer(), responses={401: "Error: Unauthorized"})
     def partial_update(self, request, pk):
         activity = Activity.objects.get(id=pk)
         serializer = ActivitySerializer(activity, data=request.data, partial=True)
