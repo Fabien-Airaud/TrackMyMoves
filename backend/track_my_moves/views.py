@@ -150,7 +150,7 @@ def logInAPIViewDeco(request):
         return Response({"message": "enter a valid e-mail address."}, status=status.HTTP_400_BAD_REQUEST)
     return Response({"message": "enter a valid password."}, status=status.HTTP_400_BAD_REQUEST)
 
-@swagger_auto_schema(method="GET", security=[{'Bearer': []}], responses={200: "log out successed"})
+@swagger_auto_schema(method="GET", security=[{'Bearer': []}], responses={200: "log out successed", 401: {"Error: Unauthorized"}})
 @api_view()
 @permission_classes([IsAuthenticated])
 def logOutAPIViewDeco(request):
