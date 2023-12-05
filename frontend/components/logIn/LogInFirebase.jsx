@@ -38,8 +38,7 @@ const LogInFirebase = () => {
             .then((userCredential) => {
                 // Signed in 
                 setHelpers(undefined);
-                const user = userCredential.user;
-                console.log("Logged in: " + JSON.stringify(user));
+                // const user = userCredential.user;
             })
             .catch((error) => {
                 setHelpers(error.code);

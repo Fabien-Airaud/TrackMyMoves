@@ -41,8 +41,7 @@ const RegisterFirebase = () => {
             .then((userCredential) => {
                 // Signed up
                 setHelpers(undefined);
-                const user = userCredential.user;
-                console.log("Registered: " + JSON.stringify(user));
+                // const user = userCredential.user;
             })
             .catch((error) => {
                 setHelpers(error.code);
