@@ -269,11 +269,13 @@ class ActivityTypeViewSet(viewsets.ViewSet):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
+    @swagger_auto_schema(responses={200: ActivityTypeSerializer()})
     def retrieve(self, request, pk):
         activityType = ActivityType.objects.get(id=pk)
         serializer = ActivityTypeSerializer(activityType)
         return Response(serializer.data, status=status.HTTP_200_OK)
     
+    @swagger_auto_schema(request_body=ActivityTypeSerializer())
     def update(self, request, pk):
         activityType = ActivityType.objects.get(id=pk)
         serializer = ActivityTypeSerializer(activityType, data=request.data)
@@ -282,6 +284,7 @@ class ActivityTypeViewSet(viewsets.ViewSet):
             return Response(serializer.data, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
+    @swagger_auto_schema(request_body=ActivityTypeSerializer())
     def partial_update(self, request, pk):
         activityType = ActivityType.objects.get(id=pk)
         serializer = ActivityTypeSerializer(activityType, data=request.data, partial=True)
