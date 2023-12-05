@@ -220,6 +220,7 @@ class AccountViewSet(viewsets.ViewSet):
     #         return Response(serializer.data, status=status.HTTP_201_CREATED)
     #     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
+    @swagger_auto_schema(security=[{'Bearer': []}], responses={200: AccountSerializer(), 401: "Error: Unauthorized"})
     def retrieve(self, request, pk):
         """Retrieve the current account (ignore id in request)"""
         
@@ -227,6 +228,7 @@ class AccountViewSet(viewsets.ViewSet):
         serializer = AccountSerializer(account)
         return Response(serializer.data, status=status.HTTP_200_OK)
     
+    @swagger_auto_schema(security=[{'Bearer': []}], request_body=AccountSerializer(), responses={401: "Error: Unauthorized"})
     def update(self, request, pk):
         account = Account.objects.get(id=pk)
         serializer = AccountSerializer(account, data=request.data)
@@ -235,6 +237,7 @@ class AccountViewSet(viewsets.ViewSet):
             return Response(serializer.data, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
+    @swagger_auto_schema(security=[{'Bearer': []}], request_body=AccountSerializer(), responses={401: "Error: Unauthorized"})
     def partial_update(self, request, pk):
         account = Account.objects.get(id=pk)
         serializer = AccountSerializer(account, data=request.data, partial=True)
@@ -243,6 +246,7 @@ class AccountViewSet(viewsets.ViewSet):
             return Response(serializer.data, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
+    @swagger_auto_schema(security=[{'Bearer': []}], responses={401: "Error: Unauthorized", 406: "as an admin, you can only delete your account through the admin website."})
     def destroy(self, request, pk):
         current_token = Token.objects.get(user=request.user)
         current_token.delete()
