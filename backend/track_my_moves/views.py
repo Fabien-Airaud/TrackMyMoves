@@ -150,6 +150,7 @@ def logInAPIViewDeco(request):
         return Response({"message": "enter a valid e-mail address."}, status=status.HTTP_400_BAD_REQUEST)
     return Response({"message": "enter a valid password."}, status=status.HTTP_400_BAD_REQUEST)
 
+@swagger_auto_schema(manual_parameters=[{"name": "Authorization", "in": "header", "description": "API REST Token", "required": True}] ,responses={200: "log out successed"})
 @api_view()
 @permission_classes([IsAuthenticated])
 def logOutAPIViewDeco(request):
