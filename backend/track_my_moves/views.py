@@ -254,6 +254,8 @@ class AccountViewSet(viewsets.ViewSet):
 
 
 class ActivityTypeViewSet(viewsets.ViewSet):
+    
+    @swagger_auto_schema(responses={200: ActivityTypeSerializer(many=True)})
     def list(self, request):
         activityTypes = ActivityType.objects.all()
         serializer = ActivityTypeSerializer(activityTypes, many=True)
