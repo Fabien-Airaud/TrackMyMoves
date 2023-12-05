@@ -132,7 +132,7 @@ def registerAPIViewDeco(request):
         return Response(serializer.data, status=status.HTTP_201_CREATED)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-@swagger_auto_schema(method="POST", request_body=UserSerializer(), responses={200: '{"token": apiToken, "account": AccountObject}', 400: [{"message": "enter a valid e-mail address."}, {"message": "enter a valid password."}]})
+@swagger_auto_schema(method="POST", request_body=UserSerializer(), responses={200: '{"token": apiToken, "account": AccountObject}', 400: "Error message"})
 @api_view(['POST'])
 def logInAPIViewDeco(request):
     logInEmail = request.data["email"]
