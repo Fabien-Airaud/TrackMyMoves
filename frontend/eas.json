@@ -7,7 +7,7 @@
       "developmentClient": true,
       "distribution": "internal",
       "env": {
-        "EXPO_PUBLIC_API_URL": "http://fabienairaud.pythonanywhere.com/TrackMyMoves/api"
+        "EXPO_PUBLIC_API_URL": "https://fabienairaud.pythonanywhere.com/TrackMyMoves/api"
       }
     },
     "preview": {
@@ -15,17 +15,17 @@
         "buildType": "apk"
       },
       "env": {
-        "EXPO_PUBLIC_API_URL": "http://fabienairaud.pythonanywhere.com/TrackMyMoves/api"
+        "EXPO_PUBLIC_API_URL": "https://fabienairaud.pythonanywhere.com/TrackMyMoves/api"
       }
     },
     "production": {
       "env": {
-        "EXPO_PUBLIC_API_URL": "http://fabienairaud.pythonanywhere.com/TrackMyMoves/api"
+        "EXPO_PUBLIC_API_URL": "https://fabienairaud.pythonanywhere.com/TrackMyMoves/api"
       }
     },
     "test": {
       "env": {
-        "EXPO_PUBLIC_API_URL": "http://fabienairaud.pythonanywhere.com/TrackMyMoves/api"
+        "EXPO_PUBLIC_API_URL": "https://fabienairaud.pythonanywhere.com/TrackMyMoves/api"
       }
     }
   },
