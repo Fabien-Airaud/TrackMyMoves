@@ -123,7 +123,7 @@ def usersAdminStats(request, accountId):
 #   Partie API Rest
 ####################################################################################################
 
-@swagger_auto_schema(method="POST", query_serializer=AccountSerializer(), request_body=AccountSerializer())
+@swagger_auto_schema(method="POST", request_body=AccountSerializer())
 @api_view(['POST'])
 def registerAPIViewDeco(request):
     serializer = AccountSerializer(data=request.data)
@@ -151,7 +151,7 @@ def logInAPIViewDeco(request):
         return Response({"message": "enter a valid e-mail address."}, status=status.HTTP_400_BAD_REQUEST)
     return Response({"message": "enter a valid password."}, status=status.HTTP_400_BAD_REQUEST)
 
-@swagger_auto_schema(method="GET", security=[{'Bearer': []}], responses={200: "log out successed", 401: {"Error: Unauthorized"}})
+@swagger_auto_schema(method="GET", security=[{'Bearer': []}], responses={200: "log out successed", 401: "Error: Unauthorized"})
 @api_view()
 @permission_classes([IsAuthenticated])
 def logOutAPIViewDeco(request):
