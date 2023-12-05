@@ -8,6 +8,7 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.authtoken.models import Token
 from rest_framework.permissions import IsAuthenticated
+from drf_yasg.utils import swagger_auto_schema
 
 from .models.account import Account
 from .models.activity_type import ActivityType
@@ -160,6 +161,8 @@ def logOutAPIViewDeco(request):
 
 
 class UserViewSet(viewsets.ViewSet):
+    
+    @swagger_auto_schema(request_body=UserSerializer(many=True))
     def list(self, request):
         users = User.objects.all()
         serializer = UserSerializer(users, many=True)
