@@ -43,10 +43,10 @@ const ActivityIntervals = () => {
         <ScrollView horizontal={true}>
             <DataTable>
                 <DataTable.Header>
-                    <DataTable.Title style={[styles.cell, styles.number]}>#</DataTable.Title>
-                    <DataTable.Title style={[styles.cell, styles.date]}>Start date</DataTable.Title>
-                    <DataTable.Title style={[styles.cell, styles.time]}>Time</DataTable.Title>
-                    <DataTable.Title style={[styles.cell, styles.time]}>Total time</DataTable.Title>
+                    <DataTable.Title style={[styles.cell, styles.number]} textStyle={{color: colors.placeholder}}>#</DataTable.Title>
+                    <DataTable.Title style={[styles.cell, styles.date]} textStyle={{color: colors.placeholder}}>Start date</DataTable.Title>
+                    <DataTable.Title style={[styles.cell, styles.time]} textStyle={{color: colors.placeholder}}>Time</DataTable.Title>
+                    <DataTable.Title style={[styles.cell, styles.time]} textStyle={{color: colors.placeholder}}>Total time</DataTable.Title>
                 </DataTable.Header>
 
                 {intervals.slice(from, to).map((interval, index) => {
@@ -59,10 +59,10 @@ const ActivityIntervals = () => {
 
                     return (
                         <DataTable.Row key={index}>
-                            <DataTable.Cell style={[styles.cell, styles.number]}>{index + from + 1}</DataTable.Cell>
-                            <DataTable.Cell style={[styles.cell, styles.date]}>{startDate}</DataTable.Cell>
-                            <DataTable.Cell style={[styles.cell, styles.time]}>{time}</DataTable.Cell>
-                            <DataTable.Cell style={[styles.cell, styles.time]}>{totalTime}</DataTable.Cell>
+                            <DataTable.Cell style={[styles.cell, styles.number]} textStyle={{color: colors.text}}>{index + from + 1}</DataTable.Cell>
+                            <DataTable.Cell style={[styles.cell, styles.date]} textStyle={{color: colors.text}}>{startDate}</DataTable.Cell>
+                            <DataTable.Cell style={[styles.cell, styles.time]} textStyle={{color: colors.text}}>{time}</DataTable.Cell>
+                            <DataTable.Cell style={[styles.cell, styles.time]} textStyle={{color: colors.text}}>{totalTime}</DataTable.Cell>
                         </DataTable.Row>
                     );
                 })}

@@ -27,9 +27,6 @@ const ActivityGeneral = () => {
         text: {
             color: colors.text,
             fontSize: fontSizes.md
-        },
-        listTitle: {
-            fontSize: fontSizes.md
         }
     });
 
@@ -44,30 +41,34 @@ const ActivityGeneral = () => {
             </View>
 
             <List.Section style={{ marginBottom: 20 }}>
-                <List.Subheader>Time</List.Subheader>
+                <List.Subheader style={{color: colors.border}}>Time</List.Subheader>
                 <Surface mode='flat' elevation={1} style={{ backgroundColor: colors.surface }}>
                     <List.Item
                         title={startDate.toLocaleTimeString()}
                         description="Start"
-                        titleStyle={styles.listTitle}
+                        titleStyle={styles.text}
+                        descriptionStyle={{color: colors.border}}
                     />
                     <Divider />
                     <List.Item
                         title={endDate.toLocaleTimeString()}
                         description="End"
-                        titleStyle={styles.listTitle}
+                        titleStyle={styles.text}
+                        descriptionStyle={{color: colors.border}}
                     />
                     <Divider />
                     <List.Item
                         title={totalTime}
                         description="Total"
-                        titleStyle={styles.listTitle}
+                        titleStyle={styles.text}
+                        descriptionStyle={{color: colors.border}}
                     />
                     <Divider />
                     <List.Item
                         title={elapsedTime}
                         description="Elapsed"
-                        titleStyle={styles.listTitle}
+                        titleStyle={styles.text}
+                        descriptionStyle={{color: colors.border}}
                     />
                 </Surface>
             </List.Section>
