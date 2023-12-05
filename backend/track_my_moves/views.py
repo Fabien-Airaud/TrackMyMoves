@@ -3,7 +3,7 @@ from django.shortcuts import render
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import user_passes_test
 from django.urls import reverse
-from rest_framework import status, viewsets
+from rest_framework import serializers, status, viewsets
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.authtoken.models import Token
@@ -132,7 +132,7 @@ def registerAPIViewDeco(request):
         return Response(serializer.data, status=status.HTTP_201_CREATED)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-@swagger_auto_schema(method="POST", request_body=UserSerializer(), responses={200: AccountSerializer, 400: [{"message": "enter a valid e-mail address."}, {"message": "enter a valid password."}]})
+@swagger_auto_schema(method="POST", request_body=UserSerializer(), responses={200: {"token": serializers.CharField, "account": AccountSerializer}, 400: [{"message": "enter a valid e-mail address."}, {"message": "enter a valid password."}]})
 @api_view(['POST'])
 def logInAPIViewDeco(request):
     logInEmail = request.data["email"]
