@@ -123,7 +123,7 @@ def usersAdminStats(request, accountId):
 #   Partie API Rest
 ####################################################################################################
 
-@swagger_auto_schema(method="POST", request_body=AccountSerializer(), responses={201: AccountSerializer(), 401: AccountSerializer().errors})
+@swagger_auto_schema(method="POST", request_body=AccountSerializer())
 @api_view(['POST'])
 def registerAPIViewDeco(request):
     serializer = AccountSerializer(data=request.data)
