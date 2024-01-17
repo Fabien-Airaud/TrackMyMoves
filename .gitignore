@@ -9,3 +9,5 @@ __pychache__/
 
 # local env files
 .env*.local
+
+ActivityRecognition/
