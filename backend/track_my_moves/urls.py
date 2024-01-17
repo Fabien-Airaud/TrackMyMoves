@@ -5,7 +5,7 @@ from drf_yasg.views import get_schema_view
 
 from .views import home, logIn, logOut, usersAdmin, usersAdminStats
 from .views import AccountViewSet, ActivityTypeViewSet, ActivityViewSet, UserViewSet
-from .views import registerAPIViewDeco, logInAPIViewDeco, logOutAPIViewDeco
+from .views import registerAPIViewDeco, logInAPIViewDeco, logOutAPIViewDeco, modelTestsResultsAPIViewDeco
 
 schema_view = get_schema_view(
     openapi.Info(
@@ -33,5 +33,6 @@ urlpatterns = [
     path('api/register', registerAPIViewDeco, name='api-register'),
     path('api/logIn', logInAPIViewDeco, name='api-logIn'),
     path('api/logOut', logOutAPIViewDeco, name='api-logOut'),
+    path('api/modelTestsResults', modelTestsResultsAPIViewDeco, name='api-modelTestsResults'),
     path('swagger', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui')
 ]

@@ -10,6 +10,9 @@ from rest_framework.authtoken.models import Token
 from rest_framework.permissions import IsAuthenticated
 from drf_yasg.utils import swagger_auto_schema
 
+import joblib
+from sklearn.metrics import classification_report, confusion_matrix, accuracy_score
+
 from .models.account import Account
 from .models.activity_type import ActivityType
 from .models.sensors_interval import SensorsInterval
@@ -408,3 +411,23 @@ class ActivityViewSet(viewsets.ViewSet):
         activity = Activity.objects.get(id=pk)
         activity.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+DATA_PATH = "static/track_my_moves/data/"
+
+#@swagger_auto_schema(method="GET", security=[{'Bearer': []}], responses={200: "Accuracy", 401: "Error: Unauthorized"})
+@api_view()
+#@permission_classes([IsAuthenticated])
+def modelTestsResultsAPIViewDeco(request):
+    # Récupération des données de test
+    [x_test, y_test] = joblib.load(DATA_PATH + "test.joblib")
+    
+    # Récupération du modèle svm
+    model_svm = joblib.load(DATA_PATH + "model_svm.joblib")
+    # Prédiction
+    y_pred_svm = model_svm.predict(x_test)
+    
+    # Taux de reconnaissance (accuracy)
+    accuracy = accuracy_score(y_test, y_pred_svm)
+
+    return Response(accuracy, status=status.HTTP_200_OK)
