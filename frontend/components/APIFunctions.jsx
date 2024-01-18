@@ -287,7 +287,7 @@ export const deleteActivityAPI = async (token, id) => {
 export const retrieveModelTestsResultsAPI = async (token, id) => {
     let results = undefined;
 
-    const response = await fetch(apiUrl + "/modelTestsResults/" + id + "/", {
+    const response = await fetch(apiUrl + "/modelTestsResults", {
         method: "GET",
         headers: {
             Authorization: "token " + token
