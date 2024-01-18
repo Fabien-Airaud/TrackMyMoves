@@ -25,7 +25,7 @@ const HistoryIcon = ({ focused, color, size }) => {
 
 const AIModelIcon = ({ focused, color, size }) => {
     return (
-        <IconButton icon='microchip-ai' focused={focused} iconColor={color} size={size} />
+        <IconButton icon='brain' focused={focused} iconColor={color} size={size} />
     );
 };
 
