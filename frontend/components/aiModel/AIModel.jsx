@@ -1,7 +1,10 @@
+import { useTheme } from '@react-navigation/native';
 import { StyleSheet, View, Text } from "react-native";
+
 
 const AIModel = () => {
     // Style variables
+    const { colors, fontSizes } = useTheme();
     const styles = StyleSheet.create({
         page: {
             height: '100%',
