@@ -5,6 +5,7 @@ import { Image } from 'react-native';
 import HistoryStack from './HistoryStack';
 import Move from '../move/Move';
 import Profile from '../profile/Profile';
+import AIModel from '../aiModel/AIModel';
 
 const PlaceholderImageSource = require('../../assets/transparent-logo.png');
 
@@ -22,6 +23,12 @@ const HistoryIcon = ({ focused, color, size }) => {
     );
 };
 
+const AIModelIcon = ({ focused, color, size }) => {
+    return (
+        <IconButton icon='microchip-ai' focused={focused} iconColor={color} size={size} />
+    );
+};
+
 const ProfileIcon = ({ focused, color, size }) => {
     return (
         <IconButton icon='account-edit' focused={focused} iconColor={color} size={size} />
@@ -33,6 +40,7 @@ const AppTab = () => {
         <Tab.Navigator screenOptions={{ headerTitle: 'TrackMyMoves', headerLeft: () => <Image source={PlaceholderImageSource} style={{ height: 50, width: 50, marginStart: 10 }} /> }}>
             <Tab.Screen name="Move" component={Move} options={{ tabBarIcon: MoveIcon }} />
             <Tab.Screen name="HistoryStack" component={HistoryStack} options={{ tabBarIcon: HistoryIcon, title: "History"}} />
+            <Tab.Screen name="AIModel" component={AIModel} options={{ tabBarIcon: AIModelIcon, title: "AI model"}} />
             <Tab.Screen name="Profile" component={Profile} options={{ tabBarIcon: ProfileIcon }} />
         </Tab.Navigator>
     );
