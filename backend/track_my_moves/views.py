@@ -10,7 +10,7 @@ from rest_framework.authtoken.models import Token
 from rest_framework.permissions import IsAuthenticated
 from drf_yasg.utils import swagger_auto_schema
 
-import joblib
+from joblib import load
 from sklearn.metrics import classification_report, confusion_matrix, accuracy_score
 
 from .models.account import Account
@@ -420,10 +420,10 @@ DATA_PATH = "static/track_my_moves/data/"
 #@permission_classes([IsAuthenticated])
 def modelTestsResultsAPIViewDeco(request):
     # Récupération des données de test
-    [x_test, y_test] = joblib.load(DATA_PATH + "test.joblib")
+    [x_test, y_test] = load(DATA_PATH + "test.joblib")
     
     # Récupération du modèle svm
-    model_svm = joblib.load(DATA_PATH + "model_svm.joblib")
+    model_svm = load(DATA_PATH + "model_svm.joblib")
     # Prédiction
     y_pred_svm = model_svm.predict(x_test)
     
