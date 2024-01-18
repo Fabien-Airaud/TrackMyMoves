@@ -415,7 +415,7 @@ class ActivityViewSet(viewsets.ViewSet):
 
 DATA_PATH = "static/track_my_moves/data/"
 
-#@swagger_auto_schema(method="GET", security=[{'Bearer': []}], responses={200: "Accuracy", 401: "Error: Unauthorized"})
+#@swagger_auto_schema(method="GET", security=[{'Bearer': []}], responses={200: "Results", 401: "Error: Unauthorized"})
 @api_view()
 #@permission_classes([IsAuthenticated])
 def modelTestsResultsAPIViewDeco(request):
@@ -430,4 +430,4 @@ def modelTestsResultsAPIViewDeco(request):
     # Taux de reconnaissance (accuracy)
     accuracy = accuracy_score(y_test, y_pred_svm)
 
-    return Response(accuracy, status=status.HTTP_200_OK)
+    return Response({"accuracy": accuracy}, status=status.HTTP_200_OK)
