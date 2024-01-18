@@ -279,3 +279,21 @@ export const deleteActivityAPI = async (token, id) => {
     }
     return message;
 };
+
+
+/* ----------------------------------------------------------------------------------------------------
+    IA model
+---------------------------------------------------------------------------------------------------- */
+export const retrieveModelTestsResultsAPI = async (token, id) => {
+    let results = undefined;
+
+    const response = await fetch(apiUrl + "/modelTestsResults/" + id + "/", {
+        method: "GET",
+        headers: {
+            Authorization: "token " + token
+        }
+    });
+
+    if (response.ok) results = await response.json();
+    return results;
+};
