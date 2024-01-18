@@ -1,8 +1,8 @@
 from django.db import models
-from .activity_type import ActivityType
+# from .activity_type import ActivityType
 
-def getAIActivityType():
-    return ActivityType.objects.get_or_create(value="ai", label="AI guess", leadingIcon="cloud-braces")
+# def getAIActivityType():
+#     return ActivityType.objects.get_or_create(value="ai", label="AI guess", leading_icon="cloud-braces")
 
 class Activity(models.Model):
     class Meta:
@@ -15,7 +15,8 @@ class Activity(models.Model):
         ]
     
     user = models.ForeignKey("User", on_delete=models.CASCADE)
-    activity_type = models.ForeignKey("ActivityType", default=getAIActivityType, on_delete=models.SET_DEFAULT)
+    # activity_type = models.ForeignKey("ActivityType", default=getAIActivityType, on_delete=models.SET_DEFAULT)
+    activity_type = models.ForeignKey("ActivityType", on_delete=models.CASCADE)
     start_datetime = models.DateTimeField(auto_now=False, auto_now_add=False)
     end_datetime = models.DateTimeField(auto_now=False, auto_now_add=False)
     total_time = models.PositiveIntegerField()

@@ -22,7 +22,7 @@ class UserAdmin(UserAdmin):
                 "classes": ["wide"],
                 "fields": [
                     "email", "password1", "password2", "is_superuser",
-                    "is_active", "groups", "user_permissions"
+                    "is_active"#, "groups", "user_permissions"
                 ],
             },
         ),
