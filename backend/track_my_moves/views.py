@@ -415,9 +415,9 @@ class ActivityViewSet(viewsets.ViewSet):
 
 DATA_PATH = "static/track_my_moves/data/"
 
-#@swagger_auto_schema(method="GET", security=[{'Bearer': []}], responses={200: "Results", 401: "Error: Unauthorized"})
+@swagger_auto_schema(method="GET", security=[{'Bearer': []}], responses={200: "Results", 401: "Error: Unauthorized"})
 @api_view()
-#@permission_classes([IsAuthenticated])
+@permission_classes([IsAuthenticated])
 def modelTestsResultsAPIViewDeco(request):
     # Récupération des données de test
     [x_test, y_test] = load(DATA_PATH + "test.joblib")
