@@ -123,6 +123,122 @@ class ReductionDimensionnalite:
 # ----------------------------------------------------------------------------------------------------
 # ----------------------------------------------------------------------------------------------------
 
+import matplotlib.pyplot as plt
+from sklearn import svm
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.neural_network import MLPClassifier
+from sklearn.svm import LinearSVC
+from sklearn.naive_bayes import GaussianNB
+from sklearn.metrics import accuracy_score, confusion_matrix, classification_report
+
+class ClassificationEvaluation:
+    def __init__(self, x_train_pca, y_train, x_test_pca, y_test):
+        self.x_train_pca = x_train_pca
+        self.y_train = y_train
+        self.x_test_pca = x_test_pca
+        self.y_test = y_test
+
+        self.modeles = {                                    # Dictionnaire qui contient les modèles à tester
+            "svm": svm.SVC(),
+            "knn": KNeighborsClassifier(n_neighbors=11),
+            "rf": RandomForestClassifier(n_estimators=150),
+            "dt": DecisionTreeClassifier(max_depth=5),
+            "mlp": MLPClassifier(hidden_layer_sizes=(100, 100, 100), max_iter=500),
+            "lsvc": LinearSVC(),
+            "gnb": GaussianNB()
+        }
+    
+    def entrainement(self, model_name="svm"):
+        current_modele = self.modeles[model_name]                   # On récupère le modèle correspondant au nom donné
+        current_modele.fit(self.x_train_pca, self.y_train)          # On entraîne le modèle
+        self.current_modele = current_modele
+        return current_modele
+    
+    def prediction(self):
+        if self.current_modele is not None:
+            self.entrainement()                                        # Entrainement du modèle svm si pas encore de modèle entrainé
+        self.y_pred = self.current_modele.predict(self.x_test_pca)  # On teste le modèle
+        return self.y_pred
+    
+    def test_pred(self):
+        if self.y_pred is not None:
+            self.prediction()                                          # Entrainement et prédiction du modèle svm si pas encore de prédictions
+    
+    def taux_reconnaissance(self):
+        self.test_pred()
+        
+        # Taux de reconnaissance (accuracy)
+        return accuracy_score(self.y_test, self.y_pred)
+    
+    def rapport_classification(self):
+        self.test_pred()
+        
+        # Rappel, précision et f1-score
+        rapport = classification_report(self.y_test, self.y_pred, output_dict=True, zero_division=1)
+        rc_df = pd.DataFrame(rapport).transpose()
+        return rc_df.round(3)                                       # On arrondit les valeurs à 3 chiffres après la virgule
+    
+    def affichage_matrice_confusion(self, matrice):
+        # Affichage de la matrice de confusion avec matplotlib
+        pourcentage = (matrice.astype('float') / matrice.sum(axis=1)[:, np.newaxis])*100   # On calcule le pourcentage de chaque valeur de la matrice de confusion
+
+        plt.figure(figsize=(4, 4))
+        plt.imshow(pourcentage, cmap="coolwarm", vmin=0, vmax=100)
+        plt.colorbar(format='%1.1f%%')                                                     # On affiche la barre de couleur avec les pourcentages
+        plt.xlabel("Valeurs prédites")
+        plt.ylabel("Valeurs réelles")
+        plt.title("Matrice de confusion")
+
+        for (i, j), z in np.ndenumerate(pourcentage):                                       # On affiche les pourcentages dans la matrice de confusion
+            if i == j:
+                plt.text(j, i, '{:0.1f}%'.format(z), ha='center', va='center', color='black')
+            else:
+                plt.text(j, i, '{:0.1f}%'.format(z), ha='center', va='center')
+
+        plt.xticks(np.arange(matrice.shape[1]), np.arange(1, matrice.shape[1] + 1))         # On affiche les valeurs des axes
+        plt.yticks(np.arange(matrice.shape[0]), np.arange(1, matrice.shape[0] + 1))
+        plt.show()
+    
+    def matrice_confusion(self, affichage=False):
+        self.test_pred()
+        
+        # Matrice de confusion
+        matrice = confusion_matrix(self.y_test, self.y_pred)
+        
+        if affichage:
+            cm_df = pd.DataFrame(matrice)
+            cm_df.index = cm_df.index + 1                           # On fait commencer par 1 au lieu de 0
+            cm_df.columns = cm_df.columns + 1
+            print("\nMatrice de confusion : \n", cm_df)
+            print("")
+            
+            self.affichage_matrice_confusion(matrice)
+        return matrice
+    
+    def entrainement_puis_rapport(self, model_name="svm", affichage=False):
+        self.entrainement(model_name)
+        print("\nEntrainement de " + model_name + " effectué")
+        
+        self.prediction()
+        print("\nPrédictions effectuées")
+        
+        accuracy = self.taux_reconnaissance()
+        print("\nTaux de reconnaissance (accuracy) : ", accuracy)
+        
+        rapport = self.rapport_classification()
+        print("\nRapport de classification :\n", rapport)
+        
+        matrice = self.matrice_confusion(affichage)
+        
+        return accuracy, rapport, matrice
+
+
+# ----------------------------------------------------------------------------------------------------
+# ----------------------------------------------------------------------------------------------------
+# ----------------------------------------------------------------------------------------------------
+
 DATA_PATH = "static/track_my_moves/data/"
 
 def importDataset():
@@ -141,3 +257,7 @@ def importDataset():
     reductionDim = ReductionDimensionnalite(x_train, x_test)
     x_train_pca, x_test_pca = reductionDim.pca()
     print("Réduction de dimensionnalité du dataset finie.")
+    
+    # Classification (entrainement, prédiction et évaluation du modèle)
+    classification = ClassificationEvaluation(x_train_pca, y_train, x_test_pca, y_test)
+    classification.entrainement_puis_rapport(affichage=True)
