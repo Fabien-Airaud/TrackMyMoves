@@ -26,7 +26,6 @@ class ImportationDataset:
 # ----------------------------------------------------------------------------------------------------
 # ----------------------------------------------------------------------------------------------------
 
-
 import numpy as np
 from scipy.stats import entropy, mode, skew, kurtosis 
 from pyts.transformation import BagOfPatterns, BOSS
@@ -105,6 +104,24 @@ class ExtractionCaracteristiques:
 # ----------------------------------------------------------------------------------------------------
 # ----------------------------------------------------------------------------------------------------
 
+from sklearn.decomposition import PCA
+
+class ReductionDimensionnalite:
+    def __init__(self, x_train, x_test, n_components=0.98):
+        self.x_train = x_train
+        self.x_test = x_test
+        self.n_components = n_components
+        self.pca_obj = PCA(n_components=self.n_components)
+
+    def pca(self):
+        x_train_pca = self.pca_obj.fit_transform(self.x_train)      # fit_transform() permet d'appliquer la réduction de dimensionnalité sur les données d'entraînement
+        x_test_pca = self.pca_obj.transform(self.x_test)            # transform() permet d'appliquer la même réduction de dimensionnalité sur les données de test
+        return x_train_pca, x_test_pca
+
+
+# ----------------------------------------------------------------------------------------------------
+# ----------------------------------------------------------------------------------------------------
+# ----------------------------------------------------------------------------------------------------
 
 DATA_PATH = "static/track_my_moves/data/"
 
@@ -119,3 +136,8 @@ def importDataset():
     extractionCaracts = ExtractionCaracteristiques(donnees_brutes_train, donnees_brutes_test)
     x_train, x_test = extractionCaracts.extration_BOP_BOSS()
     print("Extraction des caractériques du dataset finie.")
+
+    # Réduction de dimensionnalité
+    reductionDim = ReductionDimensionnalite(x_train, x_test)
+    x_train_pca, x_test_pca = reductionDim.pca()
+    print("Réduction de dimensionnalité du dataset finie.")
