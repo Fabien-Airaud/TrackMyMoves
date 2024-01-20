@@ -1,8 +1,8 @@
 import { useTheme } from '@react-navigation/native';
-import { useState } from 'react';
 import { Button } from '@rneui/themed';
-import { StyleSheet, View, Text } from "react-native";
-import { useDispatch, useSelector } from 'react-redux';
+import { useState } from 'react';
+import { ScrollView, StyleSheet, Text, View } from "react-native";
+import { useSelector } from 'react-redux';
 
 import { retrieveModelTestsResultsAPI } from '../APIFunctions';
 
@@ -19,19 +19,27 @@ const AIModel = () => {
         page: {
             height: '100%',
             width: '100%',
-            alignItems: 'center',
-            justifyContent: 'center'
+            paddingHorizontal: 10
+        },
+        buttons: {
+            display: 'flex',
+            flexDirection: 'row',
+            justifyContent: 'space-around',
+            paddingVertical: 10
+        },
+        button: {
+            minWidth: 110,
+            margin: 10
         },
         text: {
-            color: colors.text
+            color: colors.text,
+            fontSize: fontSizes.md,
+            marginBottom: 15
         }
     });
 
 
-    const dispatch = useDispatch();
-
-    // Create a new activity when start button pressed
-    const dispatchGetResults = () => {
+    const getModelResults = () => {
         retrieveModelTestsResultsAPI(apiAccount.token, apiAccount.account.id)
             .then(response => {
                 if (response) setModelResult(response);
@@ -41,10 +49,14 @@ const AIModel = () => {
     };
 
     return (
-        <View style={styles.page}>
+        <ScrollView style={styles.page}>
+            <View style={styles.buttons}>
+                <Button title='Train model' onPress={() => { }} size='md' radius='sm' buttonStyle={styles.button} />
+                <Button title='Test model' onPress={() => { }} size='md' radius='sm' buttonStyle={styles.button} />
+            </View>
             <Text style={styles.text}>Accuracy : {modelResult ? modelResult.accuracy : "None"}</Text>
-            <Button title='Get model results' onPress={dispatchGetResults} size='md' radius='sm' />
-        </View>
+            <Button title='Get model results' onPress={getModelResults} size='md' radius='sm' />
+        </ScrollView>
     );
 };
 
