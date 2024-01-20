@@ -30,7 +30,7 @@ import numpy as np
 from scipy.stats import entropy, mode, skew, kurtosis 
 from pyts.transformation import BagOfPatterns, BOSS
 
-class ExtractionCaracteristiques:
+class ExtractionCaracteristiquesDataset:
     def __init__(self, donnees_brutes_train, donnees_brutes_test):
         self.donnees_brutes_train = donnees_brutes_train
         self.donnees_brutes_test = donnees_brutes_test
@@ -106,7 +106,7 @@ class ExtractionCaracteristiques:
 
 from sklearn.decomposition import PCA
 
-class ReductionDimensionnalite:
+class ReductionDimensionnaliteDataset:
     def __init__(self, x_train, x_test, n_components=0.98):
         self.x_train = x_train
         self.x_test = x_test
@@ -133,7 +133,7 @@ from sklearn.svm import LinearSVC
 from sklearn.naive_bayes import GaussianNB
 from sklearn.metrics import accuracy_score, confusion_matrix, classification_report
 
-class ClassificationEvaluation:
+class ClassificationEvaluationDataset:
     def __init__(self, x_train_pca, y_train, x_test_pca, y_test):
         self.x_train_pca = x_train_pca
         self.y_train = y_train
@@ -249,15 +249,15 @@ def importDataset():
     print("Importation des données du dataset finie.")
 
     # Extraction des caractéristiques
-    extractionCaracts = ExtractionCaracteristiques(donnees_brutes_train, donnees_brutes_test)
+    extractionCaracts = ExtractionCaracteristiquesDataset(donnees_brutes_train, donnees_brutes_test)
     x_train, x_test = extractionCaracts.extration_BOP_BOSS()
     print("Extraction des caractériques du dataset finie.")
 
     # Réduction de dimensionnalité
-    reductionDim = ReductionDimensionnalite(x_train, x_test)
+    reductionDim = ReductionDimensionnaliteDataset(x_train, x_test)
     x_train_pca, x_test_pca = reductionDim.pca()
     print("Réduction de dimensionnalité du dataset finie.")
     
     # Classification (entrainement, prédiction et évaluation du modèle)
-    classification = ClassificationEvaluation(x_train_pca, y_train, x_test_pca, y_test)
+    classification = ClassificationEvaluationDataset(x_train_pca, y_train, x_test_pca, y_test)
     classification.entrainement_puis_rapport(affichage=True)
