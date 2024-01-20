@@ -293,3 +293,23 @@ class ManageActivityAI:
             if self.checkInterval(interval):
                 return True
         return False
+    
+    def sensorsIntervalsToArray(self, sensorsIntervals):
+        array = []
+        
+        for interval in sensorsIntervals:
+            array.append([interval["accel_x"], interval["accel_y"], interval["accel_z"], interval["gyros_x"], interval["gyros_y"], interval["gyros_z"]])
+        return array
+    
+    def createSlicedSensorsIntervals(self, intervals):
+        sliced_sensors_intervals = []
+        
+        for interval in intervals:
+            sensors_intervals = interval["sensors_intervals"][self.slice_len : - self.slice_len] # Remove 25 first and last intervals (first and last 2.5 sec)
+            print("len(sensors_intervals): ", len(sensors_intervals))
+            
+            for i in range(self.slice_len, len(sensors_intervals), self.slice_len): # For each 25 intervals (slice)
+                slice = sensors_intervals[i-self.slice_len : i] # Create slice of 25 sensors intervals
+                sliced_sensors_intervals.append(self.sensorsIntervalsToArray(slice))
+        
+        return sliced_sensors_intervals
