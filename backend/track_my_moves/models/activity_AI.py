@@ -13,7 +13,8 @@ class ActivityAI(models.Model):
     user = models.ForeignKey("User", on_delete=models.CASCADE)
     activity = models.ForeignKey("Activity", on_delete=models.CASCADE)
     activity_type = models.ForeignKey("ActivityType", on_delete=models.CASCADE)
-    recognition_type = models.CharField(max_length=2, choices=RECOGNITION_TYPE_CHOICES)
+    recognition_type = models.CharField(max_length=2, choices=RECOGNITION_TYPE_CHOICES, default="NO")
+    
     mean_accel_x = models.FloatField()
     mean_accel_y = models.FloatField()
     mean_accel_z = models.FloatField()
