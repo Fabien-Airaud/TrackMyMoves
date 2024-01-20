@@ -261,3 +261,35 @@ def testDataset():
     # Classification (entrainement, prédiction et évaluation du modèle)
     classification = ClassificationEvaluationDataset(x_train_pca, y_train, x_test_pca, y_test)
     classification.entrainement_puis_rapport(affichage=True)
+
+
+
+
+# ----------------------------------------------------------------------------------------------------
+# ----------------------------------------------------------------------------------------------------
+# ----------------------------------------------------------------------------------------------------
+# ----------------------------------------------------------------------------------------------------
+# ----------------------------------------------------------------------------------------------------
+#                               Model with database
+# ----------------------------------------------------------------------------------------------------
+# ----------------------------------------------------------------------------------------------------
+# ----------------------------------------------------------------------------------------------------
+# ----------------------------------------------------------------------------------------------------
+# ----------------------------------------------------------------------------------------------------
+
+import numpy as np
+from scipy.stats import entropy, mode, skew, kurtosis
+
+from .models.activity_AI import ActivityAI
+
+class ManageActivityAI:
+    slice_len = 25
+    
+    def checkInterval(self, interval):
+        return len(interval["sensors_intervals"]) >= self.slice_len * 3
+    
+    def checkActivity(self, activity):
+        for interval in activity["intervals"]:
+            if self.checkInterval(interval):
+                return True
+        return False
