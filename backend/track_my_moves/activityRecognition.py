@@ -241,7 +241,7 @@ class ClassificationEvaluationDataset:
 
 DATA_PATH = "static/track_my_moves/data/"
 
-def importDataset():
+def testDataset():
     # Importation des données du dataset
     importDataset= ImportationDataset()
     donnees_brutes_train, y_train = importDataset.charger_donnees_entrainement()

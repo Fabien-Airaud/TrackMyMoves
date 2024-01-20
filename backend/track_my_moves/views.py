@@ -431,3 +431,11 @@ def modelTestsResultsAPIViewDeco(request):
     accuracy = accuracy_score(y_test, y_pred_svm)
 
     return Response({"accuracy": accuracy}, status=status.HTTP_200_OK)
+
+
+from .activityRecognition import testDataset
+
+@api_view()
+def activityRecognitionAPIViewDeco(request):
+    testDataset()
+    return Response({"message": "Reconnaissance terminée"}, status=status.HTTP_200_OK)
