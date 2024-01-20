@@ -313,3 +313,13 @@ class ManageActivityAI:
                 sliced_sensors_intervals.append(self.sensorsIntervalsToArray(slice))
         
         return sliced_sensors_intervals
+    
+    def entropie(self, signal):
+        histogramme = np.histogram(signal, bins=50)[0]
+        histogramme = histogramme / np.sum(histogramme)
+        return entropy(histogramme)
+    
+    def frequence_moyenne(self, signal):
+        frequence_amplitude = np.abs(np.fft.fft(signal))
+        freqs = np.fft.fftfreq(len(signal))
+        return np.average(freqs, weights=frequence_amplitude)
