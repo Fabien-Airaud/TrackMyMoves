@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { ActivityState, addSensorsInterval } from '../../redux/apiActivitySlice';
 
-const SENSORS_TIME_INTERVAL = 200;
+const SENSORS_TIME_INTERVAL = 100;
 
 const Sensors = () => {
     // Current activity stored in redux
