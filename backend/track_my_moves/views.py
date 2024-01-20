@@ -20,6 +20,7 @@ from .models.activity_interval import ActivityInterval
 from .models.activity import Activity
 from .models.user import User
 from .serializers import UserSerializer, AccountSerializer, ActivityTypeSerializer, SensorsIntervalSerializer, ActivityIntervalSerializer, ActivitySerializer
+from .activityRecognition import ManageActivityAI
 
 ####################################################################################################
 #   Partie application
@@ -374,7 +375,17 @@ class ActivityViewSet(viewsets.ViewSet):
             # all intervals added without error
             if (addIntervals_errors == {}):
                 serialized_intervals = getSerializedActivityIntervals(activity_serializer.data["id"])
-                return Response({**activity_serializer.data, "intervals": serialized_intervals}, status=status.HTTP_201_CREATED)
+                
+                # Add activities for IA
+                activity_intervals = {**activity_serializer.data, "intervals": serialized_intervals}
+                manageActivitiesAi = ManageActivityAI()
+                
+                if manageActivitiesAi.checkActivity(activity_intervals):
+                    print("ActivityCheck for ActivityAI: OK")
+                    manageActivitiesAi.AddActivityAI(activity_intervals)
+                else:
+                    print("ActivityCheck for ActivityAI: not OK")
+                return Response(activity_intervals, status=status.HTTP_201_CREATED)
             
             return Response(addIntervals_errors, status=status.HTTP_400_BAD_REQUEST)
         return Response(activity_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
