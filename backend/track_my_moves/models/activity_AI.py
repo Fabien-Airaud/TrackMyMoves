@@ -57,8 +57,12 @@ class ActivityAI(models.Model):
     median_gyros_y = models.FloatField()
     median_gyros_z = models.FloatField()
     
-    sma_accel = models.FloatField()
-    sma_gyros = models.FloatField()
+    sma_accel_x = models.FloatField()
+    sma_accel_y = models.FloatField()
+    sma_accel_z = models.FloatField()
+    sma_gyros_x = models.FloatField()
+    sma_gyros_y = models.FloatField()
+    sma_gyros_z = models.FloatField()
     
     energy_accel_x = models.FloatField()
     energy_accel_y = models.FloatField()
