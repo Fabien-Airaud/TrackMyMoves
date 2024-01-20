@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 
 from .forms import UserCreationForm, UserChangeForm
-from .models import User, Account, Activity, ActivityType, ActivityInterval, SensorsInterval
+from .models import User, Account, ActivityAI, Activity, ActivityType, ActivityInterval, SensorsInterval
 
 
 class UserAdmin(UserAdmin):
@@ -35,6 +35,11 @@ class AccountAdmin(admin.ModelAdmin):
     list_filter = ["country"]
     ordering = ["first_name", "last_name", "birthdate", "country"]
 
+class ActivityAIAdmin(admin.ModelAdmin):
+    list_display = ["user", "activity", "activity_type", "recognition_type"]
+    list_filter = ["user", "activity_type", "recognition_type", "activity"]
+    ordering = ["user", "activity_type", "recognition_type", "activity"]
+
 class ActivityAdmin(admin.ModelAdmin):
     list_display = ["activity_type", "user", "total_time", "start_datetime", "end_datetime"]
     list_filter = ["activity_type", "user"]
@@ -58,6 +63,7 @@ class SensorsIntervalAdmin(admin.ModelAdmin):
 
 admin.site.register(User, UserAdmin)
 admin.site.register(Account, AccountAdmin)
+admin.site.register(ActivityAI, ActivityAIAdmin)
 admin.site.register(Activity, ActivityAdmin)
 admin.site.register(ActivityType, ActivityTypeAdmin)
 admin.site.register(ActivityInterval, ActivityIntervalAdmin)
