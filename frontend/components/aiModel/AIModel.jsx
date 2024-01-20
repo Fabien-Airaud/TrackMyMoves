@@ -50,6 +50,9 @@ const AIModel = () => {
 
     return (
         <ScrollView style={styles.page}>
+            <Text style={{color: colors.text, fontSize: fontSizes.md, marginTop: 15, textAlign: 'center'}}>
+                To improve the capabilities of the model, you should perform several activites and train the model several times
+            </Text>
             <View style={styles.buttons}>
                 <Button title='Train model' onPress={() => { }} size='md' radius='sm' buttonStyle={styles.button} />
                 <Button title='Test model' onPress={() => { }} size='md' radius='sm' buttonStyle={styles.button} />
