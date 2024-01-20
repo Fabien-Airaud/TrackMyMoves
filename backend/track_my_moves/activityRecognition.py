@@ -323,3 +323,128 @@ class ManageActivityAI:
         frequence_amplitude = np.abs(np.fft.fft(signal))
         freqs = np.fft.fftfreq(len(signal))
         return np.average(freqs, weights=frequence_amplitude)
+    
+    def AddActivityAI(self, activity):
+        user_id = activity["user"]
+        print("user_id:", user_id)
+        activity_id = activity["id"]
+        print("activity_id:", activity_id)
+        activity_type_id = activity["activity_type"]
+        print("activity_type_id:", activity_type_id)
+        recognition_type = "NO"
+        print("recognition_type:", recognition_type)
+        slicedIntervals = self.createSlicedSensorsIntervals(activity["intervals"])
+        
+        for slice in slicedIntervals: # For each slice of 25 sensors intervals
+            moyenne = np.mean(slice, axis=0)
+            maximum = np.max(slice, axis=0)
+            minimum = np.min(slice, axis=0)
+            variance = np.var(slice, axis=0)
+            ecart_type = np.std(slice, axis=0)
+            mediane = np.median(slice, axis=0)
+            sma = np.sum(np.abs(slice), axis=0)
+            energie = np.sum(np.power(slice, 2), axis=0)
+            iqr = np.percentile(slice, 75, axis=0) - np.percentile(slice, 25, axis=0)
+            entropie_valeurs = np.apply_along_axis(self.entropie, 0, slice)
+            indices_max_freq = np.argmax(np.abs(np.fft.fft(slice)), axis=0)
+            frequences_moyennes = np.apply_along_axis(self.frequence_moyenne, 0, slice)
+            mode_valeurs = mode(slice, axis=0)[0]
+            skew_valeurs = skew(slice, axis=0)
+            kurtosis_valeurs = kurtosis(slice, axis=0)
+            
+            activityAI = ActivityAI.objects.create(
+                user_id = user_id,
+                activity_id = activity_id,
+                activity_type_id = activity_type_id,
+                recognition_type = recognition_type,
+                mean_accel_x = moyenne[0],
+                mean_accel_y = moyenne[1],
+                mean_accel_z = moyenne[2],
+                mean_gyros_x = moyenne[3],
+                mean_gyros_y = moyenne[4],
+                mean_gyros_z = moyenne[5],
+                max_accel_x = maximum[0],
+                max_accel_y = maximum[1],
+                max_accel_z = maximum[2],
+                max_gyros_x = maximum[3],
+                max_gyros_y = maximum[4],
+                max_gyros_z = maximum[5],
+                min_accel_x = minimum[0],
+                min_accel_y = minimum[1],
+                min_accel_z = minimum[2],
+                min_gyros_x = minimum[3],
+                min_gyros_y = minimum[4],
+                min_gyros_z = minimum[5],
+                var_accel_x = variance[0],
+                var_accel_y = variance[1],
+                var_accel_z = variance[2],
+                var_gyros_x = variance[3],
+                var_gyros_y = variance[4],
+                var_gyros_z = variance[5],
+                std_accel_x = ecart_type[0],
+                std_accel_y = ecart_type[1],
+                std_accel_z = ecart_type[2],
+                std_gyros_x = ecart_type[3],
+                std_gyros_y = ecart_type[4],
+                std_gyros_z = ecart_type[5],
+                median_accel_x = mediane[0],
+                median_accel_y = mediane[1],
+                median_accel_z = mediane[2],
+                median_gyros_x = mediane[3],
+                median_gyros_y = mediane[4],
+                median_gyros_z = mediane[5],
+                sma_accel_x = sma[0],
+                sma_accel_y = sma[1],
+                sma_accel_z = sma[2],
+                sma_gyros_x = sma[3],
+                sma_gyros_y = sma[4],
+                sma_gyros_z = sma[5],
+                energy_accel_x = energie[0],
+                energy_accel_y = energie[1],
+                energy_accel_z = energie[2],
+                energy_gyros_x = energie[3],
+                energy_gyros_y = energie[4],
+                energy_gyros_z = energie[5],
+                iqr_accel_x = iqr[0],
+                iqr_accel_y = iqr[1],
+                iqr_accel_z = iqr[2],
+                iqr_gyros_x = iqr[3],
+                iqr_gyros_y = iqr[4],
+                iqr_gyros_z = iqr[5],
+                entropy_accel_x = entropie_valeurs[0],
+                entropy_accel_y = entropie_valeurs[1],
+                entropy_accel_z = entropie_valeurs[2],
+                entropy_gyros_x = entropie_valeurs[3],
+                entropy_gyros_y = entropie_valeurs[4],
+                entropy_gyros_z = entropie_valeurs[5],
+                maxInds_accel_x = indices_max_freq[0],
+                maxInds_accel_y = indices_max_freq[1],
+                maxInds_accel_z = indices_max_freq[2],
+                maxInds_gyros_x = indices_max_freq[3],
+                maxInds_gyros_y = indices_max_freq[4],
+                maxInds_gyros_z = indices_max_freq[5],
+                meanFreq_accel_x = frequences_moyennes[0],
+                meanFreq_accel_y = frequences_moyennes[1],
+                meanFreq_accel_z = frequences_moyennes[2],
+                meanFreq_gyros_x = frequences_moyennes[3],
+                meanFreq_gyros_y = frequences_moyennes[4],
+                meanFreq_gyros_z = frequences_moyennes[5],
+                mode_accel_x = mode_valeurs[0],
+                mode_accel_y = mode_valeurs[1],
+                mode_accel_z = mode_valeurs[2],
+                mode_gyros_x = mode_valeurs[3],
+                mode_gyros_y = mode_valeurs[4],
+                mode_gyros_z = mode_valeurs[5],
+                skew_accel_x = skew_valeurs[0],
+                skew_accel_y = skew_valeurs[1],
+                skew_accel_z = skew_valeurs[2],
+                skew_gyros_x = skew_valeurs[3],
+                skew_gyros_y = skew_valeurs[4],
+                skew_gyros_z = skew_valeurs[5],
+                kurtosis_accel_x = kurtosis_valeurs[0],
+                kurtosis_accel_y = kurtosis_valeurs[1],
+                kurtosis_accel_z = kurtosis_valeurs[2],
+                kurtosis_gyros_x = kurtosis_valeurs[3],
+                kurtosis_gyros_y = kurtosis_valeurs[4],
+                kurtosis_gyros_z = kurtosis_valeurs[5])
+            print("activityAI: ", activityAI)
