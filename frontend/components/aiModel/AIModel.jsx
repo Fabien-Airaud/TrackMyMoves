@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { ScrollView, StyleSheet, Text, View } from "react-native";
 import { useSelector } from 'react-redux';
 
-import { retrieveModelTestsResultsAPI } from '../APIFunctions';
+import { retrieveModelTestsResultsAPI, trainAIModelAPI } from '../APIFunctions';
 
 const AIModel = () => {
     // State variables
@@ -40,10 +40,18 @@ const AIModel = () => {
 
 
     const getModelResults = () => {
-        retrieveModelTestsResultsAPI(apiAccount.token, apiAccount.account.id)
+        retrieveModelTestsResultsAPI(apiAccount.token)
             .then(response => {
                 if (response) setModelResult(response);
                 else alert("Results error", "Can't get model results from server");
+            })
+            .catch(console.error);
+    };
+
+    const trainAIModel = () => {
+        trainAIModelAPI(apiAccount.token, apiAccount.account.user.id)
+            .then(response => {
+                alert("Training " + (response.result ? "successful" : "failed"), response.message)
             })
             .catch(console.error);
     };
@@ -54,7 +62,7 @@ const AIModel = () => {
                 To improve the capabilities of the model, you should perform several activites and train the model several times
             </Text>
             <View style={styles.buttons}>
-                <Button title='Train model' onPress={() => { }} size='md' radius='sm' buttonStyle={styles.button} />
+                <Button title='Train model' onPress={trainAIModel} size='md' radius='sm' buttonStyle={styles.button} />
                 <Button title='Test model' onPress={() => { }} size='md' radius='sm' buttonStyle={styles.button} />
             </View>
             <Text style={styles.text}>Accuracy : {modelResult ? modelResult.accuracy : "None"}</Text>
