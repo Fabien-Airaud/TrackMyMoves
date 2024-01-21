@@ -16,7 +16,6 @@ export const apiActivitySlice = createSlice({
     reducers: {
         changeActivityType: (state, action) => {
             state.activity_type = action.payload.activityType;
-            console.log("Change activityType: " + JSON.stringify(state));
         },
         newActivity: (state, action) => {
             const start = new Date().toISOString();
@@ -30,7 +29,6 @@ export const apiActivitySlice = createSlice({
             state.user = action.payload.userId;
             state.start_datetime = start;
             state.intervals = [interval];
-            console.log("New activity: " + JSON.stringify(state));
         },
         playActivity: (state) => {
             const last_interval = state.intervals.pop();
@@ -43,7 +41,6 @@ export const apiActivitySlice = createSlice({
             state.current_state = ActivityState.ongoing;
             state.intervals.push(last_interval);
             state.intervals.push(interval);
-            console.log("Play activity: " + JSON.stringify(state.intervals));
         },
         pauseActivity: (state) => {
             const interval = state.intervals.pop();
@@ -52,7 +49,6 @@ export const apiActivitySlice = createSlice({
 
             state.current_state = ActivityState.paused;
             state.intervals.push(interval);
-            console.log("Pause activity: " + JSON.stringify(state.intervals));
         },
         stopActivity: (state) => {
             const end = new Date().toISOString();
@@ -66,7 +62,6 @@ export const apiActivitySlice = createSlice({
             state.intervals.push(interval);
             state.end_datetime = end;
             state.total_time = interval.end_time;
-            console.log("Stop activity: " + JSON.stringify(state));
         },
         deleteActivity: () => {
             console.log("Delete activity");
@@ -79,7 +74,6 @@ export const apiActivitySlice = createSlice({
             interval.sensors_intervals = action.payload.sensorsIntervals
         
             state.intervals.push(interval);
-            console.log("Add sensors intervals: " + JSON.stringify(interval));
         }
     }
 });
