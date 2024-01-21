@@ -1,7 +1,7 @@
 import { useTheme } from '@react-navigation/native';
 import { Button } from '@rneui/themed';
 import { useState } from 'react';
-import { ScrollView, StyleSheet, Text, View } from "react-native";
+import { Alert, ScrollView, StyleSheet, Text, View } from "react-native";
 import { useSelector } from 'react-redux';
 
 import { retrieveModelTestsResultsAPI, testAIModelAPI, trainAIModelAPI } from '../APIFunctions';
@@ -43,7 +43,9 @@ const AIModel = () => {
         retrieveModelTestsResultsAPI(apiAccount.token)
             .then(response => {
                 if (response) setModelResult(response);
-                else alert("Results error", "Can't get model results from server");
+                else Alert.alert(
+                    "Results error",
+                    "Can't get model results from server");
             })
             .catch(console.error);
     };
@@ -51,7 +53,9 @@ const AIModel = () => {
     const trainAIModel = () => {
         trainAIModelAPI(apiAccount.token, apiAccount.account.user.id)
             .then(response => {
-                alert("Training " + (response.result ? "successful" : "failed"), response.message)
+                Alert.alert(
+                    "Training " + (response.result ? "successful" : "failed"),
+                    response.message);
             })
             .catch(console.error);
     };
@@ -59,7 +63,9 @@ const AIModel = () => {
     const testAIModel = () => {
         testAIModelAPI(apiAccount.token, apiAccount.account.user.id)
             .then(response => {
-                alert("Test " + (response.result ? "successful" : "failed"), response.message)
+                Alert.alert(
+                    "Test " + (response.result ? "successful" : "failed"),
+                    response.message);
             })
             .catch(console.error);
     };
