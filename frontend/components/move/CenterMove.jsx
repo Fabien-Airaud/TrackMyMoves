@@ -84,7 +84,9 @@ const CenterMove = () => {
             .then(response => {
                 Alert.alert(
                     "Guess " + (response.result ? "done" : "failed"),
-                    response.message);
+                    "The AI model found the activity should be '" + response.message.activity_type.label
+                    + "', being at " + response.message.rate + "% certain.\n And "
+                    + (response.message.accuracy * 100) + "% of the results were right.");
             })
             .catch(console.error);
     };
