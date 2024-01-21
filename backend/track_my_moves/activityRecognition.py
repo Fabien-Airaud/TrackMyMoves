@@ -496,12 +496,12 @@ class manageModelAI:
         
         model_svm = joblib.load(self.model_path)
         
-        x_test, y_test = self.manageAI.extractUserActivities(self.user_id, "TR")
+        x_test, y_test = self.manageAI.extractUserActivities(self.user_id, "TE")
         if len(x_test) == 0:
             return False, "No data for testing, please do activities"
         
         dr = DimensionalityReduction(self.user_id)
-        x_test_pca = dr.pca_train(x_test)
+        x_test_pca = dr.pca_test(x_test)
         
         y_pred = model_svm.predict(x_test_pca)
         print("y_test: ", y_test)
