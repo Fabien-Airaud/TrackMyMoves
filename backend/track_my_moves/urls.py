@@ -7,6 +7,7 @@ from .views import home, logIn, logOut, usersAdmin, usersAdminStats
 from .views import AccountViewSet, ActivityTypeViewSet, ActivityViewSet, UserViewSet
 from .views import registerAPIViewDeco, logInAPIViewDeco, logOutAPIViewDeco
 from .views import modelTestsResultsAPIViewDeco, activityRecognitionAPIViewDeco
+from .views import trainUserModelAPIViewDeco
 
 schema_view = get_schema_view(
     openapi.Info(
@@ -36,5 +37,6 @@ urlpatterns = [
     path('api/logOut', logOutAPIViewDeco, name='api-logOut'),
     path('api/modelTestsResults', modelTestsResultsAPIViewDeco, name='api-modelTestsResults'),
     path('api/activityRecognition', activityRecognitionAPIViewDeco, name='api-activityRecognition'),
+    path('api/modelAI/train/<int:userId>', trainUserModelAPIViewDeco, name='api-modelAI-train'),
     path('swagger', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui')
 ]

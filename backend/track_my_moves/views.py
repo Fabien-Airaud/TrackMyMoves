@@ -450,3 +450,16 @@ from .activityRecognition import testDataset
 def activityRecognitionAPIViewDeco(request):
     testDataset()
     return Response({"message": "Reconnaissance terminée"}, status=status.HTTP_200_OK)
+
+
+from .activityRecognition import manageModelAI
+
+@swagger_auto_schema(method="GET", security=[{'Bearer': []}], responses={200: "Train status", 401: "Error: Unauthorized"})
+@api_view()
+@permission_classes([IsAuthenticated])
+def trainUserModelAPIViewDeco(request, userId):
+    modelManager = manageModelAI(userId)
+    result, message = modelManager.train()
+    if result:
+        return Response({"message": message}, status=status.HTTP_200_OK)
+    return Response({"message": message}, status=status.HTTP_428_PRECONDITION_REQUIRED)
