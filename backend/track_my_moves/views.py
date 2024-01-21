@@ -463,3 +463,13 @@ def trainUserModelAPIViewDeco(request, userId):
     if result:
         return Response({"message": message}, status=status.HTTP_200_OK)
     return Response({"message": message}, status=status.HTTP_428_PRECONDITION_REQUIRED)
+
+@swagger_auto_schema(method="GET", security=[{'Bearer': []}], responses={200: "Test status", 401: "Error: Unauthorized"})
+@api_view()
+@permission_classes([IsAuthenticated])
+def testUserModelAPIViewDeco(request, userId):
+    modelManager = manageModelAI(userId)
+    result, response = modelManager.test()
+    if result:
+        return Response({"predictions": response}, status=status.HTTP_200_OK)
+    return Response({"message": response}, status=status.HTTP_428_PRECONDITION_REQUIRED)
