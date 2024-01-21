@@ -285,6 +285,7 @@ from .models.activity_AI import ActivityAI
 class ManageActivityAI:
     slice_len = 25
     
+    # Internal function
     def checkInterval(self, interval):
         return len(interval["sensors_intervals"]) >= self.slice_len * 3
     
@@ -294,6 +295,7 @@ class ManageActivityAI:
                 return True
         return False
     
+    # Internal function
     def sensorsIntervalsToArray(self, sensorsIntervals):
         array = []
         
@@ -301,6 +303,7 @@ class ManageActivityAI:
             array.append([interval["accel_x"], interval["accel_y"], interval["accel_z"], interval["gyros_x"], interval["gyros_y"], interval["gyros_z"]])
         return array
     
+    # Internal function
     def createSlicedSensorsIntervals(self, intervals):
         sliced_sensors_intervals = []
         
@@ -314,11 +317,13 @@ class ManageActivityAI:
         
         return sliced_sensors_intervals
     
+    # Internal function
     def calc_entropy(self, signal):
         hist = np.histogram(signal, bins=50)[0]
         hist = hist / np.sum(hist)
         return entropy(hist)
     
+    # Internal function
     def calc_average_frequency(self, signal):
         frequence_amplitude = np.abs(np.fft.fft(signal))
         freqs = np.fft.fftfreq(len(signal))
