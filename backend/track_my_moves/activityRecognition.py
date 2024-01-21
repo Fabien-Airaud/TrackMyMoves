@@ -277,6 +277,25 @@ def testDataset():
 # ----------------------------------------------------------------------------------------------------
 # ----------------------------------------------------------------------------------------------------
 
+ACTIVITY_AI_FIELDS = [
+    "id", "user", "activity", "activity_type", "recognition_type",
+    "mean_accel_x", "mean_accel_y", "mean_accel_z", "mean_gyros_x", "mean_gyros_y", "mean_gyros_z",
+    "max_accel_x", "max_accel_y", "max_accel_z", "max_gyros_x", "max_gyros_y", "max_gyros_z",
+    "min_accel_x", "min_accel_y", "min_accel_z", "min_gyros_x", "min_gyros_y", "min_gyros_z",
+    "var_accel_x", "var_accel_y", "var_accel_z", "var_gyros_x", "var_gyros_y", "var_gyros_z",
+    "std_accel_x", "std_accel_y", "std_accel_z", "std_gyros_x", "std_gyros_y", "std_gyros_z",
+    "median_accel_x", "median_accel_y", "median_accel_z", "median_gyros_x", "median_gyros_y", "median_gyros_z",
+    "sma_accel_x", "sma_accel_y", "sma_accel_z", "sma_gyros_x", "sma_gyros_y", "sma_gyros_z",
+    "energy_accel_x", "energy_accel_y", "energy_accel_z", "energy_gyros_x", "energy_gyros_y", "energy_gyros_z",
+    "iqr_accel_x", "iqr_accel_y", "iqr_accel_z", "iqr_gyros_x", "iqr_gyros_y", "iqr_gyros_z",
+    "entropy_accel_x", "entropy_accel_y", "entropy_accel_z", "entropy_gyros_x", "entropy_gyros_y", "entropy_gyros_z",
+    "maxInds_accel_x", "maxInds_accel_y", "maxInds_accel_z", "maxInds_gyros_x", "maxInds_gyros_y", "maxInds_gyros_z",
+    "meanFreq_accel_x", "meanFreq_accel_y", "meanFreq_accel_z", "meanFreq_gyros_x", "meanFreq_gyros_y", "meanFreq_gyros_z",
+    "mode_accel_x", "mode_accel_y", "mode_accel_z", "mode_gyros_x", "mode_gyros_y", "mode_gyros_z",
+    "skew_accel_x", "skew_accel_y", "skew_accel_z", "skew_gyros_x", "skew_gyros_y", "skew_gyros_z",
+    "kurtosis_accel_x", "kurtosis_accel_y", "kurtosis_accel_z", "kurtosis_gyros_x", "kurtosis_gyros_y", "kurtosis_gyros_z"
+]
+
 from os import path
 import joblib
 
@@ -381,6 +400,29 @@ class ManageActivityAI:
                 skew_accel_x = skew_values[0], skew_accel_y = skew_values[1], skew_accel_z = skew_values[2], skew_gyros_x = skew_values[3], skew_gyros_y = skew_values[4], skew_gyros_z = skew_values[5],
                 kurtosis_accel_x = kurtosis_values[0], kurtosis_accel_y = kurtosis_values[1], kurtosis_accel_z = kurtosis_values[2], kurtosis_gyros_x = kurtosis_values[3], kurtosis_gyros_y = kurtosis_values[4], kurtosis_gyros_z = kurtosis_values[5])
             print("activityAI: ", activityAI)
+    
+    def extractUserActivities(self, user_id, recognition_type):
+        activities = ActivityAI.objects.filter(user_id=user_id, recognition_type=recognition_type)
+        x = []
+        y = []
+        
+        fields = ACTIVITY_AI_FIELDS[5:] # keep only metrics fields
+        
+        for activity in activities:
+            activityDict = activity.__dict__
+            del activityDict["id"]
+            del activityDict["user_id"]
+            del activityDict["activity_id"]
+            y.append(activityDict["activity_type_id"]) # keep activity type for y (labels)
+            del activityDict["activity_type_id"]
+            del activityDict["recognition_type"]
+            
+            metrics = []
+            for label in fields:
+                metrics.append(activityDict[label])
+            
+            x.append(metrics) # give all metrics to x (data)
+        return x, y
 
 # ----------------------------------------------------------------------------------------------------
 # ----------------------------------------------------------------------------------------------------
@@ -393,7 +435,7 @@ from sklearn.decomposition import PCA
 class DimensionalityReduction:
     def __init__(self, user_id, n_components=0.98):
         self.user_id = user_id
-        self.pca_path = PCA_PATH + user_id + JOBLIB_EXTENSION
+        self.pca_path = PCA_PATH + str(user_id) + JOBLIB_EXTENSION
         self.n_components = n_components
 
     def pca_train(self, x_train):
