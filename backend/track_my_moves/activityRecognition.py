@@ -239,7 +239,7 @@ class ClassificationEvaluationDataset:
 # ----------------------------------------------------------------------------------------------------
 # ----------------------------------------------------------------------------------------------------
 
-DATA_PATH = "static/track_my_moves/data/"
+MODELS_PATH = "static/track_my_moves/data/"
 
 def testDataset():
     # Importation des données du dataset
@@ -276,6 +276,12 @@ def testDataset():
 # ----------------------------------------------------------------------------------------------------
 # ----------------------------------------------------------------------------------------------------
 # ----------------------------------------------------------------------------------------------------
+
+from os import path
+import joblib
+
+FOLDER_PATH = "static/track_my_moves/"
+JOBLIB_EXTENSION = ".joblib"
 
 import numpy as np
 from scipy.stats import entropy, mode, skew, kurtosis
@@ -376,21 +382,30 @@ class ManageActivityAI:
                 kurtosis_accel_x = kurtosis_values[0], kurtosis_accel_y = kurtosis_values[1], kurtosis_accel_z = kurtosis_values[2], kurtosis_gyros_x = kurtosis_values[3], kurtosis_gyros_y = kurtosis_values[4], kurtosis_gyros_z = kurtosis_values[5])
             print("activityAI: ", activityAI)
 
+# ----------------------------------------------------------------------------------------------------
+# ----------------------------------------------------------------------------------------------------
+# ----------------------------------------------------------------------------------------------------
 
-# ----------------------------------------------------------------------------------------------------
-# ----------------------------------------------------------------------------------------------------
-# ----------------------------------------------------------------------------------------------------
+PCA_PATH = FOLDER_PATH + "pca/"
 
 from sklearn.decomposition import PCA
 
 class DimensionalityReduction:
-    def __init__(self, x_train, x_test, n_components=0.98):
-        self.x_train = x_train
-        self.x_test = x_test
+    def __init__(self, user_id, n_components=0.98):
+        self.user_id = user_id
+        self.pca_path = PCA_PATH + user_id + JOBLIB_EXTENSION
         self.n_components = n_components
-        self.pca_obj = PCA(n_components=self.n_components)
 
-    def pca(self):
-        x_train_pca = self.pca_obj.fit_transform(self.x_train)
-        x_test_pca = self.pca_obj.transform(self.x_test)
-        return x_train_pca, x_test_pca
+    def pca_train(self, x_train):
+        pca_obj = PCA(n_components=self.n_components)
+        x_train_pca = pca_obj.fit_transform(x_train)
+        joblib.dump(pca_obj, self.pca_path)
+        return x_train_pca
+
+    def pca_test(self, x_test):
+        if not path.exists(self.pca_path):
+            return None
+        
+        pca_obj = joblib.load(self.pca_path)
+        x_test_pca = pca_obj.transform(x_test)
+        return x_test_pca
