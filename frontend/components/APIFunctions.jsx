@@ -328,6 +328,6 @@ export const guessActivityTypeAIAPI = async (token, user_id, activity_id) => {
     });
 
     let message = await response.json();
-    if (response.ok) return {"result": true, "message": JSON.stringify(message["predictions"])}
+    if (response.ok) return {"result": true, "message": message["predictions"]}
     return {"result": false, "message": message["message"]}
 };
