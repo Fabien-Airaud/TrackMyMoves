@@ -370,3 +370,22 @@ class ManageActivityAI:
                 skew_accel_x = skew_values[0], skew_accel_y = skew_values[1], skew_accel_z = skew_values[2], skew_gyros_x = skew_values[3], skew_gyros_y = skew_values[4], skew_gyros_z = skew_values[5],
                 kurtosis_accel_x = kurtosis_values[0], kurtosis_accel_y = kurtosis_values[1], kurtosis_accel_z = kurtosis_values[2], kurtosis_gyros_x = kurtosis_values[3], kurtosis_gyros_y = kurtosis_values[4], kurtosis_gyros_z = kurtosis_values[5])
             print("activityAI: ", activityAI)
+
+
+# ----------------------------------------------------------------------------------------------------
+# ----------------------------------------------------------------------------------------------------
+# ----------------------------------------------------------------------------------------------------
+
+from sklearn.decomposition import PCA
+
+class DimensionalityReduction:
+    def __init__(self, x_train, x_test, n_components=0.98):
+        self.x_train = x_train
+        self.x_test = x_test
+        self.n_components = n_components
+        self.pca_obj = PCA(n_components=self.n_components)
+
+    def pca(self):
+        x_train_pca = self.pca_obj.fit_transform(self.x_train)
+        x_test_pca = self.pca_obj.transform(self.x_test)
+        return x_train_pca, x_test_pca
