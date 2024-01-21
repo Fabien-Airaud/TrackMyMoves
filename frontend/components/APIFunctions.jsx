@@ -318,3 +318,16 @@ export const testAIModelAPI = async (token, id) => {
     if (response.ok) return {"result": true, "message": JSON.stringify(message["predictions"])}
     return {"result": false, "message": message["message"]}
 };
+
+export const guessActivityTypeAIAPI = async (token, user_id, activity_id) => {
+    const response = await fetch(apiUrl + "/modelAI/guess/" + user_id + "/" + activity_id, {
+        method: "GET",
+        headers: {
+            Authorization: "token " + token
+        }
+    });
+
+    let message = await response.json();
+    if (response.ok) return {"result": true, "message": JSON.stringify(message["predictions"])}
+    return {"result": false, "message": message["message"]}
+};
