@@ -42,7 +42,6 @@ const History = ({ navigation }) => {
             const getData = async () => {
                 // get all the activities of the current account
                 const activities = await groupedActivityListAPI(apiAccount.token);
-                console.log(JSON.stringify(activities));
                 setList(activities);
             }
 
