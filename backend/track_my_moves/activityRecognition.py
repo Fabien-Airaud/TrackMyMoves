@@ -401,8 +401,11 @@ class ManageActivityAI:
                 kurtosis_accel_x = kurtosis_values[0], kurtosis_accel_y = kurtosis_values[1], kurtosis_accel_z = kurtosis_values[2], kurtosis_gyros_x = kurtosis_values[3], kurtosis_gyros_y = kurtosis_values[4], kurtosis_gyros_z = kurtosis_values[5])
             print("activityAI: ", activityAI)
     
-    def extractUserActivities(self, user_id, recognition_type):
-        activities = ActivityAI.objects.filter(user_id=user_id, recognition_type=recognition_type)
+    def extractUserActivities(self, user_id, recognition_type, activity_id=None):
+        if activity_id == None:
+            activities = ActivityAI.objects.filter(user_id=user_id, recognition_type=recognition_type)
+        else:
+            activities = ActivityAI.objects.filter(user_id=user_id, activity_id=activity_id)
         x = []
         y = []
         
@@ -479,7 +482,7 @@ class manageModelAI:
         
         x_train, y_train = self.manageAI.extractUserActivities(self.user_id, "TR")
         if len(x_train) == 0:
-            return False, "No data for training, please do activities"
+            return False, "Not enough data for training, please do more activities or longer (> 7.5 seconds)"
         
         dr = DimensionalityReduction(self.user_id)
         x_train_pca = dr.pca_train(x_train)
@@ -492,13 +495,13 @@ class manageModelAI:
         if not path.exists(self.model_path):
             result, message = self.train()
             if not result:
-                return {"result": result, "message": message}
+                return result, message
         
         model_svm = joblib.load(self.model_path)
         
         x_test, y_test = self.manageAI.extractUserActivities(self.user_id, "TE")
         if len(x_test) == 0:
-            return False, "No data for testing, please do activities"
+            return False, "Not enough data for testing, please do more activities or longer (> 7.5 seconds)"
         
         dr = DimensionalityReduction(self.user_id)
         x_test_pca = dr.pca_test(x_test)
@@ -507,3 +510,43 @@ class manageModelAI:
         print("y_test: ", y_test)
         print("y_pred: ", y_pred)
         return True, y_pred
+    
+    def bestActivityType(self, y_pred):
+        activityTypes = {}
+        maxCount = 0
+        best = 0
+        
+        for value in y_pred:
+            print("value : ", value)
+            if value in activityTypes:
+                activityTypes[value] += 1
+            else:
+                activityTypes[value] = 1
+            
+            if activityTypes[value] > maxCount:
+                maxCount = activityTypes[value]
+                best = value
+        return best, maxCount
+    
+    def guessActivityType(self, activity_id):
+        if not path.exists(self.model_path):
+            result, message = self.train()
+            if not result:
+                return result, message
+        
+        model_svm = joblib.load(self.model_path)
+        
+        x_test, y_test = self.manageAI.extractUserActivities(self.user_id, "NO", activity_id)
+        if len(x_test) == 0:
+            return False, "Not enough data for guessing, please do at least 1 interval of 7.5 seconds in your activities"
+        
+        dr = DimensionalityReduction(self.user_id)
+        x_test_pca = dr.pca_test(x_test)
+        
+        y_pred = model_svm.predict(x_test_pca)
+        print("y_test: ", y_test)
+        print("y_pred: ", y_pred)
+        
+        best, maxCount = self.bestActivityType(y_pred)
+        rate = (maxCount * 100) / len(y_pred)
+        return True, {"activity_type": best, "rate": rate, "accuracy": accuracy_score(y_test, y_pred)}
