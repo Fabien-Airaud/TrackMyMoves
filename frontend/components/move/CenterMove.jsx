@@ -5,7 +5,7 @@ import { IconButton } from 'react-native-paper';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { ActivityState, playActivity, pauseActivity, newActivity, stopActivity, deleteActivity } from '../../redux/apiActivitySlice';
-import { createActivityAPI } from '../APIFunctions';
+import { createActivityAPI, guessActivityTypeAIAPI } from '../APIFunctions';
 
 const CenterMove = () => {
     // Logged account and current activity stored in redux
@@ -79,19 +79,39 @@ const CenterMove = () => {
         );
     }
 
+    const guessActivityTypeAI = async (activity_id) => {
+        guessActivityTypeAIAPI(apiAccount.token, apiAccount.account.user.id, activity_id)
+            .then(response => {
+                Alert.alert(
+                    "Guess " + (response.result ? "done" : "failed"),
+                    response.message);
+            })
+            .catch(console.error);
+    };
+
     // Create a new activity when start button pressed
     const dispatchSaveActivity = () => {
         createActivityAPI(apiAccount.token, apiActivity)
-            .then(helpers => {
-                if (helpers) alert(JSON.stringify(helpers));
-                else {
+            .then(response => {
+                if (response.result) {
                     Alert.alert(
                         'Activity saved',
-                        'Your current activity is saved');
+                        'Your current activity is saved, do you want to ask the AI model to guess the type of activity ?',
+                        [
+                            {
+                                text: "Ask AI",
+                                onPress: () => guessActivityTypeAI(response.activity.id)
+                            },
+                            {
+                                text: "Don't ask",
+                                onPress: () => console.log("Don't ask")
+                            }
+                        ]);
 
                     // Delete activity in redux store
                     dispatch(deleteActivity());
                 }
+                else alert(JSON.stringify(response.helpers));
             })
             .catch(console.error);
     };
