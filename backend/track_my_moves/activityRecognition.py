@@ -334,7 +334,6 @@ class ManageActivityAI:
         
         for interval in intervals:
             sensors_intervals = interval["sensors_intervals"][self.slice_len : - self.slice_len] # Remove 25 first and last intervals (first and last 2.5 sec)
-            print("len(sensors_intervals): ", len(sensors_intervals))
             
             for i in range(self.slice_len, len(sensors_intervals), self.slice_len): # For each 25 intervals (slice)
                 slice = sensors_intervals[i-self.slice_len : i] # Create slice of 25 sensors intervals
@@ -356,13 +355,9 @@ class ManageActivityAI:
     
     def AddActivityAI(self, activity):
         user_id = activity["user"]
-        print("user_id:", user_id)
         activity_id = activity["id"]
-        print("activity_id:", activity_id)
         activity_type_id = activity["activity_type"]
-        print("activity_type_id:", activity_type_id)
         recognition_type = "NO"
-        print("recognition_type:", recognition_type)
         slicedIntervals = self.createSlicedSensorsIntervals(activity["intervals"])
         
         for slice in slicedIntervals: # For each slice of 25 sensors intervals
@@ -382,7 +377,7 @@ class ManageActivityAI:
             skew_values = skew(slice, axis=0)
             kurtosis_values = kurtosis(slice, axis=0)
             
-            activityAI = ActivityAI.objects.create(
+            ActivityAI.objects.create(
                 user_id = user_id, activity_id = activity_id, activity_type_id = activity_type_id, recognition_type = recognition_type,
                 mean_accel_x = mean[0], mean_accel_y = mean[1], mean_accel_z = mean[2], mean_gyros_x = mean[3], mean_gyros_y = mean[4], mean_gyros_z = mean[5],
                 max_accel_x = maximum[0], max_accel_y = maximum[1], max_accel_z = maximum[2], max_gyros_x = maximum[3], max_gyros_y = maximum[4], max_gyros_z = maximum[5],
@@ -399,7 +394,6 @@ class ManageActivityAI:
                 mode_accel_x = mode_values[0], mode_accel_y = mode_values[1], mode_accel_z = mode_values[2], mode_gyros_x = mode_values[3], mode_gyros_y = mode_values[4], mode_gyros_z = mode_values[5],
                 skew_accel_x = skew_values[0], skew_accel_y = skew_values[1], skew_accel_z = skew_values[2], skew_gyros_x = skew_values[3], skew_gyros_y = skew_values[4], skew_gyros_z = skew_values[5],
                 kurtosis_accel_x = kurtosis_values[0], kurtosis_accel_y = kurtosis_values[1], kurtosis_accel_z = kurtosis_values[2], kurtosis_gyros_x = kurtosis_values[3], kurtosis_gyros_y = kurtosis_values[4], kurtosis_gyros_z = kurtosis_values[5])
-            print("activityAI: ", activityAI)
     
     def extractUserActivities(self, user_id, recognition_type, activity_id=None):
         if activity_id == None:
@@ -517,7 +511,6 @@ class manageModelAI:
         best = 0
         
         for value in y_pred:
-            print("value : ", value)
             if value in activityTypes:
                 activityTypes[value] += 1
             else:
