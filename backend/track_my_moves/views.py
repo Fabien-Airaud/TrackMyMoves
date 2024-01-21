@@ -473,3 +473,13 @@ def testUserModelAPIViewDeco(request, userId):
     if result:
         return Response({"predictions": response}, status=status.HTTP_200_OK)
     return Response({"message": response}, status=status.HTTP_428_PRECONDITION_REQUIRED)
+
+@swagger_auto_schema(method="GET", security=[{'Bearer': []}], responses={200: "Guess status", 401: "Error: Unauthorized"})
+@api_view()
+@permission_classes([IsAuthenticated])
+def guessActivityTypeAPIViewDeco(request, userId, activityId):
+    modelManager = manageModelAI(userId)
+    result, response = modelManager.guessActivityType(activityId)
+    if result:
+        return Response({"predictions": response}, status=status.HTTP_200_OK)
+    return Response({"message": response}, status=status.HTTP_428_PRECONDITION_REQUIRED)
