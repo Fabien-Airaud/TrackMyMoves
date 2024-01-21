@@ -191,7 +191,6 @@ export const listActivityAPI = async (token) => {
     });
 
     if (response.ok) activities = await response.json();
-    console.log(JSON.stringify(activities))
     return activities;
 };
 
@@ -236,8 +235,6 @@ export const getActivityWithActivityTypeAPI = async (token, id) => {
 };
 
 export const createActivityAPI = async (token, activity) => {
-    let helpers = undefined;
-
     const response = await fetch(apiUrl + "/activities/", {
         method: "POST",
         headers: {
@@ -255,12 +252,10 @@ export const createActivityAPI = async (token, activity) => {
         })
     });
 
-    if (!response.ok) helpers = await response.json();
-    else {
-        data = await response.json();
-        console.log(JSON.stringify(data));
-    }
-    return helpers;
+    let message = await response.json();
+
+    if (response.ok) return {"result": true, "activity": message}
+    return {"result": false, "helpers": message}
 };
 
 export const deleteActivityAPI = async (token, id) => {
