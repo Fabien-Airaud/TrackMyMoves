@@ -487,3 +487,23 @@ class manageModelAI:
         model_svm.fit(x_train_pca, y_train)
         joblib.dump(model_svm, self.model_path)
         return True, "Model training successful"
+    
+    def test(self):
+        if not path.exists(self.model_path):
+            result, message = self.train()
+            if not result:
+                return {"result": result, "message": message}
+        
+        model_svm = joblib.load(self.model_path)
+        
+        x_test, y_test = self.manageAI.extractUserActivities(self.user_id, "TR")
+        if len(x_test) == 0:
+            return False, "No data for testing, please do activities"
+        
+        dr = DimensionalityReduction(self.user_id)
+        x_test_pca = dr.pca_train(x_test)
+        
+        y_pred = model_svm.predict(x_test_pca)
+        print("y_test: ", y_test)
+        print("y_pred: ", y_pred)
+        return True, y_pred
