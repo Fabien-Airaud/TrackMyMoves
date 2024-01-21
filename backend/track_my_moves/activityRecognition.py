@@ -477,7 +477,7 @@ class manageModelAI:
     def train(self):
         model_svm = svm.SVC()
         
-        x_train, y_train = self.manageAI.extractUserRecognitionTypeActivities(self.user_id, "TR")
+        x_train, y_train = self.manageAI.extractUserActivities(self.user_id, "TR")
         if len(x_train) == 0:
             return False, "No data for training, please do activities"
         
