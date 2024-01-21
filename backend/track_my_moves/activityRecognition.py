@@ -451,3 +451,39 @@ class DimensionalityReduction:
         pca_obj = joblib.load(self.pca_path)
         x_test_pca = pca_obj.transform(x_test)
         return x_test_pca
+
+# ----------------------------------------------------------------------------------------------------
+# ----------------------------------------------------------------------------------------------------
+# ----------------------------------------------------------------------------------------------------
+
+# import matplotlib.pyplot as plt
+from sklearn import svm
+# from sklearn.neighbors import KNeighborsClassifier
+# from sklearn.ensemble import RandomForestClassifier
+# from sklearn.tree import DecisionTreeClassifier
+# from sklearn.neural_network import MLPClassifier
+# from sklearn.svm import LinearSVC
+# from sklearn.naive_bayes import GaussianNB
+from sklearn.metrics import accuracy_score, confusion_matrix, classification_report
+
+MODELS_PATH = FOLDER_PATH + "models/"
+
+class manageModelAI:
+    def __init__(self, user_id):
+        self.user_id = user_id
+        self.model_path = MODELS_PATH + str(user_id) + JOBLIB_EXTENSION
+        self.manageAI = ManageActivityAI()
+    
+    def train(self):
+        model_svm = svm.SVC()
+        
+        x_train, y_train = self.manageAI.extractUserRecognitionTypeActivities(self.user_id, "TR")
+        if len(x_train) == 0:
+            return False, "No data for training, please do activities"
+        
+        dr = DimensionalityReduction(self.user_id)
+        x_train_pca = dr.pca_train(x_train)
+        
+        model_svm.fit(x_train_pca, y_train)
+        joblib.dump(model_svm, self.model_path)
+        return True, "Model training successful"
