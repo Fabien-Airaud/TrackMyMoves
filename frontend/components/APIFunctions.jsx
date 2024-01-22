@@ -315,8 +315,8 @@ export const testAIModelAPI = async (token, id) => {
     });
 
     let message = await response.json();
-    if (response.ok) return {"result": true, "message": JSON.stringify(message["predictions"])}
-    return {"result": false, "message": message["message"]}
+    if (response.ok) return {"result": true, "data": JSON.stringify(message["data"])}
+    return {"result": false, "data": message["message"]}
 };
 
 export const guessActivityTypeAIAPI = async (token, user_id, activity_id) => {
@@ -328,6 +328,6 @@ export const guessActivityTypeAIAPI = async (token, user_id, activity_id) => {
     });
 
     let message = await response.json();
-    if (response.ok) return {"result": true, "message": message["predictions"]}
+    if (response.ok) return {"result": true, "data": message["data"]}
     return {"result": false, "message": message["message"]}
 };
