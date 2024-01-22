@@ -6,7 +6,7 @@ from drf_yasg.views import get_schema_view
 from .views import home, logIn, logOut, usersAdmin, usersAdminStats
 from .views import AccountViewSet, ActivityTypeViewSet, ActivityViewSet, UserViewSet
 from .views import registerAPIViewDeco, logInAPIViewDeco, logOutAPIViewDeco
-from .views import modelTestsResultsAPIViewDeco, activityRecognitionAPIViewDeco
+# from .views import modelTestsResultsAPIViewDeco, activityRecognitionAPIViewDeco
 from .views import trainUserModelAPIViewDeco, testUserModelAPIViewDeco, guessActivityTypeAPIViewDeco
 
 schema_view = get_schema_view(
@@ -35,8 +35,8 @@ urlpatterns = [
     path('api/register', registerAPIViewDeco, name='api-register'),
     path('api/logIn', logInAPIViewDeco, name='api-logIn'),
     path('api/logOut', logOutAPIViewDeco, name='api-logOut'),
-    path('api/modelTestsResults', modelTestsResultsAPIViewDeco, name='api-modelTestsResults'),
-    path('api/activityRecognition', activityRecognitionAPIViewDeco, name='api-activityRecognition'),
+    # path('api/modelTestsResults', modelTestsResultsAPIViewDeco, name='api-modelTestsResults'),
+    # path('api/activityRecognition', activityRecognitionAPIViewDeco, name='api-activityRecognition'),
     path('api/modelAI/train/<int:userId>', trainUserModelAPIViewDeco, name='api-modelAI-train'),
     path('api/modelAI/test/<int:userId>', testUserModelAPIViewDeco, name='api-modelAI-test'),
     path('api/modelAI/guess/<int:userId>/<int:activityId>', guessActivityTypeAPIViewDeco, name='api-modelAI-guess'),
