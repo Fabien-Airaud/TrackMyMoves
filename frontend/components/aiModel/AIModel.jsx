@@ -28,7 +28,7 @@ const AIModel = () => {
         },
         datatable: {
             marginTop: 0,
-            marginBottom: 15
+            marginBottom: 25
         },
         labelColumn: {
             flexGrow: 1,
@@ -81,11 +81,28 @@ const AIModel = () => {
         return newReport;
     }
 
+    const changeConfusionMatrix = (matrix, caption) => {
+        let labels = Object.values(caption);
+
+        let newMatrix = [];
+        newMatrix.push(Object.values(caption));
+        newMatrix[0].unshift("");
+
+        for (let i = 0; i < matrix.length; i++) {
+            let tab = [];
+            tab.push(labels[i]);
+            tab.push(...matrix[i])
+            newMatrix.push(tab);
+        }
+        return newMatrix;
+    }
+
     const testAIModel = () => {
         testAIModelAPI(apiAccount.token, apiAccount.account.user.id)
             .then(response => {
                 if (response.result) {
                     response.data.report = changeReport(response.data.report, response.data.caption);
+                    response.data.matrix = changeConfusionMatrix(response.data.matrix, response.data.caption);
                     setModelResults(response.data);
                     console.log(JSON.stringify(response.data));
                 }
@@ -126,8 +143,16 @@ const AIModel = () => {
                             </DataTable.Row>
                         ))}
                     </DataTable>
-                    <Text style={styles.text}>Matrix : {JSON.stringify(modelResults.matrix)}</Text>
-                    <Text style={styles.text}>Caption : {JSON.stringify(modelResults.caption)}</Text>
+                    <Text style={[styles.text, { marginBottom: -10 }]}>Matrix :</Text>
+                    <DataTable style={styles.datatable}>
+                        {modelResults.matrix.map((rowData, index) => (
+                            <DataTable.Row key={index.toString()}>
+                                {rowData.map((data, ind) => (
+                                    <DataTable.Cell key={index.toString() + ind.toString()} style={styles.numericColumn} textStyle={{ color: colors.text }}>{data}</DataTable.Cell>
+                                ))}
+                            </DataTable.Row>
+                        ))}
+                    </DataTable>
                 </View>
             }
         </ScrollView>
