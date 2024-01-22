@@ -279,20 +279,6 @@ export const deleteActivityAPI = async (token, id) => {
 /* ----------------------------------------------------------------------------------------------------
     IA model
 ---------------------------------------------------------------------------------------------------- */
-export const retrieveModelTestsResultsAPI = async (token) => {
-    let results = undefined;
-
-    const response = await fetch(apiUrl + "/modelTestsResults", {
-        method: "GET",
-        headers: {
-            Authorization: "token " + token
-        }
-    });
-
-    if (response.ok) results = await response.json();
-    return results;
-};
-
 export const trainAIModelAPI = async (token, id) => {
     const response = await fetch(apiUrl + "/modelAI/train/" + id, {
         method: "GET",
