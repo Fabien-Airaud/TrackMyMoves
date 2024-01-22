@@ -519,6 +519,8 @@ class manageModelAI:
     
     # Internal function
     def changeGroups(self):
+        self.printActivitiesByGroup()
+        
         activitiesAI_ALL = ActivityAI.objects.filter(user_id=self.user_id)
         activitiesAI_NO = self.getDistinct(activitiesAI_ALL.filter(recognition_type="NO"))
         activitiesAI_Others = self.getDistinct(activitiesAI_ALL.exclude(recognition_type="NO"))
