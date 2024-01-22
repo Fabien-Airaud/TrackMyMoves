@@ -316,7 +316,7 @@ export const testAIModelAPI = async (token, id) => {
 
     let message = await response.json();
     if (response.ok) return {"result": true, "data": JSON.stringify(message["data"])}
-    return {"result": false, "data": message["message"]}
+    return {"result": false, "message": message["message"]}
 };
 
 export const guessActivityTypeAIAPI = async (token, user_id, activity_id) => {
