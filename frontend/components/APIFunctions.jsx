@@ -315,7 +315,7 @@ export const testAIModelAPI = async (token, id) => {
     });
 
     let message = await response.json();
-    if (response.ok) return {"result": true, "data": JSON.stringify(message["data"])}
+    if (response.ok) return {"result": true, "data": message["data"]}
     return {"result": false, "message": message["message"]}
 };
 
