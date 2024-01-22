@@ -420,6 +420,13 @@ class ManageActivityAI:
             
             x.append(metrics) # give all metrics to x (data)
         return x, y
+    
+    def changeActivityAIRecognitionType(self, activity_id, recognition_type):
+        activitiesAI = ActivityAI.objects.filter(activity_id=activity_id)
+        
+        for activityAI in activitiesAI:
+            activityAI.recognition_type = recognition_type
+            activityAI.save()
 
 # ----------------------------------------------------------------------------------------------------
 # ----------------------------------------------------------------------------------------------------
@@ -453,6 +460,7 @@ class DimensionalityReduction:
 # ----------------------------------------------------------------------------------------------------
 # ----------------------------------------------------------------------------------------------------
 
+from .models.activity_type import ActivityType
 # import matplotlib.pyplot as plt
 from sklearn import svm
 # from sklearn.neighbors import KNeighborsClassifier
@@ -471,8 +479,59 @@ class manageModelAI:
         self.model_path = MODELS_PATH + str(user_id) + JOBLIB_EXTENSION
         self.manageAI = ManageActivityAI()
     
+    #Internal function
+    def getDistinct(self, activitiesAi):
+        seenActivities = []
+        toRemoveIds = []
+        
+        for i in range(0, len(activitiesAi)):
+            activity_id = activitiesAi[i].activity_id
+            if activity_id not in seenActivities:
+                seenActivities.insert(0, activity_id)
+            else:
+                toRemoveIds.append(activitiesAi[i].id)
+        
+        for id in toRemoveIds:
+            activitiesAi = activitiesAi.exclude(id=id)
+        return activitiesAi
+    
+    # Internal function
+    def changeActivitiesAIRecognitionType(self, activitiesAI, recognition_type):
+        for activityAI in activitiesAI:
+            if activityAI.recognition_type != recognition_type:
+                self.manageAI.changeActivityAIRecognitionType(activityAI.activity_id, recognition_type)
+    
+    # Internal function
+    def selectTrainActivitiesAI(self, activitiesAI):
+        activitiesToTrain = []
+        
+        activityTypes = ActivityType.objects.all()
+        for activityType in activityTypes:
+            activities = activitiesAI.filter(activity_type_id=activityType.id)
+            count = activities.count()
+            
+            if count == 1 or count == 2: # if less than 3 activities in an activityType, give 1 for training
+                activitiesToTrain.append(activities[0])
+            elif count > 2: # if more than 2 activities in an activityType, give 80% for training
+                for i in range(0, int(count * 8 / 10)-1):
+                    activitiesToTrain.append(activities[i])
+        
+        return activitiesToTrain
+    
+    # Internal function
+    def changeGroups(self):
+        activitiesAI_ALL = ActivityAI.objects.filter(user_id=self.user_id)
+        activitiesAI_NO = self.getDistinct(activitiesAI_ALL.filter(recognition_type="NO"))
+        activitiesAI_Others = self.getDistinct(activitiesAI_ALL.exclude(recognition_type="NO"))
+        
+        self.changeActivitiesAIRecognitionType(activitiesAI_NO, "TE") # Change all Nothing to Test
+        
+        activitiesAI_ToTR = self.selectTrainActivitiesAI(activitiesAI_Others) # Select which activities should be for training
+        self.changeActivitiesAIRecognitionType(activitiesAI_ToTR, "TR") # Change selected activities to Train
+    
     def train(self):
         model_svm = svm.SVC()
+        self.changeGroups()
         
         x_train, y_train = self.manageAI.extractUserActivities(self.user_id, "TR")
         if len(x_train) == 0:
@@ -505,6 +564,7 @@ class manageModelAI:
         print("y_pred: ", y_pred)
         return True, y_pred
     
+    # Internal function
     def bestActivityType(self, y_pred):
         activityTypes = {}
         maxCount = 0
