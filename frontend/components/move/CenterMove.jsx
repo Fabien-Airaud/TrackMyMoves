@@ -82,11 +82,14 @@ const CenterMove = () => {
     const guessActivityTypeAI = async (activity_id) => {
         guessActivityTypeAIAPI(apiAccount.token, apiAccount.account.user.id, activity_id)
             .then(response => {
-                Alert.alert(
-                    "Guess " + (response.result ? "done" : "failed"),
-                    "The AI model found the activity should be '" + response.message.activity_type.label
-                    + "', being at " + response.message.rate + "% certain.\n And "
-                    + (response.message.accuracy * 100) + "% of the results were right.");
+                if (response.result) {
+                    Alert.alert(
+                        "Guess done",
+                        "The AI model found the activity should be '" + response.data.activity_type.label
+                        + "', being at " + response.data.rate + "% certain.\n And "
+                        + (response.data.accuracy * 100) + "% of the results were right.");
+                }
+                else alert("Guess failed", response.message);
             })
             .catch(console.error);
     };
