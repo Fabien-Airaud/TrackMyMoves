@@ -464,17 +464,32 @@ def trainUserModelAPIViewDeco(request, userId):
         return Response({"message": message}, status=status.HTTP_200_OK)
     return Response({"message": message}, status=status.HTTP_428_PRECONDITION_REQUIRED)
 
-@swagger_auto_schema(method="GET", security=[{'Bearer': []}], responses={200: "Test status", 401: "Error: Unauthorized"})
+def createCaptionActivityTypeFromReport(report):
+    caption = {}
+    
+    count = len(report) - 3
+    for key in report:
+        if count == 0: # don't look for the last 3 labels (accuracy, macro avg and weighted avg)
+            break
+        count -= 1
+        
+        activityType = ActivityType.objects.get(id=int(key))
+        caption[key] = activityType.label
+    print("\nCaption: ", caption)
+    return caption
+
+@swagger_auto_schema(method="GET", security=[{'Bearer': []}], responses={200: "Test results", 401: "Error: Unauthorized"})
 @api_view()
 @permission_classes([IsAuthenticated])
 def testUserModelAPIViewDeco(request, userId):
     modelManager = manageModelAI(userId)
     result, response = modelManager.test()
     if result:
-        return Response({"predictions": response}, status=status.HTTP_200_OK)
+        response["caption"] = createCaptionActivityTypeFromReport(response["report"])
+        return Response({"data": response}, status=status.HTTP_200_OK)
     return Response({"message": response}, status=status.HTTP_428_PRECONDITION_REQUIRED)
 
-@swagger_auto_schema(method="GET", security=[{'Bearer': []}], responses={200: "Guess status", 401: "Error: Unauthorized"})
+@swagger_auto_schema(method="GET", security=[{'Bearer': []}], responses={200: "Guess results", 401: "Error: Unauthorized"})
 @api_view()
 @permission_classes([IsAuthenticated])
 def guessActivityTypeAPIViewDeco(request, userId, activityId):
@@ -484,5 +499,5 @@ def guessActivityTypeAPIViewDeco(request, userId, activityId):
         activityType = ActivityType.objects.get(id=response["activity_type"])
         serializer = ActivityTypeSerializer(activityType)
         response["activity_type"] = serializer.data
-        return Response({"predictions": response}, status=status.HTTP_200_OK)
+        return Response({"data": response}, status=status.HTTP_200_OK)
     return Response({"message": response}, status=status.HTTP_428_PRECONDITION_REQUIRED)
