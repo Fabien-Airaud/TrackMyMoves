@@ -10,8 +10,7 @@ from rest_framework.authtoken.models import Token
 from rest_framework.permissions import IsAuthenticated
 from drf_yasg.utils import swagger_auto_schema
 
-from joblib import load
-from sklearn.metrics import classification_report, confusion_matrix, accuracy_score
+from .activityRecognition import manageModelAI
 
 from .models.account import Account
 from .models.activity_type import ActivityType
@@ -424,35 +423,32 @@ class ActivityViewSet(viewsets.ViewSet):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
-DATA_PATH = "static/track_my_moves/data/"
+# DATA_PATH = "static/track_my_moves/data/"
 
-@swagger_auto_schema(method="GET", security=[{'Bearer': []}], responses={200: "Results", 401: "Error: Unauthorized"})
-@api_view()
-@permission_classes([IsAuthenticated])
-def modelTestsResultsAPIViewDeco(request):
-    # Récupération des données de test
-    [x_test, y_test] = load(DATA_PATH + "test.joblib")
+# @swagger_auto_schema(method="GET", security=[{'Bearer': []}], responses={200: "Results", 401: "Error: Unauthorized"})
+# @api_view()
+# @permission_classes([IsAuthenticated])
+# def modelTestsResultsAPIViewDeco(request):
+#     # Récupération des données de test
+#     [x_test, y_test] = load(DATA_PATH + "test.joblib")
     
-    # Récupération du modèle svm
-    model_svm = load(DATA_PATH + "model_svm.joblib")
-    # Prédiction
-    y_pred_svm = model_svm.predict(x_test)
+#     # Récupération du modèle svm
+#     model_svm = load(DATA_PATH + "model_svm.joblib")
+#     # Prédiction
+#     y_pred_svm = model_svm.predict(x_test)
     
-    # Taux de reconnaissance (accuracy)
-    accuracy = accuracy_score(y_test, y_pred_svm)
+#     # Taux de reconnaissance (accuracy)
+#     accuracy = accuracy_score(y_test, y_pred_svm)
 
-    return Response({"accuracy": accuracy}, status=status.HTTP_200_OK)
+#     return Response({"accuracy": accuracy}, status=status.HTTP_200_OK)
 
+# from .activityRecognition import testDataset
 
-from .activityRecognition import testDataset
+# @api_view()
+# def activityRecognitionAPIViewDeco(request):
+#     testDataset()
+#     return Response({"message": "Reconnaissance terminée"}, status=status.HTTP_200_OK)
 
-@api_view()
-def activityRecognitionAPIViewDeco(request):
-    testDataset()
-    return Response({"message": "Reconnaissance terminée"}, status=status.HTTP_200_OK)
-
-
-from .activityRecognition import manageModelAI
 
 @swagger_auto_schema(method="GET", security=[{'Bearer': []}], responses={200: "Train status", 401: "Error: Unauthorized"})
 @api_view()
