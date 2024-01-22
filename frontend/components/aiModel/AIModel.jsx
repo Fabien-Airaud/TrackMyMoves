@@ -1,7 +1,7 @@
 import { useTheme } from '@react-navigation/native';
 import { Button } from '@rneui/themed';
 import { useState } from 'react';
-import { ScrollView, StyleSheet, Text, View } from "react-native";
+import { Alert, ScrollView, StyleSheet, Text, View } from "react-native";
 import { DataTable } from 'react-native-paper';
 import { useSelector } from 'react-redux';
 
@@ -60,7 +60,7 @@ const AIModel = () => {
     const trainAIModel = () => {
         trainAIModelAPI(apiAccount.token, apiAccount.account.user.id)
             .then(response => {
-                alert(
+                Alert.alert(
                     "Training " + (response.result ? "successful" : "failed"),
                     response.message);
             })
@@ -106,7 +106,7 @@ const AIModel = () => {
                     setModelResults(response.data);
                     console.log(JSON.stringify(response.data));
                 }
-                else alert("Test failed", response.message);
+                else Alert.alert("Test failed", response.message);
             })
             .catch(console.error);
     };
