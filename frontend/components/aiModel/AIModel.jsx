@@ -3,12 +3,13 @@ import { Button } from '@rneui/themed';
 import { useState } from 'react';
 import { Alert, ScrollView, StyleSheet, Text, View } from "react-native";
 import { useSelector } from 'react-redux';
+import { DataTable } from 'react-native-paper';
 
 import { retrieveModelTestsResultsAPI, testAIModelAPI, trainAIModelAPI } from '../APIFunctions';
 
 const AIModel = () => {
     // State variables
-    const [modelResult, setModelResult] = useState(undefined);
+    const [modelResults, setModelResults] = useState(undefined);
 
     // Logged account stored in redux
     const apiAccount = useSelector((state) => state.apiAccount);
@@ -20,6 +21,24 @@ const AIModel = () => {
             height: '100%',
             width: '100%',
             paddingHorizontal: 10
+        },
+        results: {
+            marginTop: 15,
+            paddingHorizontal: 5
+        },
+        datatable: {
+            marginTop: 0,
+            marginBottom: 15
+        },
+        labelColumn: {
+            flexGrow: 1,
+            flexShrink: 0,
+            flexBasis: 80
+        },
+        numericColumn: {
+            flexGrow: 1,
+            flexShrink: 0,
+            flexBasis: 50
         },
         buttons: {
             display: 'flex',
@@ -39,21 +58,21 @@ const AIModel = () => {
     });
 
 
-    const getModelResults = () => {
-        retrieveModelTestsResultsAPI(apiAccount.token)
-            .then(response => {
-                if (response) setModelResult(response);
-                else Alert.alert(
-                    "Results error",
-                    "Can't get model results from server");
-            })
-            .catch(console.error);
-    };
+    // const getModelResults = () => {
+    //     retrieveModelTestsResultsAPI(apiAccount.token)
+    //         .then(response => {
+    //             if (response) setModelResults(response);
+    //             else Alert.alert(
+    //                 "Results error",
+    //                 "Can't get model results from server");
+    //         })
+    //         .catch(console.error);
+    // };
 
     const trainAIModel = () => {
         trainAIModelAPI(apiAccount.token, apiAccount.account.user.id)
             .then(response => {
-                Alert.alert(
+                alert(
                     "Training " + (response.result ? "successful" : "failed"),
                     response.message);
             })
@@ -63,9 +82,11 @@ const AIModel = () => {
     const testAIModel = () => {
         testAIModelAPI(apiAccount.token, apiAccount.account.user.id)
             .then(response => {
-                Alert.alert(
-                    "Test " + (response.result ? "successful" : "failed"),
-                    response.message);
+                if (response.result) {
+                    setModelResults(response.data);
+                    console.log(JSON.stringify(modelResults))
+                }
+                else alert("Test failed", response.message);
             })
             .catch(console.error);
     };
@@ -79,8 +100,14 @@ const AIModel = () => {
                 <Button title='Train model' onPress={trainAIModel} size='md' radius='sm' buttonStyle={styles.button} />
                 <Button title='Test model' onPress={testAIModel} size='md' radius='sm' buttonStyle={styles.button} />
             </View>
-            <Text style={styles.text}>Accuracy : {modelResult ? modelResult.accuracy : "None"}</Text>
-            <Button title='Get model results' onPress={getModelResults} size='md' radius='sm' />
+            {modelResults &&
+                <View style={styles.results}>
+                    <Text style={styles.text}>Accuracy : {modelResults.accuracy * 100}%</Text>
+                    <Text style={styles.text}>Report : {JSON.stringify(modelResults.report)}</Text>
+                    <Text style={styles.text}>Matrix : {JSON.stringify(modelResults.matrix)}</Text>
+                    <Text style={styles.text}>Caption : {JSON.stringify(modelResults.caption)}</Text>
+                </View>
+            }
         </ScrollView>
     );
 };
