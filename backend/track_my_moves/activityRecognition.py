@@ -491,12 +491,14 @@ class manageModelAI:
     # Internal function
     def changeActivitiesAIRecognitionType(self, activitiesAI, recognition_type):
         for activityAI in activitiesAI:
+            print("Activity", activityAI.activity_id, activityAI.recognition_type, " -> ", recognition_type)
             if activityAI.recognition_type != recognition_type:
                 self.manageAI.changeActivityAIRecognitionType(activityAI.activity_id, recognition_type)
     
     # Internal function
     def selectTrainActivitiesAI(self, activitiesAI):
         activitiesToTrain = []
+        activitiesToTest = []
         
         activityTypes = ActivityType.objects.all()
         for activityType in activityTypes:
@@ -505,22 +507,31 @@ class manageModelAI:
             
             if count == 1 or count == 2: # if less than 3 activities in an activityType, give 1 for training
                 activitiesToTrain.append(activities[0])
+                if count == 2:
+                    activitiesToTest.append(activities[1])
             elif count > 2: # if more than 2 activities in an activityType, give 80% for training
                 for i in range(0, int(count * 8 / 10)-1):
                     activitiesToTrain.append(activities[i])
+                for j in range(int(count * 8 / 10)-1, count):
+                    activitiesToTest.append(activities[j])
         
-        return activitiesToTrain
+        return activitiesToTrain, activitiesToTest
     
     # Internal function
     def changeGroups(self):
+        self.printActivitiesByGroup()
+        
         activitiesAI_ALL = ActivityAI.objects.filter(user_id=self.user_id)
         activitiesAI_NO = self.getDistinct(activitiesAI_ALL.filter(recognition_type="NO"))
         activitiesAI_Others = self.getDistinct(activitiesAI_ALL.exclude(recognition_type="NO"))
         
         self.changeActivitiesAIRecognitionType(activitiesAI_NO, "TE") # Change all Nothing to Test
         
-        activitiesAI_ToTR = self.selectTrainActivitiesAI(activitiesAI_Others) # Select which activities should be for training
+        activitiesAI_ToTR, activitiesAI_ToTE = self.selectTrainActivitiesAI(activitiesAI_Others) # Select which activities should be for training
         self.changeActivitiesAIRecognitionType(activitiesAI_ToTR, "TR") # Change selected activities to Train
+        self.changeActivitiesAIRecognitionType(activitiesAI_ToTE, "TE") # Change selected activities to Test
+        
+        self.printActivitiesByGroup()
     
     def train(self):
         model_svm = svm.SVC()
