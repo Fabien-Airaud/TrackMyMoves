@@ -476,6 +476,7 @@ def createCaptionActivityTypeFromReport(report):
         activityType = ActivityType.objects.get(id=int(key))
         caption[key] = activityType.label
     print("\nCaption: ", caption)
+    print("")
     return caption
 
 @swagger_auto_schema(method="GET", security=[{'Bearer': []}], responses={200: "Test results", 401: "Error: Unauthorized"})

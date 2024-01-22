@@ -461,14 +461,7 @@ class DimensionalityReduction:
 # ----------------------------------------------------------------------------------------------------
 
 from .models.activity_type import ActivityType
-# import matplotlib.pyplot as plt
 from sklearn import svm
-# from sklearn.neighbors import KNeighborsClassifier
-# from sklearn.ensemble import RandomForestClassifier
-# from sklearn.tree import DecisionTreeClassifier
-# from sklearn.neural_network import MLPClassifier
-# from sklearn.svm import LinearSVC
-# from sklearn.naive_bayes import GaussianNB
 from sklearn.metrics import accuracy_score, confusion_matrix, classification_report
 
 MODELS_PATH = FOLDER_PATH + "models/"
@@ -544,44 +537,6 @@ class manageModelAI:
         joblib.dump(model_svm, self.model_path)
         return True, "Model training successful"
     
-    # Internal function
-    # def affichage_matrice_confusion(self, matrice):
-    #     # Affichage de la matrice de confusion avec matplotlib
-    #     pourcentage = (matrice.astype('float') / matrice.sum(axis=1)[:, np.newaxis])*100   # On calcule le pourcentage de chaque valeur de la matrice de confusion
-
-    #     plt.figure(figsize=(4, 4))
-    #     plt.imshow(pourcentage, cmap="coolwarm", vmin=0, vmax=100)
-    #     plt.colorbar(format='%1.1f%%')                                                     # On affiche la barre de couleur avec les pourcentages
-    #     plt.xlabel("Valeurs prédites")
-    #     plt.ylabel("Valeurs réelles")
-    #     plt.title("Matrice de confusion")
-
-    #     for (i, j), z in np.ndenumerate(pourcentage):                                       # On affiche les pourcentages dans la matrice de confusion
-    #         if i == j:
-    #             plt.text(j, i, '{:0.1f}%'.format(z), ha='center', va='center', color='black')
-    #         else:
-    #             plt.text(j, i, '{:0.1f}%'.format(z), ha='center', va='center')
-
-    #     plt.xticks(np.arange(matrice.shape[1]), np.arange(1, matrice.shape[1] + 1))         # On affiche les valeurs des axes
-    #     plt.yticks(np.arange(matrice.shape[0]), np.arange(1, matrice.shape[0] + 1))
-    #     plt.show()
-    
-    # def matrice_confusion(self, affichage=False):
-    #     self.test_pred()
-        
-    #     # Matrice de confusion
-    #     matrice = confusion_matrix(self.y_test, self.y_pred)
-        
-    #     if affichage:
-    #         cm_df = pd.DataFrame(matrice)
-    #         cm_df.index = cm_df.index + 1                           # On fait commencer par 1 au lieu de 0
-    #         cm_df.columns = cm_df.columns + 1
-    #         print("\nMatrice de confusion : \n", cm_df)
-    #         print("")
-            
-    #         self.affichage_matrice_confusion(matrice)
-    #     return matrice
-    
     def test(self):
         if not path.exists(self.model_path):
             result, message = self.train()
@@ -605,13 +560,11 @@ class manageModelAI:
         
         # Recall, precision and f1-score
         report = classification_report(y_test, y_pred, output_dict=True, zero_division=1)
-        print("brut report:\n", report)
         rc_df = pd.DataFrame(report).transpose().round(3)
         print("\nReport:\n", rc_df)
         
         # Matrice de confusion
         matrix = confusion_matrix(y_test, y_pred)
-        print("brut confusion matrix:\n", matrix)
         cm_df = pd.DataFrame(matrix)
         cm_df.index = cm_df.index + 1              
         cm_df.columns = cm_df.columns + 1
