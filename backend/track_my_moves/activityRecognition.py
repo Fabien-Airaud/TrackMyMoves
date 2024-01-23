@@ -491,7 +491,7 @@ class manageModelAI:
     # Internal function
     def changeActivitiesAIRecognitionType(self, activitiesAI, recognition_type):
         for activityAI in activitiesAI:
-            print("Activity", activityAI.activity_id, activityAI.recognition_type, " -> ", recognition_type)
+            print("Activity", activityAI.activity_id, activityAI.activity_type_id , activityAI.recognition_type, " -> ", recognition_type)
             if activityAI.recognition_type != recognition_type:
                 self.manageAI.changeActivityAIRecognitionType(activityAI.activity_id, recognition_type)
     
