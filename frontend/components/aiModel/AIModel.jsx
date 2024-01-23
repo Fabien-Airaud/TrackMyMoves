@@ -67,17 +67,27 @@ const AIModel = () => {
             .catch(console.error);
     };
 
+    const roundReportValues = (report) => {
+        for (const key in report) {
+            report[key]["precision"] = report[key]["precision"].toPrecision(3);
+            report[key]["recall"] = report[key]["recall"].toPrecision(3);
+            report[key]["f1-score"] = report[key]["f1-score"].toPrecision(3);
+        }
+        return report;
+    }
+
     const changeReport = (report, caption) => {
-        let newReport = {}
+        let newReport = {};
 
         for (const key in report) {
             if (key == "accuracy") break;
-            newReport[caption[key]] = report[key]; // Replace id by label for each activityType
+            newReport[caption[key]] = report[key]; // Replace id by label for each activityType and round values
         }
 
-        newReport["accuracy"] = { "precision": report.accuracy, "recall": report.accuracy, "f1-score": report.accuracy, "support": report.accuracy };
-        newReport["macro avg"] = report["macro avg"]
-        newReport["weighted avg"] = report["weighted avg"]
+        newReport["accuracy"] = { "precision": report.accuracy, "recall": report.accuracy, "f1-score": report.accuracy, "support": report["macro avg"]["support"] };
+        newReport["macro avg"] = report["macro avg"];
+        newReport["weighted avg"] = report["weighted avg"];
+        roundReportValues(newReport);
         return newReport;
     }
 
